@@ -40,14 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Class1.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
-    <Compile Include="IFunctionExecutor.cs" />
+    <Compile Include="IWormhole.cs" />
     <Compile Include="IWormholeTask.cs" />
+    <Compile Include="Pipeline\DefaultPipeline.cs" />
+    <Compile Include="Pipeline\NamedResolver.cs" />
     <Compile Include="Pipeline\PipelineConfigurator.cs" />
     <Compile Include="Pipeline\PipelineData.cs" />
-    <Compile Include="Pipeline\PipelineExecutor.cs" />
+    <Compile Include="Pipeline\PipelineCompiler.cs" />
+    <Compile Include="Pipeline\PipelineKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

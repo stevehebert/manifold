@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\TypeRegistrar.cs" />
+    <Compile Include="Configuration\TypeResolver.cs" />
     <Compile Include="PipelineModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

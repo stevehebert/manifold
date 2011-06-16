@@ -6,7 +6,7 @@ namespace Wormhole.Pipeline
     public class PipelineData
     {
         public bool IsClosed { get; private set; }
-        readonly IList<Tuple<Type, Func<object, object, object>>> _functionList = new List<Tuple<Type, Func<object, object, object>>>();
+        readonly Queue<Tuple<Type, Func<object, object, object>>> _functionList = new Queue<Tuple<Type, Func<object, object, object>>>();
 
         /// <summary>
         /// Adds the specified function to the resolution list
@@ -21,21 +21,21 @@ namespace Wormhole.Pipeline
             where TType : class
         {
             IsClosed = isComplete;
-            _functionList.Add(new Tuple<Type, Func<object, object, object>>(typeof(TType), (type, inparam) => function(type as TType, inparam as TInput)));
+            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(typeof(TType), (type, inparam) => function(type as TType, inparam as TInput)));
         }
 
         public void Add<TInput, TOutput>(Func<TInput, TOutput> function, bool isComplete)
             where TInput : class
         {
             IsClosed = isComplete;
-            _functionList.Add(new Tuple<Type, Func<object, object, object>>(null, (a, b) => function(b as TInput)));
+            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(null, (a, b) => function(b as TInput)));
         }
 
         /// <summary>
         /// Gets the function list.
         /// </summary>
         /// <value>The function list.</value>
-        public IList<Tuple<Type, Func<object, object, object>>> FunctionList { get { return _functionList; } }
+        public Queue<Tuple<Type, Func<object, object, object>>> FunctionList { get { return _functionList; } }
 
     }
 }
