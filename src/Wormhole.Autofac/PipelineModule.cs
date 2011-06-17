@@ -40,7 +40,7 @@ namespace Wormhole.Autofac
             where TInput : class
             where TOutput : class
         {
-            var configurator = RegisterPipeline<TInput, TOutput, DefaultPipeline<TInput,TOutput>>(new DefaultPipeline<TInput, TOutput>());
+            var configurator = RegisterPipeline<DefaultPipeline<TInput,TOutput>, TInput, TOutput>(new DefaultPipeline<TInput, TOutput>());
 
             _builderActions.Add(b =>
                                     {
@@ -64,7 +64,7 @@ namespace Wormhole.Autofac
             return configurator;
         }
 
-        public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput, TNameType>(TNameType name)
+        public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name)
             where TInput : class 
             where TOutput : class
         {

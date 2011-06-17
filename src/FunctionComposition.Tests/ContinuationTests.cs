@@ -80,7 +80,7 @@ namespace Wormhole.Tests
                 .ContinueWith("foo");
 
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>, string>("foo")
+            module.RegisterPipeline<string, IEnumerable<int>, IEnumerable<string>>("foo")
                 .Bind<PipelineInjectionTests.Stringifier>();
 
             var builder = new ContainerBuilder();

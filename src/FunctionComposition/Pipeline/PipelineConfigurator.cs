@@ -100,7 +100,7 @@ namespace Wormhole.Pipeline
         }
 
         // chains the bind operation to an external named pipeline
-        public PipelineConfigurator<TOutput, TOutput> ContinueWith(object name)
+        public PipelineConfigurator<TOutput, TOutput> ContinueWith<TNameType>(TNameType name)
         {
             return
                 Bind<NamedResolver<TInput, TOutput>, TOutput>(
