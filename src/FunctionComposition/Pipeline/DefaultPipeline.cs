@@ -10,7 +10,7 @@ namespace Wormhole.Pipeline
 
         public override int GetHashCode()
         {
-            return (Input.FullName + ":" + Output.FullName).GetHashCode();
+            return ToString().GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -19,6 +19,11 @@ namespace Wormhole.Pipeline
                 return obj.GetHashCode() == GetHashCode();
 
             return false;
+        }
+
+        public override string ToString()
+        {
+            return (Input.FullName + ":" + Output.FullName);
         }
     }
 }

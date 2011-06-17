@@ -79,18 +79,24 @@ namespace Wormhole.Pipeline
         }
 
 
-        /// <summary>
-        /// Chains the bind operation to an external pipeline
-        /// </summary>
-        /// <typeparam name="TOutputType">The type of the output type.</typeparam>
-        /// <param name="function">The function.</param>
-        /// <returns></returns>
-        public PipelineConfigurator<TOutputType, TOutput> ContinueWith<TOutputType>(Func<IPipeline<TInput, TOutputType>> function)
+        // chains the bind operation to an external named pipeline
+        public PipelineConfigurator<TOutputType, TOutput> ContinueWith<TOutputType>(object name)
             where TOutputType : class
         {
-            // TODO
-            //return Bind(function);
-            return null;
+            return
+                Bind<NamedResolver<TInput, TOutputType>, TOutputType>(
+                    (a, value) => a.Execute(name, value));
+        }
+
+        /// <summary>
+        /// Chains the bind operation to an external default pipeline
+        /// </summary>
+        /// <typeparam name="TOutputType">The type of the output type.</typeparam>
+        /// <returns></returns>
+        public PipelineConfigurator<TOutputType, TOutput> ContinueWith<TOutputType>()
+            where TOutputType : class
+        {
+            return ContinueWith<TOutputType>(new DefaultPipeline<TInput, TOutputType>());
         }
     }
 }
