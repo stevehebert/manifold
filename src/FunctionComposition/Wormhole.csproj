@@ -44,6 +44,7 @@
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="IPipeline.cs" />
     <Compile Include="IPipelineTask.cs" />
+    <Compile Include="Pipeline\Pipeline.cs" />
     <Compile Include="Pipeline\DefaultPipeline.cs" />
     <Compile Include="Pipeline\MismatchedClosingTypeDeclarationException.cs" />
     <Compile Include="Pipeline\NamedResolver.cs" />
