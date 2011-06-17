@@ -70,6 +70,7 @@ namespace Wormhole.Tests
                 .Bind(a => from p in a select p + 2)
                 .Bind(a => from p in a select p/2);
                 
+                
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
             var container = builder.Build();

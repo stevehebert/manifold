@@ -42,8 +42,6 @@ namespace Wormhole.Pipeline
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
         }
 
-
-
         public PipelineConfigurator<TOutput, TOutput> Bind<TType>(Func<TType, TInput, TOutput> function) where TType : class
         {
             _builder.Add( a=> a.RegisterType<TType>());
