@@ -27,9 +27,10 @@ namespace Wormhole.Autofac
 
             builder.RegisterGeneric(typeof(NamedResolver<,>));
 
-            // TODO: reinstate this generic registration
-            // builder.RegisterGeneric(typeof (IPipeline<,>));
+            builder.RegisterGeneric(typeof (Pipeline<,>)).As(typeof(IPipeline<,>));
             builder.Register(ctx => _pipelineDictionary);
+
+            builder.RegisterType<TypeResolver>().As<IResolveTypes>();
             
             base.Load(builder);
         }
@@ -72,9 +73,6 @@ namespace Wormhole.Autofac
 
             _builderActions.Add(builder =>
                                     {
-                                        // TODO: move back to open generic registration
-                                        new TypeRegistrar(builder).RegisterType<IPipeline<TInput, TOutput>>();
-
                                         foreach (var item in items)
                                             item(new TypeRegistrar(builder));
                                     });
