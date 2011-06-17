@@ -1,6 +1,6 @@
 ﻿namespace Wormhole
 {
-    public interface IWormholeTask<in TInput, out TOutput>
+    public interface IPipelineTask<TInput, TOutput>
     {
         TOutput Execute(TInput input);
     }

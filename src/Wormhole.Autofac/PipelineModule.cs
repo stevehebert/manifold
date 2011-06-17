@@ -24,9 +24,11 @@ namespace Wormhole.Autofac
 
             foreach (var action in _builderActions)
                 action(builder);
-            
-            builder.RegisterGeneric(typeof (IWormhole<,>));
-            builder.RegisterGeneric(typeof (NamedResolver<,>));
+
+            builder.RegisterGeneric(typeof(NamedResolver<,>));
+
+            // TODO: reinstate this generic registration
+            // builder.RegisterGeneric(typeof (IPipeline<,>));
             builder.Register(ctx => _pipelineDictionary);
             
             base.Load(builder);
@@ -40,7 +42,16 @@ namespace Wormhole.Autofac
 
             _builderActions.Add(b =>
                                     {
-                                        var compiledFunction = PipelineCompiler.Compile(configurator);
+
+                                        var compiledFunction =
+                                            _pipelineDictionary[
+                                                new PipelineKey
+                                                    {
+                                                        Input = typeof (TInput),
+                                                        Output = typeof (TOutput),
+                                                        Named = new DefaultPipeline<TInput, TOutput>()
+                                                    }];
+
                                         b.Register<Func<TInput, TOutput>>(ctx =>
                                                                               {
                                                                                   var container = new TypeResolver( ctx.Resolve<IComponentContext>());
@@ -61,9 +72,14 @@ namespace Wormhole.Autofac
 
             _builderActions.Add(builder =>
                                     {
+                                        // TODO: move back to open generic registration
+                                        new TypeRegistrar(builder).RegisterType<IPipeline<TInput, TOutput>>();
+
                                         foreach (var item in items)
                                             item(new TypeRegistrar(builder));
                                     });
+
+
 
             _dictionaryActions.Add(
                 a => a.Add(new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = name},

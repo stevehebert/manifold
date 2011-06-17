@@ -1,20 +1,19 @@
-﻿using System;
-using Wormhole.Pipeline;
+﻿using Wormhole.Pipeline;
 
 namespace Wormhole
 {
-    public interface IWormhole<in TInput, out TOutput>
+    public interface IPipeline<TInput, TOutput>
     {
         TOutput Execute(TInput input);
 
         TOutput Execute(object name, TInput input);
     }
 
-    public class Wormhole<TInput, TOutput> : IWormhole<TInput, TOutput> where TOutput : class
+    public class Pipeline<TInput, TOutput> : IPipeline<TInput, TOutput> where TOutput : class
     {
-        private NamedResolver<TInput, TOutput> _namedResolver;
+        private readonly NamedResolver<TInput, TOutput> _namedResolver;
         
-        public Wormhole(NamedResolver<TInput, TOutput> namedResolver)
+        public Pipeline(NamedResolver<TInput, TOutput> namedResolver)
         {
             _namedResolver = namedResolver;
         }
