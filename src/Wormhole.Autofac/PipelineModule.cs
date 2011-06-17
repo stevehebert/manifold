@@ -27,6 +27,7 @@ namespace Wormhole.Autofac
 
             builder.RegisterGeneric(typeof(NamedResolver<,>));
 
+            builder.RegisterGeneric(typeof (Pipeline<,,>)).As(typeof (IPipeline<,,>));
             builder.RegisterGeneric(typeof (Pipeline<,>)).As(typeof(IPipeline<,>));
             builder.Register(ctx => _pipelineDictionary);
 
