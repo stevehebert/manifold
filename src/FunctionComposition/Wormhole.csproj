@@ -45,6 +45,7 @@
     <Compile Include="IPipeline.cs" />
     <Compile Include="IPipelineTask.cs" />
     <Compile Include="Pipeline\DefaultPipeline.cs" />
+    <Compile Include="Pipeline\MismatchedClosingTypeDeclarationException.cs" />
     <Compile Include="Pipeline\NamedResolver.cs" />
     <Compile Include="Pipeline\PipelineConfigurator.cs" />
     <Compile Include="Pipeline\PipelineData.cs" />

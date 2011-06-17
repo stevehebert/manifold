@@ -4,6 +4,7 @@ using System.Linq;
 using Autofac;
 using NUnit.Framework;
 using Wormhole.Autofac;
+using Wormhole.Pipeline;
 
 namespace Wormhole.Tests
 {
@@ -122,7 +123,8 @@ namespace Wormhole.Tests
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
+
+            Assert.Throws<MismatchedClosingTypeDeclarationException>(() => builder.Build());
         }
 
     }

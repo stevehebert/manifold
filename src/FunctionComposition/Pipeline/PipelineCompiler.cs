@@ -22,7 +22,7 @@ namespace Wormhole.Pipeline
         public static Func<IResolveTypes, object, object> Compile(PipelineData pipelineData)
         {
             if (!pipelineData.IsClosed)
-                throw new NullReferenceException();
+                throw new MismatchedClosingTypeDeclarationException();
 
             // here we roll the composition of function into an y=h(g(f(x))) delegate
             // started with an Expression that would be built and compiled, but this is cleaner and faster
