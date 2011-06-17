@@ -85,5 +85,45 @@ namespace Wormhole.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(16));
         }
 
+        [Test]
+        public void verify_type_conversion()
+        {
+            var module = new PipelineModule();
+
+            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                .Bind(a => from p in a select p + 2)
+                .Bind(a => from p in a select p / 2 )
+                .Bind(a => from p in a select p.ToString());
+                
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(module);
+            var container = builder.Build();
+
+            var function = container.Resolve<Func<IEnumerable<int>, IEnumerable<string>>>();
+
+            var items = new[] { 10, 20, 30 };
+
+            var resolvedItems = function(items);
+
+            Assert.That(resolvedItems.Count(), Is.EqualTo(3));
+            Assert.That(resolvedItems.ToArray()[0], Is.EqualTo("6"));
+            Assert.That(resolvedItems.ToArray()[1], Is.EqualTo("11"));
+            Assert.That(resolvedItems.ToArray()[2], Is.EqualTo("16"));
+            
+        }
+        [Test]
+        public void verify_incomplete_registration_error()
+        {
+            var module = new PipelineModule();
+
+            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                .Bind(a => from p in a select p + 2)
+                .Bind(a => from p in a select p/2);
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(module);
+            Assert.Throws<InvalidOperationException>(() => builder.Build());
+        }
+
     }
 }
