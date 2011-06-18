@@ -11,8 +11,6 @@ namespace Wormhole.Pipeline.Configuration
         private readonly PipelineData _registrarData;
         private readonly IList<Action<IRegisterTypes>> _builder;
 
-        internal PipelineData PipelineData { get { return _registrarData; } }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineConfigurator&lt;TInput, TOutput&gt;"/> class.
         /// </summary>

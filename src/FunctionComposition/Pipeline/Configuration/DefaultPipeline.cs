@@ -13,14 +13,6 @@ namespace Wormhole.Pipeline.Configuration
             return ToString().GetHashCode();
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is DefaultPipeline<TInput, TOutput>)
-                return obj.GetHashCode() == GetHashCode();
-
-            return false;
-        }
-
         public override string ToString()
         {
             return (Input.FullName + ":" + Output.FullName);

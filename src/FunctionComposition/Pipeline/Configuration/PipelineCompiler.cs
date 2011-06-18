@@ -39,12 +39,5 @@ namespace Wormhole.Pipeline.Configuration
 
             return function;
         }
-
-        public static Func<IResolveTypes, object, object> Compile<TInput, TOutput>(PipelineConfigurator<TInput, TOutput> configurator)
-            where TInput : class
-            where TOutput : class
-        {
-            return Compile(configurator.PipelineData);
-        }
     }
 }

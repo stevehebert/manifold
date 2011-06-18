@@ -17,7 +17,8 @@ namespace Wormhole.Tests
 
             module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                 .Bind<Adder>()
-                .Bind<Divider>();
+                .Bind<Divider>()
+                .Bind<NonConformingType>((a, input) => a.Run(input));
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -30,9 +31,9 @@ namespace Wormhole.Tests
             var resolvedItems = function(items);
 
             Assert.That(resolvedItems.Count(), Is.EqualTo(3));
-            Assert.That(resolvedItems.ToArray()[0], Is.EqualTo(6));
-            Assert.That(resolvedItems.ToArray()[1], Is.EqualTo(11));
-            Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(16));
+            Assert.That(resolvedItems.ToArray()[0], Is.EqualTo(12));
+            Assert.That(resolvedItems.ToArray()[1], Is.EqualTo(22));
+            Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(32));
         }
 
         [Test]
@@ -109,6 +110,14 @@ namespace Wormhole.Tests
             public IEnumerable<int> Execute(IEnumerable<int> input)
             {
                 return from p in input select p / 2;
+            }
+        }
+
+        public class NonConformingType
+        {
+            public IEnumerable<int> Run(IEnumerable<int> input)
+            {
+                return from p in input select p*2;
             }
         }
 
