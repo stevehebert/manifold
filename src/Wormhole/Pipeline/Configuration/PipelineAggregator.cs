@@ -44,11 +44,9 @@ namespace Wormhole.Pipeline.Configuration
 
                                              a.Register<Functor<TInput, TOutput>>(
                                                  c => input => (TOutput) compiledFunction(c, input));
-                                         }
-                );
+                                         });
 
             return configurator;
-
         }
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name)
@@ -110,7 +108,5 @@ namespace Wormhole.Pipeline.Configuration
             foreach (var item in _builderActions)
                 item(typeRegistrar);
         }
-
-
     }
 }

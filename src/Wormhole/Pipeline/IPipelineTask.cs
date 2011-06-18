@@ -4,5 +4,4 @@
     {
         TOutput Execute(TInput input);
     }
-
 }

@@ -6,7 +6,8 @@ namespace Wormhole.Pipeline.Configuration
     public class PipelineData
     {
         public bool IsClosed { get; private set; }
-        readonly Queue<Tuple<Type, Func<object, object, object>>> _functionList = new Queue<Tuple<Type, Func<object, object, object>>>();
+        readonly Queue<Tuple<Type, Func<object, object, object>>> _functionList 
+            = new Queue<Tuple<Type, Func<object, object, object>>>();
 
         /// <summary>
         /// Adds the specified function to the resolution list
@@ -43,6 +44,5 @@ namespace Wormhole.Pipeline.Configuration
         /// </summary>
         /// <value>The function list.</value>
         public Queue<Tuple<Type, Func<object, object, object>>> FunctionList { get { return _functionList; } }
-
     }
 }

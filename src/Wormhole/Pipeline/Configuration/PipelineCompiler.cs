@@ -24,7 +24,6 @@ namespace Wormhole.Pipeline.Configuration
                        };
         }
 
-
         /// <summary>
         /// Compiles the specified pipeline data.
         /// </summary>
@@ -35,8 +34,8 @@ namespace Wormhole.Pipeline.Configuration
             if (!pipelineData.IsClosed)
                 throw new MismatchedClosingTypeDeclarationException();
 
-            // here we roll the composition of function into an y=h(g(f(x))) delegate
-            // started with an Expression that would be built and compiled, but this is cleaner and faster
+            //// here we roll the composition of function into an y=h(g(f(x))) delegate
+            //// started with an Expression that would be built and compiled, but this is cleaner and faster
 
             var function = CreateExecutor(pipelineData.FunctionList.Dequeue());
 

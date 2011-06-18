@@ -29,7 +29,7 @@ namespace Wormhole.Pipeline.Configuration
         /// <returns>the required output</returns>
         public TOutput Execute(object namedContext, TInput input)
         {
-            var key = new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = namedContext};
+            var key = new PipelineKey { Input = typeof (TInput), Output = typeof (TOutput), Named = namedContext };
 
             return (TOutput) _pipelineSets[key](_typeResolver, input);
         }
