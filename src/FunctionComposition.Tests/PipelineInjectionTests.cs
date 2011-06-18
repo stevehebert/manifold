@@ -77,11 +77,11 @@ namespace Wormhole.Tests
             builder.RegisterModule(module);
             var container = builder.Build();
 
-            var pipeline = container.Resolve<IPipeline<IEnumerable<int>, IEnumerable<string>>>();
+            var pipeline = container.Resolve<Functor<IEnumerable<int>, IEnumerable<string>>>();
 
             var items = new[] { 10, 20, 30 };
 
-            var resolvedItems = pipeline.Execute(items);
+            var resolvedItems = pipeline(items);
 
             Assert.That(resolvedItems.Count(), Is.EqualTo(3));
             Assert.That(resolvedItems.ToArray()[0], Is.EqualTo("6"));
