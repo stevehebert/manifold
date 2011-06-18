@@ -1,0 +1,53 @@
+task  :style_cop do
+
+	puts "Running StyleCop"
+
+end
+
+
+
+task :simian do
+
+	puts "Running Simian"
+
+end
+
+
+
+task :compile do
+
+	puts "Compiling projects"
+
+end
+
+
+
+task :fx_cop do
+
+	puts "Running FxCop"
+
+end
+
+
+
+task :test_and_coverage do
+
+	puts "Running Test and capturing the code coverage"
+
+end
+
+
+
+task :drop do
+
+	puts "Preparing the build artifacts"
+
+end
+
+
+
+task :default => [:style_cop, :simian, :compile, :fx_cop, :test_and_coverage, :drop] do
+
+	puts "Done"
+
+end
