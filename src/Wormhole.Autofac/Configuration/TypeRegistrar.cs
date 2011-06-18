@@ -26,26 +26,40 @@ namespace Wormhole.Autofac.Configuration
             _containerBuilder.RegisterType<TType>();
         }
 
-        public void RegisterType<TType>(Func<IResolveTypes, TType> function)
-        {
-            Register(function);
-        }
-
+        /// <summary>
+        /// Registers the instance.
+        /// </summary>
+        /// <typeparam name="TType">The type of the type.</typeparam>
+        /// <param name="instance">The instance.</param>
         public void RegisterInstance<TType>(TType instance)
         {
             _containerBuilder.Register(c => instance);
         }
 
+        /// <summary>
+        /// Registers the generic.
+        /// </summary>
+        /// <param name="genericType">Type of the generic.</param>
         public void RegisterGeneric(Type genericType)
         {
             _containerBuilder.RegisterGeneric(genericType);
         }
 
+        /// <summary>
+        /// Registers the type.
+        /// </summary>
+        /// <typeparam name="TType">The type of the type.</typeparam>
+        /// <typeparam name="TAs">The type of as.</typeparam>
         public void RegisterType<TType, TAs>()
         {
             _containerBuilder.RegisterType<TType>().As<TAs>();
         }
 
+        /// <summary>
+        /// Registers the specified function.
+        /// </summary>
+        /// <typeparam name="TType">The type of the type.</typeparam>
+        /// <param name="function">The function.</param>
         public void Register<TType>(Func<IResolveTypes, TType> function)
         {
             _containerBuilder.Register(ctx => function(ctx.Resolve<IResolveTypes>()));

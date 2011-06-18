@@ -63,7 +63,7 @@ namespace Wormhole.Pipeline.Configuration
 
             if(typeof(TNameType)!= typeof(DefaultPipeline<TInput,TOutput>))
             {
-                _registrationActions.Add(a => a.RegisterType<Functor<TNameType, TInput, TOutput>>(c =>
+                _registrationActions.Add(a => a.Register<Functor<TNameType, TInput, TOutput>>(c =>
                                                                                                       {
                                                                                                           var item =
                                                                                                               c.Resolve(

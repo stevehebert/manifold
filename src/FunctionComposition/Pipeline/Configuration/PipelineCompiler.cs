@@ -5,6 +5,12 @@ namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineCompiler
     {
+        /// <summary>
+        /// Creates the executor which can resolve a passed type and hand it
+        /// to the closure
+        /// </summary>
+        /// <param name="stateValuePair">The state value pair.</param>
+        /// <returns>a lambda lifted closure</returns>
         private static Func<IResolveTypes, object, object> CreateExecutor(Tuple<Type, Func<object, object, object>> stateValuePair)
         {
             return (resolver, value) =>
@@ -19,6 +25,11 @@ namespace Wormhole.Pipeline.Configuration
         }
 
 
+        /// <summary>
+        /// Compiles the specified pipeline data.
+        /// </summary>
+        /// <param name="pipelineData">The pipeline data.</param>
+        /// <returns>the lambda lifted closure</returns>
         public static Func<IResolveTypes, object, object> Compile(PipelineData pipelineData)
         {
             if (!pipelineData.IsClosed)

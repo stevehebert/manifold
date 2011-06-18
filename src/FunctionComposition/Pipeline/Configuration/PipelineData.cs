@@ -24,6 +24,13 @@ namespace Wormhole.Pipeline.Configuration
             _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(typeof(TType), (type, inparam) => function(type as TType, inparam as TInput)));
         }
 
+        /// <summary>
+        /// Adds the specified function.
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="function">The function.</param>
+        /// <param name="isComplete">if set to <c>true</c> [is complete].</param>
         public void Add<TInput, TOutput>(Func<TInput, TOutput> function, bool isComplete)
             where TInput : class
         {
