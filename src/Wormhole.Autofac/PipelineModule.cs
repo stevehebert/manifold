@@ -54,7 +54,7 @@ namespace Wormhole.Autofac
                                                         Named = new DefaultPipeline<TInput, TOutput>()
                                                     }];
 
-                                        b.Register<Func<TInput, TOutput>>(ctx =>
+                                        b.Register<Functor<TInput, TOutput>>(ctx =>
                                                                               {
                                                                                   var container = new TypeResolver( ctx.Resolve<IComponentContext>());
 

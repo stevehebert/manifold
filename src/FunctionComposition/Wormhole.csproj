@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
+    <Compile Include="Functor.cs" />
     <Compile Include="IPipeline.cs" />
     <Compile Include="Pipeline\IPipelineTask.cs" />
     <Compile Include="Pipeline\Configuration\Pipeline.cs" />
