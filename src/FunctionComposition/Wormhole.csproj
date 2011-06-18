@@ -44,6 +44,8 @@
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="Functor.cs" />
     <Compile Include="IPipeline.cs" />
+    <Compile Include="Pipeline\Configuration\PipelineAggregator.cs" />
+    <Compile Include="Pipeline\IPipelineCreator.cs" />
     <Compile Include="Pipeline\IPipelineTask.cs" />
     <Compile Include="Pipeline\Configuration\Pipeline.cs" />
     <Compile Include="Pipeline\Configuration\DefaultPipeline.cs" />
