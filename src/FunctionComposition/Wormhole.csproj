@@ -43,15 +43,15 @@
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="IPipeline.cs" />
-    <Compile Include="IPipelineTask.cs" />
-    <Compile Include="Pipeline\Pipeline.cs" />
-    <Compile Include="Pipeline\DefaultPipeline.cs" />
+    <Compile Include="Pipeline\IPipelineTask.cs" />
+    <Compile Include="Pipeline\Configuration\Pipeline.cs" />
+    <Compile Include="Pipeline\Configuration\DefaultPipeline.cs" />
     <Compile Include="Pipeline\MismatchedClosingTypeDeclarationException.cs" />
-    <Compile Include="Pipeline\NamedResolver.cs" />
-    <Compile Include="Pipeline\PipelineConfigurator.cs" />
-    <Compile Include="Pipeline\PipelineData.cs" />
-    <Compile Include="Pipeline\PipelineCompiler.cs" />
-    <Compile Include="Pipeline\PipelineKey.cs" />
+    <Compile Include="Pipeline\Configuration\NamedResolver.cs" />
+    <Compile Include="Pipeline\Configuration\PipelineConfigurator.cs" />
+    <Compile Include="Pipeline\Configuration\PipelineData.cs" />
+    <Compile Include="Pipeline\Configuration\PipelineCompiler.cs" />
+    <Compile Include="Pipeline\Configuration\PipelineKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

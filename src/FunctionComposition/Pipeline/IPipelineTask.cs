@@ -1,4 +1,4 @@
-﻿namespace Wormhole
+﻿namespace Wormhole.Pipeline
 {
     public interface IPipelineTask<TInput, TOutput>
     {

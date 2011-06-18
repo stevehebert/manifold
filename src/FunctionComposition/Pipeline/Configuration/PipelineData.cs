@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Wormhole.Pipeline
+namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineData
     {

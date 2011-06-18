@@ -1,7 +1,7 @@
 ﻿using System;
 using Wormhole.DependencyInjection;
 
-namespace Wormhole.Pipeline
+namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineCompiler
     {

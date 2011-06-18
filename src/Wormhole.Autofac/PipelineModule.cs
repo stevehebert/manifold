@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Autofac;
 using Wormhole.Autofac.Configuration;
 using Wormhole.DependencyInjection;
-using Wormhole.Pipeline;
+using Wormhole.Pipeline.Configuration;
 
 namespace Wormhole.Autofac
 {

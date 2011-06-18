@@ -1,4 +1,4 @@
-﻿namespace Wormhole.Pipeline
+﻿namespace Wormhole.Pipeline.Configuration
 {
     /// <summary>
     /// This resolver is used for default (or unnamed) pipelines

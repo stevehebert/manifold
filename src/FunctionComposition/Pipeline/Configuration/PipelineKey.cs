@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wormhole.Pipeline
+namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineKey
     {

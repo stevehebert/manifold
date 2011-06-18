@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Wormhole.DependencyInjection;
 
-namespace Wormhole.Pipeline
+namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineConfigurator<TInput, TOutput>
         where TInput : class
