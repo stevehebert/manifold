@@ -12,8 +12,6 @@ namespace Wormhole.Pipeline.Configuration
         private readonly IDictionary<PipelineKey, Func<IResolveTypes, object, object>> _pipelineDictionary 
             = new Dictionary<PipelineKey, Func<IResolveTypes, object, object>>();
 
-        private readonly IList<Action<IRegisterTypes>> _builderActions = new List<Action<IRegisterTypes>>();
-
         private readonly IList<Action<IRegisterTypes>> _registrationActions = new List<Action<IRegisterTypes>>();
 
         public PipelineAggregator()
@@ -62,33 +60,12 @@ namespace Wormhole.Pipeline.Configuration
             if(typeof(TNameType)!= typeof(DefaultPipeline<TInput,TOutput>))
             {
                 _registrationActions.Add(a => a.Register<Functor<TNameType, TInput, TOutput>>(c =>
-                                                                                                      {
-                                                                                                          var item =
-                                                                                                              c.Resolve(
-                                                                                                                  typeof
-                                                                                                                      (
-                                                                                                                      NamedResolver
-                                                                                                                      <
-                                                                                                                      TInput
-                                                                                                                      ,
-                                                                                                                      TOutput
-                                                                                                                      >))
-                                                                                                              as
-                                                                                                              NamedResolver
-                                                                                                                  <
-                                                                                                                  TInput
-                                                                                                                  ,
-                                                                                                                  TOutput
-                                                                                                                  >;
+                                            {
+                                                var item = c.Resolve( typeof(NamedResolver<TInput,TOutput>)) as NamedResolver < TInput,TOutput>;
 
-                                                                                                          return
-                                                                                                              (clarifier, input)
-                                                                                                              =>
-                                                                                                              item.
-                                                                                                                  Execute
-                                                                                                                  (clarifier,
-                                                                                                                   input);
-                                                                                                      }));
+                                                return
+                                                    (clarifier, input) => item.Execute(clarifier,input);
+                                            }));
             }
 
             return new PipelineConfigurator<TInput, TOutput>(registrationData, _registrationActions);
@@ -102,10 +79,6 @@ namespace Wormhole.Pipeline.Configuration
 
             // next we'll register our pending actions
             foreach (var item in _registrationActions)
-                item(typeRegistrar);
-
-            // next, we'll grab the builder actions
-            foreach (var item in _builderActions)
                 item(typeRegistrar);
         }
     }
