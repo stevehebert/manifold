@@ -66,6 +66,7 @@ nuspec2 :autofacnuspec do |nuspec|
    nuspec.working_directory = "Build/stage"
    nuspec.command = "../../tools/nuget/nuget.exe"
    nuspec.file "wormhole.autofac.dll", "lib"
+   nuspec.file "wormhole.dll", "lib"
 end
 
 
@@ -73,6 +74,6 @@ task :deploy => [:assemblyinfo, :default, :autofacnuspec] do
     puts "deployment build complete for #{full_version}" 
 end
 
-task :default => [:areaprep, :corebuild, :nunitcore, :ilmerge] do
+task :default => [:areaprep, :corebuild, :nunitcore] do
     puts "core build plus tests complete" 
 end

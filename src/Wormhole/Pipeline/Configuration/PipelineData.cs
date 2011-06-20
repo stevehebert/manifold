@@ -18,11 +18,9 @@ namespace Wormhole.Pipeline.Configuration
         /// <param name="function">The function.</param>
         /// <param name="isComplete">if set to <c>true</c> [is complete].</param>
         public void Add<TType, TInput, TOutput>(Func<TType, TInput, TOutput> function, bool isComplete)
-            where TInput : class
-            where TType : class
         {
             IsClosed = isComplete;
-            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(typeof(TType), (type, inparam) => function(type as TType, inparam as TInput)));
+            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(typeof(TType), (type, inparam) => function((TType)type, (TInput)inparam )));
         }
 
         /// <summary>
@@ -33,10 +31,9 @@ namespace Wormhole.Pipeline.Configuration
         /// <param name="function">The function.</param>
         /// <param name="isComplete">if set to <c>true</c> [is complete].</param>
         public void Add<TInput, TOutput>(Func<TInput, TOutput> function, bool isComplete)
-            where TInput : class
         {
             IsClosed = isComplete;
-            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(null, (a, b) => function(b as TInput)));
+            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(null, (a, b) => function((TInput) b)));
         }
 
         /// <summary>

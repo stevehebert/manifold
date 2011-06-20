@@ -5,8 +5,6 @@ using Wormhole.DependencyInjection;
 namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineConfigurator<TInput, TOutput>
-        where TInput : class
-        where TOutput : class
     {
         private readonly PipelineData _registrarData;
         private readonly IList<Action<IRegisterTypes>> _builder;
@@ -31,7 +29,6 @@ namespace Wormhole.Pipeline.Configuration
         /// <param name="function">The function.</param>
         /// <returns></returns>
         public PipelineConfigurator<TOutputType, TOutput> Bind<TType, TOutputType>(Func<TType, TInput, TOutputType> function)
-            where TOutputType : class
             where TType : class
         {
             _builder.Add(a => a.RegisterType<TType>());
@@ -68,13 +65,6 @@ namespace Wormhole.Pipeline.Configuration
             _registrarData.Add<TType, TInput, TOutputType>((a, b) => a.Execute(b), typeof(TOutputType) == typeof(TOutput));
 
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
-        }
-
-        public PipelineConfigurator<TOutput, TOutput> Bind(Func<TInput, TOutput> function)
-        {
-            _registrarData.Add(function, true);
-
-            return new PipelineConfigurator<TOutput, TOutput>(_registrarData, _builder);
         }
 
         public PipelineConfigurator<TOutputType, TOutput> Bind<TOutputType>(Func<TInput, TOutputType> function) where TOutputType : class
