@@ -1,53 +1,76 @@
-task  :style_cop do
+require 'albacore'
+require 'tools/nuspec/nuspec.rb'
+require 'fileutils'
 
-	puts "Running StyleCop"
+revision_number = ENV['revision']
+revision_number = 0 if revision_number.nil?
+revision_number = Integer(revision_number)
 
+full_version = "0.9.0.#{revision_number}"
+
+puts "Creating build #{full_version}."
+
+task :areaprep do
+  puts "establishing directory structure"
+  FileUtils.rm_r("build")
+  FileUtils.mkdir_p("build/core")
+  FileUtils.mkdir_p("build/stage")
+end
+
+desc "Run the assembly info generator on our project"
+assemblyinfo :assemblyinfo do |asm|
+  asm.version = full_version
+  asm.file_version = full_version
+  asm.company_name = "Hebert Software Services"
+  asm.product_name = "Wormhole"
+  asm.copyright = "Copyright Hebertsoft 2011"
+  asm.output_file = "SharedAssemblyInfo.cs"
+end
+
+desc "Run the core build using the MSBuild Task"
+msbuild :corebuild do |msb|
+    msb.properties :configuration => :Release, :OutDir => "../../Build/Core/"
+    msb.targets :Clean, :Build
+    msb.solution = "src/Wormhole.sln"
+end
+
+desc "execute all unit tasks"
+nunit :nunitcore do |nunit|
+	nunit.command = "src/Packages/NUnit.2.5.10.11092/Tools/nunit-console.exe"
+	nunit.assemblies << "build/core/wormhole.tests.dll"
+        nunit.options = ['/framework:net-4.0']
+end
+
+desc "run ilmerge on the assemblies"
+task :ilmerge do
+  puts "merging target assemblies"
+  cmdline = "tools\\ilmerge\\ilmerge /ver:#{full_version} /target:library /out:build/stage/wormhole.autofac.dll build/core/wormhole.autofac.dll build/core/wormhole.dll"
+
+  sh cmdline
 end
 
 
-
-task :simian do
-
-	puts "Running Simian"
-
+desc "create the nuget package for autofac"
+nuspec2 :autofacnuspec do |nuspec|
+   nuspec.id="wormhole.autofac"
+   nuspec.output_file = "wormhole.autofac.nuspec"
+   nuspec.version = full_version
+   nuspec.authors = "Steve Hebert"
+   nuspec.description = "Wormhole enables function composition along with integration into autofac"
+   nuspec.language = "en-US"
+   nuspec.licenseUrl = "http://fluentworkflow.codeplex.com/license"
+   nuspec.projectUrl = "http://fluentworkflow.codeplex.com"
+   nuspec.dependency "Autofac", "2.4.5.724"
+   nuspec.working_directory = "Build/stage"
+   nuspec.command = "../../tools/nuget/nuget.exe"
+   nuspec.file "wormhole.autofac.dll", "lib"
 end
 
 
-
-task :compile do
-
-	puts "Compiling projects"
-
+task :deploy => [:assemblyinfo, :default, :autofacnuspec] do
+    puts "deployment build complete for #{full_version}" 
 end
 
-
-
-task :fx_cop do
-
-	puts "Running FxCop"
-
-end
-
-
-
-task :test_and_coverage do
-
-	puts "Running Test and capturing the code coverage"
-
-end
-
-
-
-task :drop do
-
-	puts "Preparing the build artifacts"
-
-end
-
-
-
-task :default => [:style_cop, :simian, :compile, :fx_cop, :test_and_coverage, :drop] do
-
-	puts "Done"
-
+task :default => [:areaprep, :corebuild, :nunitcore, :ilmerge] do
+    puts "core build plus tests complete" 
 end
