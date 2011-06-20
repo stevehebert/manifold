@@ -19,16 +19,21 @@ namespace Wormhole.Tests
             item.RegisterPipeline<int, string>()
                 .Bind(p => (p*2).ToString());
 
+            item.RegisterPipeline<string, int, string>("foo")
+                .Bind(p => (p*3).ToString());
+
             var builder = new ContainerBuilder();
             builder.RegisterModule(item);
 
             var ctx = builder.Build();
 
-            var value1 = ctx.Resolve<Functor<In, Out>>()(new In());
+            var value1 = ctx.Resolve<Functor<In, Out>>()(new In()).NewValue;
             var value2 = ctx.Resolve<Functor<int, string>>()(10);
+            var value3 = ctx.Resolve<Functor<string, int, string>>()("foo", 10);
 
-            Assert.That(value1.NewValue, Is.EqualTo(20));
+            Assert.That(value1, Is.EqualTo(20));
             Assert.That(value2, Is.EqualTo("20"));
+            Assert.That(value3, Is.EqualTo("30"));
         }
 
         public class InOutTranslator : IPipelineTask<In, Out>
