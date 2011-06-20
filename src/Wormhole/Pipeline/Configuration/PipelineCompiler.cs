@@ -35,7 +35,8 @@ namespace Wormhole.Pipeline.Configuration
                 throw new MismatchedClosingTypeDeclarationException();
 
             //// here we roll the composition of function into an y=h(g(f(x))) delegate
-            //// started with an Expression that would be built and compiled, but this is cleaner and faster
+            //// this is a bit more contrived than we ultimately want, but it was more
+            //// entertaining to write it this way for now.
 
             var function = CreateExecutor(pipelineData.FunctionList.Dequeue());
 
