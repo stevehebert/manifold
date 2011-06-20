@@ -45,10 +45,9 @@ end
 
 desc "run ilmerge on the assemblies"
 task :ilmerge do
-  puts "merging target assemblies"
-  cmdline = "tools\\ilmerge\\ilmerge /ver:#{full_version} /target:library /out:build/stage/wormhole.autofac.dll build/core/wormhole.autofac.dll build/core/wormhole.dll"
-
-  sh cmdline
+  puts "running the alternate to ilmerge since it is broken right now"
+  cp "build/core/wormhole.dll", "build/stage/wormhole.dll"
+  cp "build/core/wormhole.autofac.dll", "build/stage/wormhole.autofac.dll"
 end
 
 
@@ -60,8 +59,8 @@ nuspec2 :autofacnuspec do |nuspec|
    nuspec.authors = "Steve Hebert"
    nuspec.description = "Wormhole enables function composition along with integration into autofac"
    nuspec.language = "en-US"
-   nuspec.licenseUrl = "http://fluentworkflow.codeplex.com/license"
-   nuspec.projectUrl = "http://fluentworkflow.codeplex.com"
+   nuspec.licenseUrl = "http://lambdalifted.codeplex.com/license"
+   nuspec.projectUrl = "http://lambdalifted.codeplex.com"
    nuspec.dependency "Autofac", "2.4.5.724"
    nuspec.working_directory = "Build/stage"
    nuspec.command = "../../tools/nuget/nuget.exe"
@@ -74,6 +73,11 @@ task :deploy => [:assemblyinfo, :default, :autofacnuspec] do
     puts "deployment build complete for #{full_version}" 
 end
 
-task :default => [:areaprep, :corebuild, :nunitcore] do
+task :default => [:areaprep, :corebuild, :nunitcore, :ilmerge] do
     puts "core build plus tests complete" 
+end
+
+task :nuget => [:deploy] do
+  puts "pushing to nuget"
+  sh "tools/nuget/nuget.exe push build/stage/wormhole.autofac.#{full_version}.nupkg"
 end
