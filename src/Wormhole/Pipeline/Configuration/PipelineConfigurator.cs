@@ -67,7 +67,7 @@ namespace Wormhole.Pipeline.Configuration
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
         }
 
-        public PipelineConfigurator<TOutputType, TOutput> Bind<TOutputType>(Func<TInput, TOutputType> function) where TOutputType : class
+        public PipelineConfigurator<TOutputType, TOutput> Bind<TOutputType>(Func<TInput, TOutputType> function) 
         {
             _registrarData.Add(function, typeof(TOutputType) == typeof(TOutput));
 

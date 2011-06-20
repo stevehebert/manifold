@@ -29,8 +29,6 @@ namespace Wormhole.Autofac
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <returns>a configurator for fluently configuring the pipeline</returns>
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()
-            where TInput : class
-            where TOutput : class
         {
             return _pipelineAggregator.RegisterPipeline<TInput, TOutput>();
         }
@@ -44,8 +42,6 @@ namespace Wormhole.Autofac
         /// <param name="name">The pipeline name.</param>
         /// <returns>a configurator for fluently configuring the pipeline</returns>
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name)
-            where TInput : class 
-            where TOutput : class
         {
             return _pipelineAggregator.RegisterPipeline<TNameType, TInput, TOutput>(name);
         }

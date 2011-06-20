@@ -22,8 +22,6 @@ namespace Wormhole.Pipeline.Configuration
         }
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()
-            where TInput : class
-            where TOutput : class
         {
             var configurator =
                 RegisterPipeline<DefaultPipeline<TInput, TOutput>, TInput, TOutput>(
@@ -48,8 +46,6 @@ namespace Wormhole.Pipeline.Configuration
         }
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name)
-            where TInput : class
-            where TOutput : class
         {
             var registrationData = new PipelineData();
 
