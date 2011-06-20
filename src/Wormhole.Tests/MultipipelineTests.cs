@@ -27,7 +27,7 @@ namespace Wormhole.Tests
             var value1 = ctx.Resolve<Functor<In, Out>>()(new In());
             var value2 = ctx.Resolve<Functor<int, string>>()(10);
 
-            Assert.That(value1, Is.EqualTo(20));
+            Assert.That(value1.NewValue, Is.EqualTo(20));
             Assert.That(value2, Is.EqualTo("20"));
         }
 
