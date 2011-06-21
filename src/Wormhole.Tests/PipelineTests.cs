@@ -49,7 +49,6 @@ namespace Wormhole.Tests
             var container = builder.Build();
 
             var function = container.Resolve<Functor<IEnumerable<int>, IEnumerable<int>>>();
-
             var items = new[] { 10, 20, 30 };
 
             var resolvedItems = function(items);
