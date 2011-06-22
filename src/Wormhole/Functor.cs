@@ -35,7 +35,7 @@ namespace Wormhole
         /// me a functor.
         ///  
         /// var functor = locatorFunctor(name);
-        /// var value[] = functor(input[]);
+        /// var value[] = functor.fmap((input[]);
         /// --- or the user could do what we intrisically do here which is---
         /// var value[] = locatorFunctor(name)(input[]);
         /// --- as opposed to ---
@@ -48,6 +48,8 @@ namespace Wormhole
         /// <param name="name">The name.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
+        /// 
+        /// Functor<string, Functor<int, model>>
         public static IEnumerable<TOutput> fmap<TNameType, TInput, TOutput>(this Functor<TNameType, TInput, TOutput> function, TNameType name,
                                                                  IEnumerable<TInput> values)
         {
