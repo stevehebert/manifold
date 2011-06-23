@@ -9,7 +9,7 @@ namespace Wormhole.Autofac
     {
         private readonly PipelineAggregator<TypeResolver> _pipelineAggregator = new PipelineAggregator<TypeResolver>();
 
-        internal virtual void RegisterPipelines(){}
+        protected virtual void RegisterPipelines(){}
 
         /// <summary>
         /// Override to add registrations to the container.
