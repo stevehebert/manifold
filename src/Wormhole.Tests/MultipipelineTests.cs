@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using NUnit.Framework;
-using Wormhole.Autofac;
 using Wormhole.Pipeline;
 
 namespace Wormhole.Tests
@@ -11,19 +10,22 @@ namespace Wormhole.Tests
         [Test]
         public void verify_multipipelines()
         {
-            var item = new PipelineModule();
+            var module = new SimplePipelineModule(item =>
+                                                      {
+                                                          item.RegisterPipeline<In, Out>()
+                                                              .Bind<InOutTranslator>();
 
-            item.RegisterPipeline<In, Out>()
-                .Bind<InOutTranslator>();
+                                                          item.RegisterPipeline<int, string>()
+                                                              .Bind(p => (p*2).ToString());
 
-            item.RegisterPipeline<int, string>()
-                .Bind(p => (p*2).ToString());
+                                                          item.RegisterPipeline<string, int, string>("foo")
+                                                              .Bind(p => (p*3).ToString());
 
-            item.RegisterPipeline<string, int, string>("foo")
-                .Bind(p => (p*3).ToString());
+                                                      });
+
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule(item);
+            builder.RegisterModule(module);
 
             var ctx = builder.Build();
 

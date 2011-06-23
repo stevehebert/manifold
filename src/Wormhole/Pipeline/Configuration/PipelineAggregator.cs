@@ -4,7 +4,7 @@ using Wormhole.DependencyInjection;
 
 namespace Wormhole.Pipeline.Configuration
 {
-    public class PipelineAggregator<TType> where TType : IResolveTypes
+    public class PipelineAggregator<TResolver> where TResolver : IResolveTypes
     {
         private readonly IList<Action<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>> _dictionaryActions
             = new List<Action<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>>();
@@ -18,7 +18,7 @@ namespace Wormhole.Pipeline.Configuration
         {
             _registrationActions.Add(a => a.RegisterInstance(_pipelineDictionary));
             _registrationActions.Add(a => a.RegisterGeneric(typeof(NamedResolver<,>)));
-            _registrationActions.Add(a => a.RegisterType<TType, IResolveTypes>());
+            _registrationActions.Add(a => a.RegisterType<TResolver, IResolveTypes>());
         }
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()

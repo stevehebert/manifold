@@ -4,15 +4,15 @@ using Wormhole.DependencyInjection;
 
 namespace Wormhole.Autofac.Configuration
 {
-    public class TypeRegistrar : IRegisterTypes
+    public class AutofacTypeRegistrar : IRegisterTypes
     {
         private readonly ContainerBuilder _containerBuilder;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeRegistrar"/> class.
+        /// Initializes a new instance of the <see cref="AutofacTypeRegistrar"/> class.
         /// </summary>
         /// <param name="containerBuilder">The container builder.</param>
-        public TypeRegistrar(ContainerBuilder containerBuilder )
+        public AutofacTypeRegistrar(ContainerBuilder containerBuilder )
         {
             _containerBuilder = containerBuilder;
         }

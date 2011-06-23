@@ -2,7 +2,6 @@
 using System.Linq; 
 using Autofac;
 using NUnit.Framework;
-using Wormhole.Autofac;
 using Wormhole.Pipeline;
 
 namespace Wormhole.Tests
@@ -13,12 +12,12 @@ namespace Wormhole.Tests
         [Test]
         public void verify_ordered()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                              .Bind<Adder>()
+                                                              .Bind<Divider>()
+                                                              .Bind<NonConformingType>((a, input) => a.Run(input)));
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                .Bind<Adder>()
-                .Bind<Divider>()
-                .Bind<NonConformingType>((a, input) => a.Run(input));
+            
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -39,13 +38,11 @@ namespace Wormhole.Tests
         [Test]
         public void verify_inline_type_conversion()
         {
-            var module = new PipelineModule();
-
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .Bind<Adder, IEnumerable<int>>()
-                .Bind<Divider, IEnumerable<int>>()
-                .Bind<Stringifier>();
-
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .Bind<Adder, IEnumerable<int>>()
+                                                              .Bind<Divider, IEnumerable<int>>()
+                                                              .Bind<Stringifier>());
+            
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
             var container = builder.Build();
@@ -66,12 +63,10 @@ namespace Wormhole.Tests
         [Test]
         public void verify_explicit_pipeline_resolution()
         {
-            var module = new PipelineModule();
-
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .Bind<Adder, IEnumerable<int>>()
-                .Bind<Divider, IEnumerable<int>>()
-                .Bind<Stringifier>();
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .Bind<Adder, IEnumerable<int>>()
+                                                              .Bind<Divider, IEnumerable<int>>()
+                                                              .Bind<Stringifier>());
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -92,12 +87,9 @@ namespace Wormhole.Tests
         [Test]
         public void verify_malformed_type_conversion()
         {
-            var module = new PipelineModule();
-
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .Bind<Adder, IEnumerable<int>>()
-                .Bind<Divider, IEnumerable<int>>();
-
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .Bind<Adder, IEnumerable<int>>()
+                                                              .Bind<Divider, IEnumerable<int>>());
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);

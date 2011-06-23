@@ -60,6 +60,7 @@
     <Compile Include="PipelineInjectionTests.cs" />
     <Compile Include="PipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimplePipelineModule.cs" />
     <Compile Include="Wormhole\Pipeline\MismatchedClosingTypeDeclarationExceptionTests.cs" />
   </ItemGroup>
   <ItemGroup>

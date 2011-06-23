@@ -2,7 +2,6 @@
 using System.Linq;
 using Autofac;
 using NUnit.Framework;
-using Wormhole.Autofac;
 using Wormhole.Pipeline;
 
 namespace Wormhole.Tests
@@ -13,10 +12,10 @@ namespace Wormhole.Tests
         [Test]
         public void verify_simplest_construction()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                              .Bind(a => from p in a select p / 2));
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                .Bind(a => from p in a select p/2);
+            
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -38,11 +37,11 @@ namespace Wormhole.Tests
         [Test]
         public void verify_ordered_construction()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                              .Bind(a => from p in a select p / 2)
+                                                              .Bind(a => from p in a select p + 2));
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                .Bind(a => from p in a select p / 2)
-                .Bind(a => from p in a select p + 2);
+            
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -62,11 +61,10 @@ namespace Wormhole.Tests
         [Test]
         public void verify_alternate_ordered_construction()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                              .Bind(a => from p in a select p + 2)
+                                                              .Bind(a => from p in a select p / 2));
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                .Bind(a => from p in a select p + 2)
-                .Bind(a => from p in a select p/2);
                 
                 
             var builder = new ContainerBuilder();
@@ -88,12 +86,10 @@ namespace Wormhole.Tests
         [Test]
         public void verify_type_conversion()
         {
-            var module = new PipelineModule();
-
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .Bind(a => from p in a select p + 2)
-                .Bind(a => from p in a select p / 2 )
-                .Bind(a => from p in a select p.ToString());
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .Bind(a => from p in a select p + 2)
+                                                              .Bind(a => from p in a select p / 2)
+                                                              .Bind(a => from p in a select p.ToString()));
                 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -114,11 +110,9 @@ namespace Wormhole.Tests
         [Test]
         public void verify_incomplete_registration_error()
         {
-            var module = new PipelineModule();
-
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .Bind(a => from p in a select p + 2)
-                .Bind(a => from p in a select p/2);
+            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .Bind(a => from p in a select p + 2)
+                                                              .Bind(a => from p in a select p / 2));
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);

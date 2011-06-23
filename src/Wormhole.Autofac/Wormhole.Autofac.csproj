@@ -49,8 +49,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Configuration\TypeRegistrar.cs" />
-    <Compile Include="Configuration\TypeResolver.cs" />
+    <Compile Include="Configuration\AutofacTypeRegistrar.cs" />
+    <Compile Include="Configuration\AutofacTypeResolver.cs" />
     <Compile Include="PipelineModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -31,7 +31,11 @@ namespace Wormhole.Pipeline.Configuration
         {
             var key = new PipelineKey { Input = typeof (TInput), Output = typeof (TOutput), Named = namedContext };
 
-            return (TOutput) _pipelineSets[key](_typeResolver, input);
+            if(_pipelineSets.ContainsKey(key))
+                return (TOutput) _pipelineSets[key](_typeResolver, input);
+
+            var type = typeof (Functor<,,>);
+            throw new ArgumentException();
         }
     }
 }

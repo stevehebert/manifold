@@ -4,15 +4,15 @@ using Wormhole.DependencyInjection;
 
 namespace Wormhole.Autofac.Configuration
 {
-    public class TypeResolver : IResolveTypes
+    public class AutofacTypeResolver : IResolveTypes
     {
         private readonly IComponentContext _componentContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeResolver"/> class.
+        /// Initializes a new instance of the <see cref="AutofacTypeResolver"/> class.
         /// </summary>
         /// <param name="componentContext">The autofac component context.</param>
-        public TypeResolver(IComponentContext componentContext)
+        public AutofacTypeResolver(IComponentContext componentContext)
         {
             _componentContext = componentContext;
         }

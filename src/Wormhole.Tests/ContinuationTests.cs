@@ -12,15 +12,18 @@ namespace Wormhole.Tests
         [Test]
         public void verify_start_up_continue_operation()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item =>
+                                                      {
+                                                          item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                              .Bind<PipelineInjectionTests.Adder, IEnumerable<int>>()
+                                                              .Bind<PipelineInjectionTests.Divider, IEnumerable<int>>();
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Adder, IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Divider, IEnumerable<int>>();
+                                                          item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .ContinueWith<IEnumerable<int>>()
+                                                              .Bind<PipelineInjectionTests.Stringifier>();
+                                                      });
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .ContinueWith<IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Stringifier>();
+            
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -42,15 +45,18 @@ namespace Wormhole.Tests
         [Test]
         public void verify_named_start_up_continue_operation()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item =>
+                                                      {
+                                                          item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                              .Bind<PipelineInjectionTests.Adder, IEnumerable<int>>()
+                                                              .Bind<PipelineInjectionTests.Divider, IEnumerable<int>>();
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Adder, IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Divider, IEnumerable<int>>();
+                                                          item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                              .ContinueWith<IEnumerable<int>>()
+                                                              .Bind<PipelineInjectionTests.Stringifier>();
+                                                      });
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .ContinueWith<IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Stringifier>();
+            
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -71,16 +77,19 @@ namespace Wormhole.Tests
         [Test]
         public void verify_ending_continue_operation()
         {
-            var module = new PipelineModule();
+            var module = new SimplePipelineModule(item =>
+            {
+                item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                    .Bind<PipelineInjectionTests.Adder, IEnumerable<int>>()
+                    .Bind<PipelineInjectionTests.Divider, IEnumerable<int>>()
+                    .ContinueWith("foo");
 
-            module.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                .Bind<PipelineInjectionTests.Adder, IEnumerable<int>>()
-                .Bind<PipelineInjectionTests.Divider, IEnumerable<int>>()
-                .ContinueWith("foo");
 
+                item.RegisterPipeline<string, IEnumerable<int>, IEnumerable<string>>("foo")
+                    .Bind<PipelineInjectionTests.Stringifier>();
+            });
 
-            module.RegisterPipeline<string, IEnumerable<int>, IEnumerable<string>>("foo")
-                .Bind<PipelineInjectionTests.Stringifier>();
+            
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
