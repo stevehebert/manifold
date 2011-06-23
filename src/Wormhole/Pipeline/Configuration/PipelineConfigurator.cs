@@ -7,14 +7,14 @@ namespace Wormhole.Pipeline.Configuration
     public class PipelineConfigurator<TInput, TOutput>
     {
         private readonly PipelineData _registrarData;
-        private readonly IList<Action<IRegisterTypes>> _builder;
+        private readonly Queue<Action<IRegisterTypes>> _builder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineConfigurator&lt;TInput, TOutput&gt;"/> class.
         /// </summary>
         /// <param name="registrarData">The registrar data.</param>
         /// <param name="builder">The builder.</param>
-        public PipelineConfigurator(PipelineData registrarData, IList<Action<IRegisterTypes>> builder)
+        public PipelineConfigurator(PipelineData registrarData, Queue<Action<IRegisterTypes>> builder)
         {
             _registrarData = registrarData;
             _builder = builder;
@@ -31,7 +31,7 @@ namespace Wormhole.Pipeline.Configuration
         public PipelineConfigurator<TOutputType, TOutput> Bind<TType, TOutputType>(Func<TType, TInput, TOutputType> function)
             where TType : class
         {
-            _builder.Add(a => a.RegisterType<TType>());
+            _builder.Enqueue(a => a.RegisterType<TType>());
 
             _registrarData.Add(function, typeof(TOutputType) == typeof(TOutput));
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
@@ -39,7 +39,7 @@ namespace Wormhole.Pipeline.Configuration
 
         public PipelineConfigurator<TOutput, TOutput> Bind<TType>(Func<TType, TInput, TOutput> function) where TType : class
         {
-            _builder.Add( a=> a.RegisterType<TType>());
+            _builder.Enqueue( a=> a.RegisterType<TType>());
 
             _registrarData.Add(function, true);
 
@@ -48,7 +48,7 @@ namespace Wormhole.Pipeline.Configuration
 
         public PipelineConfigurator<TInput, TOutput> Bind<TType>() where TType : class, IPipelineTask<TInput, TOutput>
         {
-            _builder.Add(a => a.RegisterType<TType>());
+            _builder.Enqueue(a => a.RegisterType<TType>());
 
             _registrarData.Add<TType, TInput, TOutput>((a, b) => a.Execute(b), true);
 
@@ -60,7 +60,7 @@ namespace Wormhole.Pipeline.Configuration
             where TType : class, IPipelineTask<TInput, TOutputType>
             where TOutputType : class
         {
-            _builder.Add(a => a.RegisterType<TType>());
+            _builder.Enqueue(a => a.RegisterType<TType>());
 
             _registrarData.Add<TType, TInput, TOutputType>((a, b) => a.Execute(b), typeof(TOutputType) == typeof(TOutput));
 

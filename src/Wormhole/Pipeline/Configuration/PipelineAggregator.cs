@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wormhole.DependencyInjection;
 
 namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineAggregator<TType> where TType : IResolveTypes
     {
-        private readonly IList<Action<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>> _dictionaryActions
-            = new List<Action<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>>();
+        private static readonly Queue<Action<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>> _dictionaryActions
+            = new Queue<Action<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>>();
 
-        private readonly IDictionary<PipelineKey, Func<IResolveTypes, object, object>> _pipelineDictionary 
+        private static readonly IDictionary<PipelineKey, Func<IResolveTypes, object, object>> _pipelineDictionary 
             = new Dictionary<PipelineKey, Func<IResolveTypes, object, object>>();
 
-        private readonly IList<Action<IRegisterTypes>> _registrationActions = new List<Action<IRegisterTypes>>();
+        private static readonly Queue<Action<IRegisterTypes>> _registrationActions = new Queue<Action<IRegisterTypes>>();
 
-        public PipelineAggregator()
+        static PipelineAggregator()
         {
-            _registrationActions.Add(a => a.RegisterInstance(_pipelineDictionary));
-            _registrationActions.Add(a => a.RegisterGeneric(typeof(NamedResolver<,>)));
-            _registrationActions.Add(a => a.RegisterType<TType, IResolveTypes>());
+            _registrationActions.Enqueue(a => a.RegisterInstance(_pipelineDictionary));
+            _registrationActions.Enqueue(a => a.RegisterGeneric(typeof(NamedResolver<,>)));
+            _registrationActions.Enqueue(a => a.RegisterType<TType, IResolveTypes>());
         }
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()
@@ -27,7 +28,7 @@ namespace Wormhole.Pipeline.Configuration
                 RegisterPipeline<DefaultPipeline<TInput, TOutput>, TInput, TOutput>(
                     new DefaultPipeline<TInput, TOutput>());
 
-            _registrationActions.Add(a =>
+            _registrationActions.Enqueue(a =>
                                          {
                                              var compiledFunction =
                                                  _pipelineDictionary[
@@ -49,13 +50,13 @@ namespace Wormhole.Pipeline.Configuration
         {
             var registrationData = new PipelineData();
 
-            _dictionaryActions.Add(
+            _dictionaryActions.Enqueue(
                 a => a.Add(new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = name},
                            PipelineCompiler.Compile(registrationData)));
 
             if(typeof(TNameType)!= typeof(DefaultPipeline<TInput,TOutput>))
             {
-                _registrationActions.Add(a => a.Register<Functor<TNameType, TInput, TOutput>>(c =>
+                _registrationActions.Enqueue(a => a.Register<Functor<TNameType, TInput, TOutput>>(c =>
                                             {
                                                 var item = c.Resolve( typeof(NamedResolver<TInput,TOutput>)) as NamedResolver < TInput,TOutput>;
 
@@ -70,12 +71,12 @@ namespace Wormhole.Pipeline.Configuration
         public void PerformRegistration(IRegisterTypes typeRegistrar)
         {
             // first, we'll hydrate the pipeline dictionary
-            foreach (var action in _dictionaryActions)
-                action(_pipelineDictionary);
+            while (_dictionaryActions.Any())
+                _dictionaryActions.Dequeue()(_pipelineDictionary);
 
-            // next we'll register our pending actions
-            foreach (var item in _registrationActions)
-                item(typeRegistrar);
+
+            while (_registrationActions.Any())
+                _registrationActions.Dequeue()(typeRegistrar);
         }
     }
 }
