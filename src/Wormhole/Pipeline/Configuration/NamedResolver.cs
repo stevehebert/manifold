@@ -1,4 +1,5 @@
-﻿using Wormhole.DependencyInjection;
+﻿using System;
+using Wormhole.DependencyInjection;
 
 namespace Wormhole.Pipeline.Configuration
 {
@@ -29,9 +30,24 @@ namespace Wormhole.Pipeline.Configuration
         {
             var key = new PipelineKey { Input = typeof (TInput), Output = typeof (TOutput), Named = namedContext };
 
-            var pipeline = _pipelineSets.Find(key);
 
-            return (TOutput) pipeline(_typeResolver, input);
+            Func<Tuple<IResolveTypes, object>, object, object, object> pipeline = null;
+
+            if (_pipelineSets.ContainsKey(key))
+                pipeline = _pipelineSets.Find(key);
+            else
+            {
+                if(! (namedContext is DefaultPipeline<TInput, TOutput>))
+                {
+                    key.Named = new DefaultPipeline<TInput, TOutput>();
+                    pipeline = _pipelineSets.Find(key);
+                }
+            }
+
+            if (pipeline == null)
+                throw new PipelineNotLocatedException();
+
+            return (TOutput) pipeline(new Tuple<IResolveTypes, object>(_typeResolver, namedContext), namedContext, input);
         }
     }
 }

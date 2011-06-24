@@ -7,14 +7,14 @@ namespace Wormhole.Pipeline.Configuration
 {
     public class PipelineDataResolver
     {
-        private IDictionary<PipelineKey, Func<IResolveTypes, object, object>> _aggregatePipelineSets =
-            new Dictionary<PipelineKey, Func<IResolveTypes, object, object>>();
+        private IDictionary<PipelineKey, Func<Tuple<IResolveTypes,object>, object, object, object>> _aggregatePipelineSets =
+            new Dictionary<PipelineKey, Func<Tuple<IResolveTypes,object>, object, object, object>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineDataResolver"/> class.
         /// </summary>
         /// <param name="pipelineSets">The pipeline sets.</param>
-        public PipelineDataResolver(IEnumerable<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>> pipelineSets)
+        public PipelineDataResolver(IEnumerable<IDictionary<PipelineKey, Func<Tuple<IResolveTypes,object>, object, object, object>>> pipelineSets)
         {
             // this is a one time operation as this class is a singleton in the container, making it immutable as well.
             foreach (var pair in pipelineSets.SelectMany(item => item))
@@ -26,9 +26,15 @@ namespace Wormhole.Pipeline.Configuration
         /// </summary>
         /// <param name="key">The pipeline key.</param>
         /// <returns></returns>
-        public Func<IResolveTypes, object, object> Find(PipelineKey key)
+        public Func<Tuple<IResolveTypes, object>, object, object, object> Find(PipelineKey key)
         {
             return _aggregatePipelineSets[key];
         }   
+
+        public bool ContainsKey(PipelineKey key)
+        {
+            return _aggregatePipelineSets.ContainsKey(key);
+        }
+
     }
 }

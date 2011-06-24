@@ -57,6 +57,7 @@
     <Compile Include="Pipeline\Configuration\PipelineData.cs" />
     <Compile Include="Pipeline\Configuration\PipelineCompiler.cs" />
     <Compile Include="Pipeline\Configuration\PipelineKey.cs" />
+    <Compile Include="Pipeline\PipelineNotLocatedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

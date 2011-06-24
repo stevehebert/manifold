@@ -2,7 +2,6 @@
 using System.Linq;
 using Autofac;
 using NUnit.Framework;
-using Wormhole.Autofac;
 
 namespace Wormhole.Tests
 {

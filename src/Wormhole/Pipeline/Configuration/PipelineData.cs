@@ -6,8 +6,8 @@ namespace Wormhole.Pipeline.Configuration
     public class PipelineData
     {
         public bool IsClosed { get; private set; }
-        readonly Queue<Tuple<Type, Func<object, object, object>>> _functionList 
-            = new Queue<Tuple<Type, Func<object, object, object>>>();
+        readonly Queue<Tuple<Type, Func<object, object, object, object>>> _functionList 
+            = new Queue<Tuple<Type, Func<object, object, object, object>>>();
 
         /// <summary>
         /// Adds the specified function to the resolution list
@@ -17,10 +17,10 @@ namespace Wormhole.Pipeline.Configuration
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="function">The function.</param>
         /// <param name="isComplete">if set to <c>true</c> [is complete].</param>
-        public void Add<TType, TInput, TOutput>(Func<TType, TInput, TOutput> function, bool isComplete)
+        public void Add<TType, TInput, TOutput>(Func<object, TType, TInput, TOutput> function, bool isComplete)
         {
             IsClosed = isComplete;
-            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(typeof(TType), (type, inparam) => function((TType)type, (TInput)inparam )));
+            _functionList.Enqueue(new Tuple<Type, Func<object, object, object, object>>(typeof(TType), (o, type, inparam) => function(o,(TType)type, (TInput)inparam )));
         }
 
         /// <summary>
@@ -30,16 +30,16 @@ namespace Wormhole.Pipeline.Configuration
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="function">The function.</param>
         /// <param name="isComplete">if set to <c>true</c> [is complete].</param>
-        public void Add<TInput, TOutput>(Func<TInput, TOutput> function, bool isComplete)
+        public void Add<TInput, TOutput>(Func<object, TInput, TOutput> function, bool isComplete)
         {
             IsClosed = isComplete;
-            _functionList.Enqueue(new Tuple<Type, Func<object, object, object>>(null, (a, b) => function((TInput) b)));
+            _functionList.Enqueue(new Tuple<Type, Func<object, object, object, object>>(null, (o, a, b) => function(o, (TInput) b)));
         }
 
         /// <summary>
         /// Gets the function list.
         /// </summary>
         /// <value>The function list.</value>
-        public Queue<Tuple<Type, Func<object, object, object>>> FunctionList { get { return _functionList; } }
+        public Queue<Tuple<Type, Func<object, object, object, object>>> FunctionList { get { return _functionList; } }
     }
 }

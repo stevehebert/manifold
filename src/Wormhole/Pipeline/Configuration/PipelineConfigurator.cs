@@ -33,7 +33,7 @@ namespace Wormhole.Pipeline.Configuration
         {
             _builder.Add(a => a.RegisterType<TType>());
 
-            _registrarData.Add(function, typeof(TOutputType) == typeof(TOutput));
+            _registrarData.Add<TType, TInput, TOutputType>((o, t, i) => function(t,i), typeof(TOutputType) == typeof(TOutput));
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
         }
 
@@ -41,7 +41,7 @@ namespace Wormhole.Pipeline.Configuration
         {
             _builder.Add( a=> a.RegisterType<TType>());
 
-            _registrarData.Add(function, true);
+            _registrarData.Add<TType, TInput, TOutput>((o, t, i) => function(t,i), true);
 
             return new PipelineConfigurator<TOutput, TOutput>(_registrarData, _builder);
         }
@@ -50,7 +50,7 @@ namespace Wormhole.Pipeline.Configuration
         {
             _builder.Add(a => a.RegisterType<TType>());
 
-            _registrarData.Add<TType, TInput, TOutput>((a, b) => a.Execute(b), true);
+            _registrarData.Add<TType, TInput, TOutput>((o, a, b) => a.Execute(b), true);
 
             return new PipelineConfigurator<TInput, TOutput>(_registrarData, _builder);
         }
@@ -62,14 +62,14 @@ namespace Wormhole.Pipeline.Configuration
         {
             _builder.Add(a => a.RegisterType<TType>());
 
-            _registrarData.Add<TType, TInput, TOutputType>((a, b) => a.Execute(b), typeof(TOutputType) == typeof(TOutput));
+            _registrarData.Add<TType, TInput, TOutputType>((o, a, b) => a.Execute(b), typeof(TOutputType) == typeof(TOutput));
 
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
         }
 
         public PipelineConfigurator<TOutputType, TOutput> Bind<TOutputType>(Func<TInput, TOutputType> function) 
         {
-            _registrarData.Add(function, typeof(TOutputType) == typeof(TOutput));
+            _registrarData.Add<TInput, TOutputType>((o, a) => function(a), typeof(TOutputType) == typeof(TOutput));
 
             return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
         }
@@ -92,8 +92,23 @@ namespace Wormhole.Pipeline.Configuration
         public PipelineConfigurator<TOutputType, TOutput> ContinueWith<TOutputType>()
             where TOutputType : class
         {
-            return ContinueWith<TOutputType>(new DefaultPipeline<TInput, TOutputType>());
+            return BindUnnamed<TOutputType>();
         }
+
+        /// <summary>
+        /// Binds the specified function.
+        /// </summary>
+        /// <typeparam name="TType">The type of the type.</typeparam>
+        /// <typeparam name="TOutputType">The type of the output type.</typeparam>
+        /// <param name="function">The function.</param>
+        /// <returns></returns>
+        internal PipelineConfigurator<TOutputType, TOutput> BindUnnamed<TOutputType>()
+        {
+            _registrarData.Add<NamedResolver<TInput, TOutputType>, TInput, TOutputType>((o, a, b) => a.Execute(o,b), typeof(TOutputType) == typeof(TOutput));
+
+            return new PipelineConfigurator<TOutputType, TOutput>(_registrarData, _builder);
+        }
+
 
         // chains the bind operation to an external named pipeline
         public PipelineConfigurator<TOutput, TOutput> ContinueWith<TNameType>(TNameType name)
@@ -101,6 +116,22 @@ namespace Wormhole.Pipeline.Configuration
             return
                 Bind<NamedResolver<TInput, TOutput>, TOutput>(
                     (a, value) => a.Execute(name, value));
+        }
+
+        public PipelineConfigurator<TInput, TOutput> Alternate<TType>()
+        {
+            _builder.Add(a => a.Register<Functor<TType, TInput, TOutput>>(c =>
+            {
+                var item =
+                    c.Resolve(typeof(NamedResolver<TInput, TOutput>)) as
+                    NamedResolver<TInput, TOutput>;
+
+                return
+                    (clarifier, input) => item.Execute(clarifier, input);
+            }));
+
+            return this;
+
         }
     }
 }

@@ -11,16 +11,16 @@ namespace Wormhole.Pipeline.Configuration
         /// </summary>
         /// <param name="stateValuePair">The state value pair.</param>
         /// <returns>a lambda lifted closure</returns>
-        private static Func<IResolveTypes, object, object> CreateExecutor(Tuple<Type, Func<object, object, object>> stateValuePair)
+        private static Func<Tuple<IResolveTypes, object>, object, object, object> CreateExecutor(Tuple<Type, Func<object, object, object, object>> stateValuePair)
         {
-            return (resolver, value) =>
+            return (resolver, name, value) =>
                        {
                            object item = null;
 
                            if (stateValuePair.Item1 != null)
-                               item = resolver.Resolve(stateValuePair.Item1);
+                               item = resolver.Item1.Resolve(stateValuePair.Item1);
 
-                           return stateValuePair.Item2(item, value);
+                           return stateValuePair.Item2(resolver.Item2, item, value);
                        };
         }
 
@@ -29,7 +29,7 @@ namespace Wormhole.Pipeline.Configuration
         /// </summary>
         /// <param name="pipelineData">The pipeline data.</param>
         /// <returns>the lambda lifted closure</returns>
-        public static Func<IResolveTypes, object, object> Compile(PipelineData pipelineData)
+        public static Func<Tuple<IResolveTypes,object>, object, object, object> Compile(PipelineData pipelineData)
         {
             if (!pipelineData.IsClosed)
                 throw new MismatchedClosingTypeDeclarationException();
@@ -45,7 +45,7 @@ namespace Wormhole.Pipeline.Configuration
                 var item = CreateExecutor(pipelineData.FunctionList.Dequeue());
                 var localFunction = function;
 
-                function = (resolver, value) => item(resolver, localFunction(resolver, value));
+                function = (resolver,name, value) => item(resolver, resolver.Item2, localFunction( resolver, resolver.Item2, value));
             }
 
             return function;
