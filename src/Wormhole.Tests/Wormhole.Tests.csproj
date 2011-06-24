@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContinuationTests.cs" />
+    <Compile Include="FunctorExtensionTests.cs" />
     <Compile Include="MultipipelineTests.cs" />
     <Compile Include="MultipleRegisrationTests.cs" />
     <Compile Include="NamedPipelineTests.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimplePipelineModule.cs" />
     <Compile Include="Wormhole\Pipeline\MismatchedClosingTypeDeclarationExceptionTests.cs" />
+    <Compile Include="Wormhole\Pipeline\PipelineNotLocatedExceptionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

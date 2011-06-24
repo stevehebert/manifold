@@ -28,7 +28,16 @@ namespace Wormhole.Pipeline.Configuration
         /// <returns></returns>
         public Func<Tuple<IResolveTypes, object>, object, object, object> Find(PipelineKey key)
         {
-            return _aggregatePipelineSets[key];
+            try
+            {
+                return _aggregatePipelineSets[key];
+            }
+            catch( KeyNotFoundException exception)
+            {
+                throw new PipelineNotLocatedException(
+                    string.Format("unable to find matching pipeline key for {0}, {1}, {2}", key.Input.Name,
+                                  key.Output.Name, key.Named), exception);
+            }
         }   
 
         public bool ContainsKey(PipelineKey key)

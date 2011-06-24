@@ -44,9 +44,6 @@ namespace Wormhole.Pipeline.Configuration
                 }
             }
 
-            if (pipeline == null)
-                throw new PipelineNotLocatedException();
-
             return (TOutput) pipeline(new Tuple<IResolveTypes, object>(_typeResolver, namedContext), namedContext, input);
         }
     }

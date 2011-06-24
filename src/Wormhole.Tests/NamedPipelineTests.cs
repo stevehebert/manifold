@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using NUnit.Framework;
+using Wormhole.Pipeline;
 
 namespace Wormhole.Tests
 {
@@ -36,5 +37,32 @@ namespace Wormhole.Tests
             Assert.That(value2, Is.EqualTo("10"));
             Assert.That(value3, Is.EqualTo("20"));
         }
+
+        [Test]
+        public void verify_failed_call_on_default_when_not_defined()
+        {
+            var module = new SimplePipelineModule(item =>
+            {
+                item.RegisterPipeline<int, string>()
+                    .Alternate<string>()
+                    .Bind(Convert.ToDouble)
+                    .ContinueWith<string>();
+
+                item.RegisterPipeline<string, double, string>("foo")
+                    .Bind(p => (p * 2).ToString());
+            });
+
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(module);
+
+            var ctx = builder.Build();
+
+            Assert.Throws<PipelineNotLocatedException>(() => ctx.Resolve<Functor<int, string>>()(10));
+            var value3 = ctx.Resolve<Functor<string, int, string>>()("foo", 10);
+
+            Assert.That(value3, Is.EqualTo("20"));
+        }
+
     }
 }
