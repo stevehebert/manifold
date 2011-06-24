@@ -19,6 +19,7 @@ namespace Wormhole.Pipeline.Configuration
             _registrationActions.Add(a => a.RegisterInstance(_pipelineDictionary));
             _registrationActions.Add(a => a.RegisterGeneric(typeof(NamedResolver<,>)));
             _registrationActions.Add(a => a.RegisterType<TResolver, IResolveTypes>());
+            _registrationActions.Add(a => a.RegisterType<PipelineDataResolver>(true));
         }
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()

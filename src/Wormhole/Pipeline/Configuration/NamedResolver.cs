@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Wormhole.DependencyInjection;
+﻿using Wormhole.DependencyInjection;
 
 namespace Wormhole.Pipeline.Configuration
 {
     public class NamedResolver<TInput, TOutput>
     {
         private readonly IResolveTypes _typeResolver;
-        private readonly IDictionary<PipelineKey, Func<IResolveTypes, object, object>> _pipelineSets;
+        private readonly PipelineDataResolver _pipelineSets;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NamedResolver&lt;TInput, TOutput&gt;"/> class.
@@ -15,7 +13,7 @@ namespace Wormhole.Pipeline.Configuration
         /// <param name="typeResolver">The type resolver.</param>
         /// <param name="pipelineSets">The pipeline sets.</param>
         public NamedResolver( IResolveTypes typeResolver, 
-                              IDictionary<PipelineKey, Func<IResolveTypes, object, object>> pipelineSets)
+                              PipelineDataResolver pipelineSets)
         {
             _typeResolver = typeResolver;
             _pipelineSets = pipelineSets;
@@ -31,11 +29,9 @@ namespace Wormhole.Pipeline.Configuration
         {
             var key = new PipelineKey { Input = typeof (TInput), Output = typeof (TOutput), Named = namedContext };
 
-            if(_pipelineSets.ContainsKey(key))
-                return (TOutput) _pipelineSets[key](_typeResolver, input);
+            var pipeline = _pipelineSets.Find(key);
 
-            var type = typeof (Functor<,,>);
-            throw new ArgumentException();
+            return (TOutput) pipeline(_typeResolver, input);
         }
     }
 }

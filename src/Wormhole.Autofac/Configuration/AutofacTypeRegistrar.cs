@@ -21,9 +21,12 @@ namespace Wormhole.Autofac.Configuration
         /// Registers the provided type with the underlying container
         /// </summary>
         /// <typeparam name="TType">The type of the type.</typeparam>
-        public void RegisterType<TType>()
+        public void RegisterType<TType>(bool asSingleton = false)
         {
-            _containerBuilder.RegisterType<TType>();
+            var registration = _containerBuilder.RegisterType<TType>();
+
+            if (asSingleton)
+                registration.SingleInstance();
         }
 
         /// <summary>

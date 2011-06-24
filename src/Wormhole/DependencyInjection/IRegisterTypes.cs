@@ -8,7 +8,7 @@ namespace Wormhole.DependencyInjection
         /// Registers the type.
         /// </summary>
         /// <typeparam name="TType">The type of the registration type.</typeparam>
-        void RegisterType<TType>();
+        void RegisterType<TType>(bool asSingleton = false);
 
         /// <summary>
         /// Registers an instance with the container

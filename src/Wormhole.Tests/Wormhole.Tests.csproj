@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="ContinuationTests.cs" />
     <Compile Include="MultipipelineTests.cs" />
+    <Compile Include="MultipleRegisrationTests.cs" />
     <Compile Include="PipelineInjectionTests.cs" />
     <Compile Include="PipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
