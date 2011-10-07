@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace FormulaRossa.Test
 {
     [TestFixture]
-    public class ClosureCompilerTests
+    public class PipelineCompilerTests
     {
         private class Oper : IOperation
         {
@@ -23,7 +23,7 @@ namespace FormulaRossa.Test
         [Test]
         public void execute_ordered_test()
         {
-            var item = new ClosureCompiler();
+            var item = new PipelineCompiler();
 
             var oper = new Oper((a, o) => (int) o*2);
 
@@ -35,7 +35,7 @@ namespace FormulaRossa.Test
         [Test]
         public void execute_ordered_test2()
         {
-            var item = new ClosureCompiler();
+            var item = new PipelineCompiler();
 
             var f = item.Compile(new Queue<IOperation>(new[] { new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2) }));
 
@@ -45,7 +45,7 @@ namespace FormulaRossa.Test
         [Test]
         public void execute_ordered_test3()
         {
-            var item = new ClosureCompiler();
+            var item = new PipelineCompiler();
 
             var f = item.Compile(new Queue<IOperation>(new[] { new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o /3 ) }));
 
@@ -55,7 +55,7 @@ namespace FormulaRossa.Test
         [Test]
         public void execute_reverse_ordered_test3()
         {
-            var item = new ClosureCompiler();
+            var item = new PipelineCompiler();
 
             var f = item.Compile(new Queue<IOperation>(new[] { new Oper((a, o) => (int)o /3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) }));
 
@@ -65,7 +65,7 @@ namespace FormulaRossa.Test
         [Test]
         public void execute_reverse_ordered_test4()
         {
-            var item = new ClosureCompiler();
+            var item = new PipelineCompiler();
 
             var f = item.Compile(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
 

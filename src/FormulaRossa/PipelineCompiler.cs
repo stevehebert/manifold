@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FormulaRossa
 {
-    public class ClosureCompiler
+    public class PipelineCompiler
     {
         public Func<Injector, object, object> Compile(IEnumerable<IOperation> operations )
         {

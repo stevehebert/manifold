@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClosureCompiler.cs" />
+    <Compile Include="PipelineCompiler.cs" />
     <Compile Include="InjectedOperation.cs" />
     <Compile Include="InjectedRoutedOperation.cs" />
     <Compile Include="IOperation.cs" />
