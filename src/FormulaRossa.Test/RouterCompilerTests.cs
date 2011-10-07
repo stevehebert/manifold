@@ -37,10 +37,7 @@ namespace FormulaRossa.Test
 
         private int GetRoutedValue(Func<Injector, object, object> operation, int value )
         {
-            var fn = operation(null, value) as Func<Injector, object, object>;
-
-            if(fn == null) throw new InvalidOperationException("null operation found");
-            return (int) fn(null, value);
+            return (int) operation(null, value);
         }
 
         [Test]
