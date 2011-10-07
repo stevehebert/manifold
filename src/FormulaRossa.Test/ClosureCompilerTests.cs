@@ -62,5 +62,15 @@ namespace FormulaRossa.Test
             Assert.That(f(null, 12), Is.EqualTo(8));
         }
 
+        [Test]
+        public void execute_reverse_ordered_test4()
+        {
+            var item = new ClosureCompiler();
+
+            var f = item.Compile(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
+
+            Assert.That(f(null, 12), Is.EqualTo(8));
+        }
+
     }
 }
