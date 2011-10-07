@@ -50,8 +50,6 @@ namespace FormulaRossa.Test
                                               new RoutedOper((injector, input) => (int) input*100,
                                                              (injector, input) => (int) input == 4),
                                               new Oper((injector, input) => (int) input*10)
-
-
                                           });
 
             Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(400));
@@ -70,8 +68,6 @@ namespace FormulaRossa.Test
                                               new RoutedOper((injector, input) => (int) input*1000,
                                                              (injector, input) => (int) input == 3),
                                               new Oper((injector, input) => (int) input*10)
-
-
                                           });
 
             Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(400));
@@ -97,7 +93,5 @@ namespace FormulaRossa.Test
             Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
             Assert.That(GetRoutedValue(fn, 3), Is.EqualTo(30));
         }
-
-
     }
 }
