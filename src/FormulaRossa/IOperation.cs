@@ -8,4 +8,9 @@ namespace FormulaRossa
     {
         Func<Injector, object, object> GetClosure();
     }
+
+    public interface IRoutedOperation : IOperation
+    {
+        Func<Injector, object, bool> GetDecider();
+    }
 }

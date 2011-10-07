@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="PipelineCompilerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouterCompilerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
