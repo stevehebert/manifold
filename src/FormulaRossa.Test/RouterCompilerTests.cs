@@ -9,6 +9,7 @@ namespace FormulaRossa.Test
         private class Oper : IOperation
         {
             private readonly Func<Injector, object, object> _func;
+
             public Oper(Func<Injector, object, object> func)
             {
                 _func = func;
@@ -34,6 +35,71 @@ namespace FormulaRossa.Test
             }
         }
 
+        private int GetRoutedValue(Func<Injector, object, object> operation, int value )
+        {
+            var fn = operation(null, value) as Func<Injector, object, object>;
+
+            if(fn == null) throw new InvalidOperationException("null operation found");
+            return (int) fn(null, value);
+        }
+
+        [Test]
+        public void routed_test_1()
+        {
+            var compiler = new RouterCompiler();
+
+            var fn = compiler.Compile(new[]
+                                          {
+                                              new RoutedOper((injector, input) => (int) input*100,
+                                                             (injector, input) => (int) input == 4),
+                                              new Oper((injector, input) => (int) input*10)
+
+
+                                          });
+
+            Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(400));
+            Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
+        }
+
+        [Test]
+        public void multi_route_test()
+        {
+            var compiler = new RouterCompiler();
+
+            var fn = compiler.Compile(new[]
+                                          {
+                                              new RoutedOper((injector, input) => (int) input*100,
+                                                             (injector, input) => (int) input == 4),
+                                              new RoutedOper((injector, input) => (int) input*1000,
+                                                             (injector, input) => (int) input == 3),
+                                              new Oper((injector, input) => (int) input*10)
+
+
+                                          });
+
+            Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(400));
+            Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
+            Assert.That(GetRoutedValue(fn, 3), Is.EqualTo(3000));
+        }
+
+        [Test]
+        public void short_circuit_on_default_test()
+        {
+            var compiler = new RouterCompiler();
+
+            var fn = compiler.Compile(new[]
+                                          {
+                                              new Oper((injector, input) => (int) input*10),
+                                              new RoutedOper((injector, input) => (int) input*100,
+                                                             (injector, input) => (int) input == 4),
+                                              new RoutedOper((injector, input) => (int) input*1000,
+                                                             (injector, input) => (int) input == 3)
+                                          });
+
+            Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(40));
+            Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
+            Assert.That(GetRoutedValue(fn, 3), Is.EqualTo(30));
+        }
 
 
     }
