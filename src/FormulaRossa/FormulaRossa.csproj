@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProjector.cs" />
-    <Compile Include="Pipeline.cs" />
+    <Compile Include="Pipe.cs" />
     <Compile Include="PipelineCompiler.cs" />
     <Compile Include="InjectedOperation.cs" />
     <Compile Include="InjectedRoutedOperation.cs" />

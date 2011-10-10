@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace FormulaRossa
 {
-    public delegate TOutput Pipeline<in TInput, out TOutput>(TInput input);
+    public delegate TOutput Pipe<in TInput, out TOutput>(TInput input);
 
-    public delegate TOutput Pipeline<in TNameType, in TInput, out TOutput>(TNameType name, TInput input);
+    public delegate TOutput Pipe<in TNameType, in TInput, out TOutput>(TNameType name, TInput input);
 
     public static class PipelineExtensions
     {
@@ -17,7 +17,7 @@ namespace FormulaRossa
         /// <param name="function"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static IEnumerable<TOutput> SelectMany<TInput, TOutput>(this Pipeline<TInput, TOutput> function,
+        public static IEnumerable<TOutput> SelectMany<TInput, TOutput>(this Pipe<TInput, TOutput> function,
                                                                  IEnumerable<TInput> values)
         {
             return from p in values
@@ -35,7 +35,7 @@ namespace FormulaRossa
         /// <param name="name"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-         public static IEnumerable<TOutput> SelectMany<TNameType, TInput, TOutput>(this Pipeline<TNameType, TInput, TOutput> function, TNameType name,
+         public static IEnumerable<TOutput> SelectMany<TNameType, TInput, TOutput>(this Pipe<TNameType, TInput, TOutput> function, TNameType name,
                                                                  IEnumerable<TInput> values)
         {
             return from p in values
