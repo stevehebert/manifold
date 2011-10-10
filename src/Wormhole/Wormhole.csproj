@@ -43,11 +43,14 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DependencyInjection\InjectedOperation.cs" />
     <Compile Include="DependencyInjection\IOperation.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="Functor.cs" />
+    <Compile Include="PipeAndFilter\IPipelineCreator.cs" />
     <Compile Include="PipeAndFilter\PipelineCompiler.cs" />
+    <Compile Include="PipeAndFilter\PipelineConfigurator.cs" />
     <Compile Include="Pipeline\Configuration\PipelineAggregator.cs" />
     <Compile Include="Pipeline\Configuration\PipelineDataResolver.cs" />
     <Compile Include="Pipeline\IPipelineCreator.cs" />
