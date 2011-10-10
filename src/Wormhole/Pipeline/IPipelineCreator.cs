@@ -1,5 +1,5 @@
-﻿using System;
-using Wormhole.DependencyInjection;
+﻿using Wormhole.DependencyInjection;
+
 using Wormhole.Pipeline.Configuration;
 
 namespace Wormhole.Pipeline

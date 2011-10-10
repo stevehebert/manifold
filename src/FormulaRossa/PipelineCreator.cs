@@ -17,6 +17,8 @@ namespace FormulaRossa
             throw new NotImplementedException();
         }
 
+
+
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name)
         {
             throw new NotImplementedException();
