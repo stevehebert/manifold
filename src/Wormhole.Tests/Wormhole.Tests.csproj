@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="ContinuationTests.cs" />
     <Compile Include="FunctorExtensionTests.cs" />
+    <Compile Include="PipeAndFilter\PipelineCompilerTests.cs" />
     <Compile Include="MultipipelineTests.cs" />
     <Compile Include="MultipleRegisrationTests.cs" />
     <Compile Include="NamedPipelineTests.cs" />

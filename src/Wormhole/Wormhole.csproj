@@ -43,9 +43,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DependencyInjection\IOperation.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="Functor.cs" />
+    <Compile Include="PipeAndFilter\PipelineCompiler.cs" />
     <Compile Include="Pipeline\Configuration\PipelineAggregator.cs" />
     <Compile Include="Pipeline\Configuration\PipelineDataResolver.cs" />
     <Compile Include="Pipeline\IPipelineCreator.cs" />
@@ -60,7 +62,10 @@
     <Compile Include="Pipeline\PipelineNotLocatedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Emitter\" />
+    <Folder Include="Router\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
