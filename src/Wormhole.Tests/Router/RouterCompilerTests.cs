@@ -1,6 +1,9 @@
 ﻿using System;
+using Moq;
 using NUnit.Framework;
 using Wormhole.DependencyInjection;
+using Wormhole.Exceptions;
+using Wormhole.PipeAndFilter;
 using Wormhole.Router;
 
 namespace Wormhole.Tests.Router
@@ -46,15 +49,23 @@ namespace Wormhole.Tests.Router
         [Test]
         public void routed_test_1()
         {
-            var compiler = new RouterCompiler();
+            // arrange
+            var mockDefinition = new Mock<IPipelineDefinition>();
+            mockDefinition.SetupGet(e => e.Operations).Returns(new[]
+                                                                   {
+                                                                       new RoutedOper(
+                                                                           (injector, input) => (int) input*100,
+                                                                           (injector, input) => (int) input == 4),
+                                                                       new Oper((injector, input) => (int) input*10)
+                                                                   });
+            mockDefinition.SetupGet(e => e.Closed).Returns(true);
 
-            var fn = compiler.Compile(new[]
-                                          {
-                                              new RoutedOper((injector, input) => (int) input*100,
-                                                             (injector, input) => (int) input == 4),
-                                              new Oper((injector, input) => (int) input*10)
-                                          });
+            var compiler = new RouterCompiler(mockDefinition.Object);
 
+            // act
+            var fn = compiler.Compile();
+
+            // assert
             Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(400));
             Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
         }
@@ -62,17 +73,26 @@ namespace Wormhole.Tests.Router
         [Test]
         public void multi_route_test()
         {
-            var compiler = new RouterCompiler();
+            // arrange
+            var mockDefinition = new Mock<IPipelineDefinition>();
+            mockDefinition.SetupGet(e => e.Operations).Returns(new[]
+                                                                   {
+                                                                       new RoutedOper(
+                                                                           (injector, input) => (int) input*100,
+                                                                           (injector, input) => (int) input == 4),
+                                                                       new RoutedOper(
+                                                                           (injector, input) => (int) input*1000,
+                                                                           (injector, input) => (int) input == 3),
+                                                                       new Oper((injector, input) => (int) input*10)
+                                                                   });
+            mockDefinition.SetupGet(e => e.Closed).Returns(true);
+            
+            var compiler = new RouterCompiler(mockDefinition.Object);
 
-            var fn = compiler.Compile(new[]
-                                          {
-                                              new RoutedOper((injector, input) => (int) input*100,
-                                                             (injector, input) => (int) input == 4),
-                                              new RoutedOper((injector, input) => (int) input*1000,
-                                                             (injector, input) => (int) input == 3),
-                                              new Oper((injector, input) => (int) input*10)
-                                          });
+            // act
+            var fn = compiler.Compile();
 
+            // assert
             Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(400));
             Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
             Assert.That(GetRoutedValue(fn, 3), Is.EqualTo(3000));
@@ -81,20 +101,40 @@ namespace Wormhole.Tests.Router
         [Test]
         public void short_circuit_on_default_test()
         {
-            var compiler = new RouterCompiler();
+            // arrange
+            var mockDefinition = new Mock<IPipelineDefinition>();
+            mockDefinition.SetupGet(e => e.Operations).Returns(new[]
+                                                                   {
+                                                                       new Oper((injector, input) => (int) input*10),
+                                                                       new RoutedOper(
+                                                                           (injector, input) => (int) input*100,
+                                                                           (injector, input) => (int) input == 4),
+                                                                       new RoutedOper(
+                                                                           (injector, input) => (int) input*1000,
+                                                                           (injector, input) => (int) input == 3)
+                                                                   });
+            mockDefinition.SetupGet(e => e.Closed).Returns(true);
+            var compiler = new RouterCompiler(mockDefinition.Object);
 
-            var fn = compiler.Compile(new[]
-                                          {
-                                              new Oper((injector, input) => (int) input*10),
-                                              new RoutedOper((injector, input) => (int) input*100,
-                                                             (injector, input) => (int) input == 4),
-                                              new RoutedOper((injector, input) => (int) input*1000,
-                                                             (injector, input) => (int) input == 3)
-                                          });
+            // act
+            var fn = compiler.Compile();
 
+            // assert
             Assert.That(GetRoutedValue(fn, 4), Is.EqualTo(40));
             Assert.That(GetRoutedValue(fn, 2), Is.EqualTo(20));
             Assert.That(GetRoutedValue(fn, 3), Is.EqualTo(30));
+        }
+
+        [Test]
+        public void verify_throws_on_unclosed_composition()
+        {
+            // arrange
+            var mockDefinition = new Mock<IPipelineDefinition>();
+            mockDefinition.SetupGet(e => e.Closed).Returns(false);
+            var compiler = new RouterCompiler(mockDefinition.Object);
+
+            // act & assert
+            Assert.Throws<MismatchedClosingTypeDeclarationException>( () =>  compiler.Compile());
         }
     }
 }
