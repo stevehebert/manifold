@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wormhole.Pipeline.Configuration;
+using Wormhole.Configuration;
 
 namespace Wormhole.DependencyInjection
 {

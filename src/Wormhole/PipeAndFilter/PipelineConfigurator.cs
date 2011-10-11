@@ -1,6 +1,6 @@
 using System;
+using Wormhole.Configuration;
 using Wormhole.Pipeline;
-using Wormhole.Pipeline.Configuration;
 
 namespace Wormhole.PipeAndFilter
 {

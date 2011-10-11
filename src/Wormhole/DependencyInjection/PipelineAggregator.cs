@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Wormhole.Configuration;
 using Wormhole.PipeAndFilter;
-using Wormhole.Pipeline.Configuration;
 using PipelineCompiler = Wormhole.PipeAndFilter.PipelineCompiler;
 
 

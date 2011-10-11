@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
 using Wormhole.Pipeline;
 
