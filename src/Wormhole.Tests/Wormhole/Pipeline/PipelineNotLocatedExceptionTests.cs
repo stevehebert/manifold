@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Wormhole.Configuration;
+using Wormhole.Exceptions;
 using Wormhole.Pipeline;
 
 namespace Wormhole.Tests.Wormhole.Pipeline

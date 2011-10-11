@@ -59,14 +59,14 @@
     <Compile Include="PipeAndFilter\PipelineDefinition.cs" />
     <Compile Include="IPipelineTask.cs" />
     <Compile Include="Configuration\DefaultPipeline.cs" />
-    <Compile Include="Configuration\MismatchedClosingTypeDeclarationException.cs" />
+    <Compile Include="Exceptions\MismatchedClosingTypeDeclarationException.cs" />
     <Compile Include="Configuration\PipelineKey.cs" />
-    <Compile Include="Configuration\PipelineNotLocatedException.cs" />
+    <Compile Include="Exceptions\PipelineNotLocatedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Router\RouterCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Emitter\" />
-    <Folder Include="Router\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

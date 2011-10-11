@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wormhole.Configuration
+namespace Wormhole.Exceptions
 {
     public class MismatchedClosingTypeDeclarationException : Exception 
     {

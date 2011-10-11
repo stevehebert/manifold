@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
+using Wormhole.Exceptions;
 using Wormhole.Pipeline;
 
 namespace Wormhole.PipeAndFilter
