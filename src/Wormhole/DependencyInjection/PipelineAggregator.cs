@@ -13,9 +13,15 @@ namespace Wormhole.DependencyInjection
 
     public class PipelineAggregator
     {
-        public IDictionary<PipelineKey, Func<IResolveTypes, object, object>> Compile()
+        public IDictionary<PipelineKey, Func<IResolveTypes, object, object>> Compile(IRegisterTypes typeRegistrar)
         {
-            return _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile());
+            foreach (var item in _registrationActions)
+                item(typeRegistrar);
+
+            var dictionary = _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile());
+            typeRegistrar.RegisterInstance(dictionary);
+
+            return dictionary;
         }
 
         private readonly IDictionary<PipelineKey, IPipeCompiler> _aggregatePipelines =
@@ -23,7 +29,7 @@ namespace Wormhole.DependencyInjection
 
         private readonly IList<Action<IRegisterTypes>> _registrationActions = new List<Action<IRegisterTypes>>();
 
-        public PipeAndFilter.PipelineConfigurator<TInput,TOutput> CreatePipeline<TType, TInput, TOutput>(TType name) where TType : class, IPipelineTask<TInput, TOutput>
+        public PipeAndFilter.PipelineConfigurator<TInput,TOutput> CreatePipeline<TType, TInput, TOutput>(TType name) 
         {
             var definition = new PipelineDefinition(_registrationActions);
 

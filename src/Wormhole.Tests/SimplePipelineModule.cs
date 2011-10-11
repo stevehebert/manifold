@@ -1,6 +1,6 @@
 ﻿using System;
 using Wormhole.Autofac;
-using Wormhole.Pipeline;
+using Wormhole.PipeAndFilter;
 
 namespace Wormhole.Tests
 {

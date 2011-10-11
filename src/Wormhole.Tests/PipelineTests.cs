@@ -21,7 +21,7 @@ namespace Wormhole.Tests
             builder.RegisterModule(module);
             var container = builder.Build();
 
-            var function = container.Resolve<Functor<IEnumerable<int>, IEnumerable<int>>>();
+            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
 
             var items = new[] {10, 20, 30};
 
@@ -47,7 +47,7 @@ namespace Wormhole.Tests
             builder.RegisterModule(module);
             var container = builder.Build();
 
-            var function = container.Resolve<Functor<IEnumerable<int>, IEnumerable<int>>>();
+            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
             var items = new[] { 10, 20, 30 };
 
             var resolvedItems = function(items);
@@ -71,7 +71,7 @@ namespace Wormhole.Tests
             builder.RegisterModule(module);
             var container = builder.Build();
 
-            var function = container.Resolve<Functor<IEnumerable<int>, IEnumerable<int>>>();
+            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
 
             var items = new[] { 10, 20, 30 };
 
@@ -95,7 +95,7 @@ namespace Wormhole.Tests
             builder.RegisterModule(module);
             var container = builder.Build();
 
-            var function = container.Resolve<Functor<IEnumerable<int>, IEnumerable<string>>>();
+            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
 
             var items = new[] { 10, 20, 30 };
 

@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Wormhole
 {
-    public delegate TOutput Functor<in TInput, out TOutput>(TInput input);
+    public delegate TOutput Pipe<in TInput, out TOutput>(TInput input);
 
-    public delegate TOutput Functor<in TNameType, in TInput, out TOutput>(TNameType name, TInput input);
+    public delegate TOutput Pipe<in TNameType, in TInput, out TOutput>(TNameType name, TInput input);
 
     public static class FunctorExtensions
     {
@@ -18,7 +18,7 @@ namespace Wormhole
         /// <param name="function">The function.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public static IEnumerable<TOutput> fmap<TInput, TOutput>(this Functor<TInput, TOutput> function, 
+        public static IEnumerable<TOutput> fmap<TInput, TOutput>(this Pipe<TInput, TOutput> function, 
                                                                  IEnumerable<TInput> values)
         {
             return from p in values
@@ -49,8 +49,8 @@ namespace Wormhole
         /// <param name="values">The values.</param>
         /// <returns></returns>
         /// 
-        /// Functor<string, Functor<int, model>>
-        public static IEnumerable<TOutput> fmap<TNameType, TInput, TOutput>(this Functor<TNameType, TInput, TOutput> function, TNameType name,
+        /// Pipe<string, Functor<int, model>>
+        public static IEnumerable<TOutput> fmap<TNameType, TInput, TOutput>(this Pipe<TNameType, TInput, TOutput> function, TNameType name,
                                                                  IEnumerable<TInput> values)
         {
             return from p in values

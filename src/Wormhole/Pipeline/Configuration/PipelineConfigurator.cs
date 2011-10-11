@@ -120,7 +120,7 @@ namespace Wormhole.Pipeline.Configuration
 
         public PipelineConfigurator<TInput, TOutput> Alternate<TType>()
         {
-            _builder.Add(a => a.Register<Functor<TType, TInput, TOutput>>(c =>
+            _builder.Add(a => a.Register<Pipe<TType, TInput, TOutput>>(c =>
             {
                 var item =
                     c.Resolve(typeof(NamedResolver<TInput, TOutput>)) as

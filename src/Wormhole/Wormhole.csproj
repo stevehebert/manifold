@@ -51,7 +51,7 @@
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="DependencyInjection\NamedResolutionOperation.cs" />
     <Compile Include="DependencyInjection\PipelineAggregator.cs" />
-    <Compile Include="Functor.cs" />
+    <Compile Include="Pipe.cs" />
     <Compile Include="PipeAndFilter\IPipeCompiler.cs" />
     <Compile Include="PipeAndFilter\IPipelineCreator.cs" />
     <Compile Include="PipeAndFilter\PipelineCompiler.cs" />

@@ -29,9 +29,9 @@ namespace Wormhole.Tests
 
             var ctx = builder.Build();
 
-            var value1 = ctx.Resolve<Functor<In, Out>>()(new In()).NewValue;
-            var value2 = ctx.Resolve<Functor<int, string>>()(10);
-            var value3 = ctx.Resolve<Functor<string, int, string>>()("foo", 10);
+            var value1 = ctx.Resolve<Pipe<In, Out>>()(new In()).NewValue;
+            var value2 = ctx.Resolve<Pipe<int, string>>()(10);
+            var value3 = ctx.Resolve<Pipe<string, int, string>>()("foo", 10);
 
             Assert.That(value1, Is.EqualTo(20));
             Assert.That(value2, Is.EqualTo("20"));

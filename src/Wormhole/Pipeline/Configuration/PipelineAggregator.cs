@@ -41,7 +41,7 @@ namespace Wormhole.Pipeline.Configuration
                                                  _pipelineDictionary[
                                                      pipelineKey];
 
-                                             a.Register<Functor<TInput, TOutput>>(
+                                             a.Register<Pipe<TInput, TOutput>>(
                                                  c => input => (TOutput)compiledFunction(new Tuple<IResolveTypes, object>(c, pipelineKey.Named), pipelineKey.Named,  input));
                                          });
 
@@ -58,7 +58,7 @@ namespace Wormhole.Pipeline.Configuration
 
             if (typeof(TNameType) != typeof(DefaultPipeline<TInput, TOutput>))
             {
-                _registrationActions.Add(a => a.Register<Functor<TNameType, TInput, TOutput>>(c =>
+                _registrationActions.Add(a => a.Register<Pipe<TNameType, TInput, TOutput>>(c =>
                                             {
                                                 var item =
                                                     c.Resolve(typeof(NamedResolver<TInput, TOutput>)) as
