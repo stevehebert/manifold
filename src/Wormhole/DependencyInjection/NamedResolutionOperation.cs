@@ -27,7 +27,7 @@ namespace Wormhole.DependencyInjection
                                             where p.ContainsKey(key)
                                             select p).FirstOrDefault();
 
-                           return targetSet[key];
+                           return targetSet[key](resolver, o);
                        };
         }
     }

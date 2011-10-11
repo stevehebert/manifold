@@ -15,12 +15,7 @@ namespace Wormhole.PipeAndFilter
 
         public Func<IResolveTypes, object, object> Compile()
         {
-            return Compile(_pipelineDefinition.Operations);
-        }
-
-        public Func<IResolveTypes, object, object> Compile(IEnumerable<IOperation> operations)
-        {
-            return Compile(new Queue<IOperation>(operations));
+            return Compile(new Queue<IOperation>(_pipelineDefinition.Operations));
         }
 
         public Func<IResolveTypes, object, object> Compile(Queue<IOperation> operations)

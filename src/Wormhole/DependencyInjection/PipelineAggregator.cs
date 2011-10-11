@@ -11,8 +11,8 @@ namespace Wormhole.DependencyInjection
     public interface IPipelineAggregator
     {
         IDictionary<PipelineKey, Func<IResolveTypes, object, object>> Compile(IRegisterTypes typeRegistrar);
-        PipeAndFilter.PipelineConfigurator<TInput, TOutput> CreatePipeline<TType, TInput, TOutput>(TType name);
-        PipeAndFilter.PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>();
+        PipelineConfigurator<TInput, TOutput> CreatePipeline<TType, TInput, TOutput>(TType name);
+        PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>();
     }
 
     public class PipelineAggregator<TResolver> : IPipelineAggregator where TResolver : IResolveTypes
@@ -23,7 +23,7 @@ namespace Wormhole.DependencyInjection
         }
         public IDictionary<PipelineKey, Func<IResolveTypes, object, object>> Compile(IRegisterTypes typeRegistrar)
         {
-            var dictionary = _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile());
+            var dictionary = _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile()) as IDictionary<PipelineKey, Func<IResolveTypes, object, object>>;
             typeRegistrar.RegisterInstance(dictionary);
 
             foreach (var item in _registrationActions)
@@ -39,7 +39,7 @@ namespace Wormhole.DependencyInjection
 
 
 
-        public PipeAndFilter.PipelineConfigurator<TInput,TOutput> CreatePipeline<TType, TInput, TOutput>(TType name) 
+        public PipelineConfigurator<TInput,TOutput> CreatePipeline<TType, TInput, TOutput>(TType name) 
         {
             var definition = new PipelineDefinition(_registrationActions);
 
@@ -51,10 +51,10 @@ namespace Wormhole.DependencyInjection
                                         }, new PipelineCompiler(definition));
 
 
-            return new PipeAndFilter.PipelineConfigurator<TInput, TOutput>(definition);
+            return new PipelineConfigurator<TInput, TOutput>(definition);
         }
 
-        public PipeAndFilter.PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>() 
+        public PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>() 
         {
             var definition = new PipelineDefinition(_registrationActions);
             var compiler = new PipelineCompiler(definition);
@@ -67,12 +67,22 @@ namespace Wormhole.DependencyInjection
             }, compiler);
 
             _registrationActions.Add(a => a.Register<Pipe<TInput, TOutput>>(ctx =>
-                                                                            input => (TOutput) compiler.Compile()(ctx, input)));
+                                                                                {
+                                                                                    var compiledFunction =
+                                                                                        compiler.Compile();
 
+                                                                                    return
+                                                                                        input =>
+                                                                                            {
+                                                                                                var output =
+                                                                                                    compiledFunction(
+                                                                                                        ctx, input);
+                                                                                                return (TOutput) output;
+                                                                                            };
+                                                                                }
+                                              ));
 
-            
-
-            return new PipeAndFilter.PipelineConfigurator<TInput, TOutput>(definition);
+            return new PipelineConfigurator<TInput, TOutput>(definition);
         }
 
     }
