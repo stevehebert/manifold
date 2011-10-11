@@ -1,7 +1,7 @@
 using System;
 using Wormhole.DependencyInjection;
 
-namespace Wormhole.PipeAndFilter
+namespace Wormhole.Configuration
 {
     public interface IPipeCompiler
     {

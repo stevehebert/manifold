@@ -52,7 +52,7 @@
     <Compile Include="DependencyInjection\NamedResolutionOperation.cs" />
     <Compile Include="DependencyInjection\PipelineAggregator.cs" />
     <Compile Include="Pipe.cs" />
-    <Compile Include="PipeAndFilter\IPipeCompiler.cs" />
+    <Compile Include="Configuration\IPipeCompiler.cs" />
     <Compile Include="PipeAndFilter\IPipelineCreator.cs" />
     <Compile Include="PipeAndFilter\PipelineCompiler.cs" />
     <Compile Include="PipeAndFilter\PipelineConfigurator.cs" />
