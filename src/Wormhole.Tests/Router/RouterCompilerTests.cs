@@ -21,7 +21,7 @@ namespace Wormhole.Tests.Router
             {
                 _func = func;
             }
-            public Func<IResolveTypes, object, object> GetClosure()
+            public Func<IResolveTypes, object, object> GetExecutor()
             {
                 return _func;
             }

@@ -11,7 +11,7 @@ namespace Wormhole.Configuration.Operations
         {
             _function = function;
         }
-        public Func<IResolveTypes, object, object> GetClosure()
+        public Func<IResolveTypes, object, object> GetExecutor()
         {
             return (injector, o) => _function( (TInput) o);
         }

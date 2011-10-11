@@ -1,5 +1,6 @@
 using System;
 using Wormhole.Configuration;
+using Wormhole.Router;
 
 namespace Wormhole.PipeAndFilter
 {
@@ -107,6 +108,16 @@ namespace Wormhole.PipeAndFilter
         {
             _pipeDefinition.AddNamedContinuation<TInput, TOutput, TNameType>(name, true);
             return new PipelineConfigurator<TOutput, TOutput>(_pipeDefinition);
+        }
+
+        public PipelineRouterConfigurator<TInput, TOutput, TOutput> CreateRouter()
+        {
+            return new PipelineRouterConfigurator<TInput, TOutput, TOutput>(_pipeDefinition);
+        }
+
+        public PipelineRouterConfigurator<TInput, TOutputType, TOutput> CreateRouter<TOutputType>()
+        {
+            return new PipelineRouterConfigurator<TInput, TOutputType, TOutput>(_pipeDefinition);
         }
     }
 }

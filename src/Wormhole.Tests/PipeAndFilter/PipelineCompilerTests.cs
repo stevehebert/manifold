@@ -19,7 +19,7 @@ namespace Wormhole.Tests.PipeAndFilter
             {
                 _func = func;
             }
-            public Func<IResolveTypes, object, object> GetClosure()
+            public Func<IResolveTypes, object, object> GetExecutor()
             {
                 return _func;
             }

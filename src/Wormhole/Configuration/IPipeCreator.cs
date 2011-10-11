@@ -7,6 +7,7 @@ namespace Wormhole.Configuration
     {
         PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>();
         PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name);
+
         void Compile(IRegisterTypes typeRegistrar);
     }
 }

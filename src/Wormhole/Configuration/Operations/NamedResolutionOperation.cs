@@ -15,7 +15,7 @@ namespace Wormhole.Configuration.Operations
         }
 
 
-        public Func<IResolveTypes, object, object> GetClosure()
+        public Func<IResolveTypes, object, object> GetExecutor()
         {
             return GetNamedClosure(_name);
         }

@@ -5,7 +5,7 @@ namespace Wormhole.Configuration.Operations
 {
     public class InjectedOperation<TType, TInput, TOutput> : IOperation where TType : IPipelineTask<TInput, TOutput>
     {
-        public Func<IResolveTypes, object, object> GetClosure()
+        public Func<IResolveTypes, object, object> GetExecutor()
         {
             return (injector, o) =>
             {

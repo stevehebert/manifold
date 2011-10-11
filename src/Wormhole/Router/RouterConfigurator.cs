@@ -1,20 +1,8 @@
-﻿using Wormhole.Configuration;
-using Wormhole.PipeAndFilter;
+﻿using System;
+using Wormhole.Configuration;
 
 namespace Wormhole.Router
 {
-    public class PipelineRouterConfigurator<TInput, TOutputType, TOutput> : RouterConfigurator<TInput, TOutputType>
-    {
-        public PipelineRouterConfigurator(PipeDefinition pipeDefinition) : base (pipeDefinition)
-        {}
-
-        public new PipelineConfigurator<TOutputType, TOutput> Default<TType>() where TType : class, IPipelineTask<TInput, TOutputType>
-        {
-            PipeDefinition.AddInjectedOperation<TType, TInput, TOutputType>(true);
-            return new PipelineConfigurator<TOutputType, TOutput>(PipeDefinition);
-        }
-    }
-
     public class RouterConfigurator<TInput, TOutput>
     {
         protected readonly PipeDefinition PipeDefinition;
@@ -24,7 +12,7 @@ namespace Wormhole.Router
             PipeDefinition = pipeDefinition;
         }
 
-        public RouterConfigurator<TInput, TOutput> BindConditional<TType>() where TType : class, IRoutedPipelineTask<TInput, TOutput>
+        public RouterConfigurator<TInput, TOutput> BindConditional<TType>() where TType : class, IRoutingPipelineTask<TInput, TOutput>
         {
             PipeDefinition.AddInjectedRouteOperation<TType, TInput, TOutput>();
             return this;
@@ -33,6 +21,17 @@ namespace Wormhole.Router
         public void Default<TType>() where TType : class, IPipelineTask<TInput, TOutput>
         {
             PipeDefinition.AddInjectedOperation<TType, TInput, TOutput>(true);
+        }
+
+        public RouterConfigurator<TInput, TOutput> BindConditional(Func<TInput, bool> canProcessFunction, Func<TInput,TOutput> processFunction   )
+        {
+            PipeDefinition.AddRouteFunctionOperation<TInput, TOutput>(canProcessFunction, processFunction, true);
+            return this;
+        } 
+        
+        public void Default(Func<TInput, TOutput> function)
+        {
+            PipeDefinition.AddFunctionOperation(function, true);
         }
     }
 }

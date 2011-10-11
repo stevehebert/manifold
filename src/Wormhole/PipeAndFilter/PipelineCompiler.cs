@@ -26,11 +26,11 @@ namespace Wormhole.PipeAndFilter
 
         public Func<IResolveTypes, object, object> Compile(Queue<IOperation> operations)
         {
-            var functionDefinition = operations.Dequeue().GetClosure();
+            var functionDefinition = operations.Dequeue().GetExecutor();
             while (operations.Count > 0)
             {
                 var localFn = functionDefinition;
-                var fn = operations.Dequeue().GetClosure();
+                var fn = operations.Dequeue().GetExecutor();
 
                 functionDefinition = (a, b) => fn(a, localFn(a, b));
             }

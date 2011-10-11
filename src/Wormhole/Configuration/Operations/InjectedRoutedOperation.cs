@@ -3,9 +3,9 @@ using Wormhole.DependencyInjection;
 
 namespace Wormhole.Configuration.Operations
 {
-    public class InjectedRoutedOperation<TType, TInput, TOutput> : IRoutedOperation where TType : class, IRoutedPipelineTask<TInput, TOutput>
+    public class InjectedRoutedOperation<TType, TInput, TOutput> : IRoutedOperation where TType : class, IRoutingPipelineTask<TInput, TOutput>
     {
-        public Func<IResolveTypes, object, object> GetClosure()
+        public Func<IResolveTypes, object, object> GetExecutor()
         {
             return (injector, o) =>
                        {

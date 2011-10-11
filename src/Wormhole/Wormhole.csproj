@@ -43,17 +43,19 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\Operations\RoutingFunctionOperation.cs" />
     <Compile Include="Configuration\PipeCreator.cs" />
     <Compile Include="Configuration\Operations\CustomInjectedOperation.cs" />
     <Compile Include="Configuration\Operations\FunctionOperation.cs" />
     <Compile Include="Configuration\Operations\InjectedOperation.cs" />
     <Compile Include="Configuration\Operations\InjectedRoutedOperation.cs" />
     <Compile Include="Configuration\Operations\IOperation.cs" />
+    <Compile Include="DependencyInjection\IPipelineAggregator.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="Configuration\Operations\NamedResolutionOperation.cs" />
     <Compile Include="DependencyInjection\PipelineAggregator.cs" />
-    <Compile Include="IRoutedPipelineTask.cs" />
+    <Compile Include="IRoutingPipelineTask.cs" />
     <Compile Include="Pipe.cs" />
     <Compile Include="Configuration\IPipeCompiler.cs" />
     <Compile Include="Configuration\IPipeCreator.cs" />
@@ -66,6 +68,8 @@
     <Compile Include="Configuration\PipelineKey.cs" />
     <Compile Include="Exceptions\PipelineNotLocatedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Router\Operators\RouterOperation.cs" />
+    <Compile Include="Router\PipelineRouterConfigurator.cs" />
     <Compile Include="Router\RouterCompiler.cs" />
     <Compile Include="Router\RouterConfigurator.cs" />
   </ItemGroup>

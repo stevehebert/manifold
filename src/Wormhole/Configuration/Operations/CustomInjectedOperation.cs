@@ -27,7 +27,7 @@ namespace Wormhole.Configuration.Operations
         /// Gets the execution closure to be built into the pipeline.
         /// </summary>
         /// <returns>a closure to be used in the execution sequence</returns>
-        public Func<IResolveTypes, object, object> GetClosure()
+        public Func<IResolveTypes, object, object> GetExecutor()
         {
             return (injector, o) =>
                        {
