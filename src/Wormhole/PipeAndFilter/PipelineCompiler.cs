@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wormhole.DependencyInjection;
 
 namespace Wormhole.PipeAndFilter
 {
-    public class PipelineCompiler
+    public class PipelineCompiler : IPipeCompiler
     {
+        private readonly IPipelineDefinition _pipelineDefinition;
+ 
+        public PipelineCompiler(IPipelineDefinition pipelineDefinition)
+        {
+            _pipelineDefinition = pipelineDefinition;
+        }
+
+        public Func<IResolveTypes, object, object> Compile()
+        {
+            return Compile(_pipelineDefinition.Operations);
+        }
+
         public Func<IResolveTypes, object, object> Compile(IEnumerable<IOperation> operations)
         {
             return Compile(new Queue<IOperation>(operations));

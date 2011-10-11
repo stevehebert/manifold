@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 using Wormhole.DependencyInjection;
 using Wormhole.PipeAndFilter;
@@ -25,11 +26,15 @@ namespace Wormhole.Tests.PipeAndFilter
         [Test]
         public void execute_ordered_test()
         {
-            var item = new PipelineCompiler();
-
+            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
             var oper = new Oper((a, o) => (int)o * 2);
 
-            var f = item.Compile(new Queue<IOperation>(new[] { oper }));
+            mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] {oper});
+            
+            var item = new PipelineCompiler(mockPipelineDefinition.Object);
+
+
+            var f = item.Compile();
 
             Assert.That(f(null, 5), Is.EqualTo(10));
         }
@@ -37,17 +42,27 @@ namespace Wormhole.Tests.PipeAndFilter
         [Test]
         public void execute_ordered_test2()
         {
-            var item = new PipelineCompiler();
+            // arrange
+            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] {new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2) });
+            var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
+            // act
             var f = item.Compile(new Queue<IOperation>(new[] { new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2) }));
 
+            // assert
             Assert.That(f(null, 5), Is.EqualTo(18));
         }
 
         [Test]
         public void execute_ordered_test3()
         {
-            var item = new PipelineCompiler();
+
+            // arrange
+            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2) });
+            var item = new PipelineCompiler(mockPipelineDefinition.Object);
+
 
             var f = item.Compile(new Queue<IOperation>(new[] { new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o / 3) }));
 
@@ -57,20 +72,30 @@ namespace Wormhole.Tests.PipeAndFilter
         [Test]
         public void execute_reverse_ordered_test3()
         {
-            var item = new PipelineCompiler();
+            // arrange
+            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
+            var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
-            var f = item.Compile(new Queue<IOperation>(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) }));
+            // act
+            var f = item.Compile();
 
+            // assert
             Assert.That(f(null, 12), Is.EqualTo(8));
         }
 
         [Test]
         public void execute_reverse_ordered_test4()
         {
-            var item = new PipelineCompiler();
+            // arrange
+            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
+            var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
-            var f = item.Compile(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
+            // act
+            var f = item.Compile();
 
+            // assert
             Assert.That(f(null, 12), Is.EqualTo(8));
         }
 

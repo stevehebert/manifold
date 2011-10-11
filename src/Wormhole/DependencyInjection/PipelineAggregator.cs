@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wormhole.PipeAndFilter;
 using Wormhole.Pipeline;
 using Wormhole.Pipeline.Configuration;
+using PipelineCompiler = Wormhole.PipeAndFilter.PipelineCompiler;
 
 
 namespace Wormhole.DependencyInjection
 {
+
+
     public class PipelineAggregator
     {
-        private readonly IDictionary<PipelineKey, PipelineDefinition> _aggregatePipelines =
-            new Dictionary<PipelineKey, PipelineDefinition>();
+        public IDictionary<PipelineKey, Func<IResolveTypes, object, object>> Compile()
+        {
+            return _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile());
+        }
+
+        private readonly IDictionary<PipelineKey, IPipeCompiler> _aggregatePipelines =
+            new Dictionary<PipelineKey, IPipeCompiler>();
 
         private readonly IList<Action<IRegisterTypes>> _registrationActions = new List<Action<IRegisterTypes>>();
 
@@ -23,7 +32,7 @@ namespace Wormhole.DependencyInjection
                                             Input = typeof (TInput),
                                             Output = typeof (TOutput),
                                             Named = name
-                                        }, definition);
+                                        }, new PipelineCompiler(definition));
 
             return new PipeAndFilter.PipelineConfigurator<TInput, TOutput>(definition);
         }
@@ -37,7 +46,7 @@ namespace Wormhole.DependencyInjection
                 Input = typeof(TInput),
                 Output = typeof(TOutput),
                 Named = new DefaultPipeline<TInput, TOutput>()
-            }, definition);
+            }, new PipelineCompiler(definition));
 
             return new PipeAndFilter.PipelineConfigurator<TInput, TOutput>(definition);
         }

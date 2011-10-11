@@ -5,7 +5,12 @@ using Wormhole.Pipeline;
 
 namespace Wormhole.PipeAndFilter
 {
-    public class PipelineDefinition
+    public interface IPipelineDefinition
+    {
+        IEnumerable<IOperation> Operations { get; }
+    }
+
+    public class PipelineDefinition : IPipelineDefinition
     {
         public IEnumerable<IOperation> Operations {get { return _operations; }}
 
@@ -28,5 +33,15 @@ namespace Wormhole.PipeAndFilter
             _operations.Add(new FunctionOperation<TInput,TOutput>(function));
         }
 
+        public void AddCustomInjectedOperations<TType, TInput, TOutput>(Func<TType, TInput, TOutput >  function) where TType : class
+        {
+            _operations.Add(new CustomInjectedOperation<TType, TInput, TOutput>(function));
+            _registrationActions.Add(ctx => ctx.RegisterType<TType>());
+        }
+
+        public void AddNamedContinuation<TInput, TOutput, TNameType>(TNameType name)
+        {
+            _operations.Add(new NamedResolutionOperation<TInput, TOutput, TNameType>(name));
+        }
     }
 }
