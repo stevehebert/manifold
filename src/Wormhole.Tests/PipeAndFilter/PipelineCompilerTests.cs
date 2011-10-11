@@ -28,6 +28,7 @@ namespace Wormhole.Tests.PipeAndFilter
         {
             var mockPipelineDefinition = new Mock<IPipelineDefinition>();
             var oper = new Oper((a, o) => (int)o * 2);
+            mockPipelineDefinition.SetupGet(e => e.Closed).Returns(true);
 
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] {oper});
             
@@ -74,6 +75,7 @@ namespace Wormhole.Tests.PipeAndFilter
         {
             // arrange
             var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            mockPipelineDefinition.SetupGet(e => e.Closed).Returns(true);
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
             var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
@@ -90,6 +92,7 @@ namespace Wormhole.Tests.PipeAndFilter
             // arrange
             var mockPipelineDefinition = new Mock<IPipelineDefinition>();
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
+            mockPipelineDefinition.SetupGet(e => e.Closed).Returns(true);
             var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
             // act

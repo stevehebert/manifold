@@ -30,7 +30,7 @@ namespace Wormhole.Tests.PipeAndFilter
             var item = new PipelineDefinition(list);
 
             // act
-            item.AddInjectedOperation<TestClass, int, string>();
+            item.AddInjectedOperation<TestClass, int, string>(true);
 
             // assert
             Assert.That(item.Operations.Count(), Is.EqualTo(1));
@@ -52,7 +52,7 @@ namespace Wormhole.Tests.PipeAndFilter
             var item = new PipelineDefinition(list);
 
             // act
-            item.AddFunctionOperation<int, string>(i => i.ToString());
+            item.AddFunctionOperation<int, string>(i => i.ToString(), true);
 
             // assert
             Assert.That(item.Operations.Count(), Is.EqualTo(1));

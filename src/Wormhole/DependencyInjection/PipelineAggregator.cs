@@ -50,7 +50,19 @@ namespace Wormhole.DependencyInjection
                                             Named = name
                                         }, new PipelineCompiler(definition));
 
+            _registrationActions.Add(a => a.Register<Pipe<TType, TInput, TOutput>>(ctx =>
+                                                                                        {
+                                                                                            var op =
+                                                                                                new NamedResolutionOperation
+                                                                                                    <TInput,
+                                                                                                        TOutput, TType>(name);
+                                                                                            return
+                                                                                                (type, input) =>
+                                                                                                (TOutput)
+                                                                                                op.GetNamedClosure(type)(ctx,
+                                                                                                                input);
 
+                                                                                        }));
             return new PipelineConfigurator<TInput, TOutput>(definition);
         }
 

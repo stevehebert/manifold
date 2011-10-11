@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wormhole.DependencyInjection;
+using Wormhole.Pipeline;
 
 namespace Wormhole.PipeAndFilter
 {
@@ -15,6 +16,9 @@ namespace Wormhole.PipeAndFilter
 
         public Func<IResolveTypes, object, object> Compile()
         {
+            if (!_pipelineDefinition.Closed)
+                throw new MismatchedClosingTypeDeclarationException();
+
             return Compile(new Queue<IOperation>(_pipelineDefinition.Operations));
         }
 

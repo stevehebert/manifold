@@ -1,5 +1,4 @@
 ﻿using Wormhole.DependencyInjection;
-using Wormhole.Pipeline;
 
 namespace Wormhole.PipeAndFilter
 {
