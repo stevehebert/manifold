@@ -12,7 +12,7 @@ namespace Wormhole.Autofac
 
         public PipelineModule() : base ()
         {
-            _pipelineCreator = new PipelineCreator(new PipelineAggregator());
+            _pipelineCreator = new PipelineCreator(new PipelineAggregator<AutofacTypeResolver>());
         }
 
         /// <summary>

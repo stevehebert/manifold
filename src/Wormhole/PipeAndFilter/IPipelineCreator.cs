@@ -13,9 +13,9 @@ namespace Wormhole.PipeAndFilter
 
     public class PipelineCreator : IPipelineCreator
     {
-        private readonly PipelineAggregator _pipelineAggregator;
+        private readonly IPipelineAggregator _pipelineAggregator;
 
-        public PipelineCreator(PipelineAggregator pipelineAggregator)
+        public PipelineCreator(IPipelineAggregator pipelineAggregator)
         {
             _pipelineAggregator = pipelineAggregator;
         }

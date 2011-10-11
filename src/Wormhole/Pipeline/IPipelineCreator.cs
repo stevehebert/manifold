@@ -1,10 +1,10 @@
 ﻿using Wormhole.DependencyInjection;
+using Wormhole.PipeAndFilter;
 
-using Wormhole.Pipeline.Configuration;
 
 namespace Wormhole.Pipeline
 {
-    public interface IPipelineCreator
+    /*public interface IPipelineCreator
     {
         PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>();
 
@@ -13,7 +13,7 @@ namespace Wormhole.Pipeline
 
     public class PipelineCreator<TResolver> : IPipelineCreator where TResolver : IResolveTypes
     {
-        private readonly PipelineAggregator<TResolver> _pipelineAggregator = new PipelineAggregator<TResolver>();
+        private readonly IPipelineAggregator _pipelineAggregator = new PipelineAggregator<TResolver>();
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()
         {
@@ -29,5 +29,5 @@ namespace Wormhole.Pipeline
         {
             _pipelineAggregator.PerformRegistration(registrar);
         }
-    }
+    }*/
 }

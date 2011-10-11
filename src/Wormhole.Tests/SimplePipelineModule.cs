@@ -6,7 +6,7 @@ namespace Wormhole.Tests
 {
     public class SimplePipelineModule : PipelineModule
     {
-        private Action<IPipelineCreator> _pipelineCreator;
+        private readonly Action<IPipelineCreator> _pipelineCreator;
 
         public SimplePipelineModule(Action<IPipelineCreator> pipelineCreator)
         {
