@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
 using Wormhole.PipeAndFilter;
 
@@ -26,7 +27,7 @@ namespace Wormhole.Tests.PipeAndFilter
         [Test]
         public void execute_ordered_test()
         {
-            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            var mockPipelineDefinition = new Mock<IPipeDefinition>();
             var oper = new Oper((a, o) => (int)o * 2);
             mockPipelineDefinition.SetupGet(e => e.Closed).Returns(true);
 
@@ -44,7 +45,7 @@ namespace Wormhole.Tests.PipeAndFilter
         public void execute_ordered_test2()
         {
             // arrange
-            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            var mockPipelineDefinition = new Mock<IPipeDefinition>();
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] {new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2) });
             var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
@@ -60,7 +61,7 @@ namespace Wormhole.Tests.PipeAndFilter
         {
 
             // arrange
-            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            var mockPipelineDefinition = new Mock<IPipeDefinition>();
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o * 4), new Oper((a, o) => (int)o - 2) });
             var item = new PipelineCompiler(mockPipelineDefinition.Object);
 
@@ -74,7 +75,7 @@ namespace Wormhole.Tests.PipeAndFilter
         public void execute_reverse_ordered_test3()
         {
             // arrange
-            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            var mockPipelineDefinition = new Mock<IPipeDefinition>();
             mockPipelineDefinition.SetupGet(e => e.Closed).Returns(true);
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
             var item = new PipelineCompiler(mockPipelineDefinition.Object);
@@ -90,7 +91,7 @@ namespace Wormhole.Tests.PipeAndFilter
         public void execute_reverse_ordered_test4()
         {
             // arrange
-            var mockPipelineDefinition = new Mock<IPipelineDefinition>();
+            var mockPipelineDefinition = new Mock<IPipeDefinition>();
             mockPipelineDefinition.SetupGet(e => e.Operations).Returns(new[] { new Oper((a, o) => (int)o / 3), new Oper((a, o) => (int)o - 2), new Oper((a, o) => (int)o * 4) });
             mockPipelineDefinition.SetupGet(e => e.Closed).Returns(true);
             var item = new PipelineCompiler(mockPipelineDefinition.Object);

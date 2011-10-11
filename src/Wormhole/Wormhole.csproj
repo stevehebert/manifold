@@ -46,17 +46,19 @@
     <Compile Include="DependencyInjection\CustomInjectedOperation.cs" />
     <Compile Include="DependencyInjection\FunctionOperation.cs" />
     <Compile Include="DependencyInjection\InjectedOperation.cs" />
+    <Compile Include="DependencyInjection\InjectedRoutedOperation.cs" />
     <Compile Include="DependencyInjection\IOperation.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IResolveTypes.cs" />
     <Compile Include="DependencyInjection\NamedResolutionOperation.cs" />
     <Compile Include="DependencyInjection\PipelineAggregator.cs" />
+    <Compile Include="IRoutedPipelineTask.cs" />
     <Compile Include="Pipe.cs" />
     <Compile Include="Configuration\IPipeCompiler.cs" />
     <Compile Include="PipeAndFilter\IPipelineCreator.cs" />
     <Compile Include="PipeAndFilter\PipelineCompiler.cs" />
     <Compile Include="PipeAndFilter\PipelineConfigurator.cs" />
-    <Compile Include="PipeAndFilter\PipelineDefinition.cs" />
+    <Compile Include="Configuration\PipeDefinition.cs" />
     <Compile Include="IPipelineTask.cs" />
     <Compile Include="Configuration\DefaultPipeline.cs" />
     <Compile Include="Exceptions\MismatchedClosingTypeDeclarationException.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Exceptions\PipelineNotLocatedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Router\RouterCompiler.cs" />
+    <Compile Include="Router\RouterConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Emitter\" />

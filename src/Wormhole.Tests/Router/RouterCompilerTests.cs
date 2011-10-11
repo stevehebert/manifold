@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
 using Wormhole.Exceptions;
 using Wormhole.PipeAndFilter;
@@ -50,7 +51,7 @@ namespace Wormhole.Tests.Router
         public void routed_test_1()
         {
             // arrange
-            var mockDefinition = new Mock<IPipelineDefinition>();
+            var mockDefinition = new Mock<IPipeDefinition>();
             mockDefinition.SetupGet(e => e.Operations).Returns(new[]
                                                                    {
                                                                        new RoutedOper(
@@ -74,7 +75,7 @@ namespace Wormhole.Tests.Router
         public void multi_route_test()
         {
             // arrange
-            var mockDefinition = new Mock<IPipelineDefinition>();
+            var mockDefinition = new Mock<IPipeDefinition>();
             mockDefinition.SetupGet(e => e.Operations).Returns(new[]
                                                                    {
                                                                        new RoutedOper(
@@ -102,7 +103,7 @@ namespace Wormhole.Tests.Router
         public void short_circuit_on_default_test()
         {
             // arrange
-            var mockDefinition = new Mock<IPipelineDefinition>();
+            var mockDefinition = new Mock<IPipeDefinition>();
             mockDefinition.SetupGet(e => e.Operations).Returns(new[]
                                                                    {
                                                                        new Oper((injector, input) => (int) input*10),
@@ -129,7 +130,7 @@ namespace Wormhole.Tests.Router
         public void verify_throws_on_unclosed_composition()
         {
             // arrange
-            var mockDefinition = new Mock<IPipelineDefinition>();
+            var mockDefinition = new Mock<IPipeDefinition>();
             mockDefinition.SetupGet(e => e.Closed).Returns(false);
             var compiler = new RouterCompiler(mockDefinition.Object);
 

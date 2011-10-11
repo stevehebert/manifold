@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wormhole.DependencyInjection;
-using Wormhole.Pipeline;
 
-namespace Wormhole.PipeAndFilter
+namespace Wormhole.Configuration
 {
-    public interface IPipelineDefinition
+    public interface IPipeDefinition
     {
         bool Closed { get;  }
         IEnumerable<IOperation> Operations { get; }
     }
 
-    public class PipelineDefinition : IPipelineDefinition
+    public class PipeDefinition : IPipeDefinition
     {
         public bool Closed { get; private set; }
         public IEnumerable<IOperation> Operations {get { return _operations; }}
@@ -19,7 +18,7 @@ namespace Wormhole.PipeAndFilter
         private readonly IList<IOperation> _operations = new List<IOperation>();
         private readonly IList<Action<IRegisterTypes>> _registrationActions;
 
-        public PipelineDefinition(IList<Action<IRegisterTypes>> registrationActions )
+        public PipeDefinition(IList<Action<IRegisterTypes>> registrationActions )
         {
             Closed = false;
             _registrationActions = registrationActions;
@@ -49,6 +48,12 @@ namespace Wormhole.PipeAndFilter
         {
             Closed = closed;
             _operations.Add(new NamedResolutionOperation<TInput, TOutput, TNameType>(name));
+        }
+
+        public void AddInjectedRouteOperation<TType, TInput, TOutput>() where TType : class, IRoutedPipelineTask<TInput, TOutput>
+        {
+            Closed = false;
+            _operations.Add(new InjectedRoutedOperation<TType, TInput, TOutput>());
         }
     }
 }

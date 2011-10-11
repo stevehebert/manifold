@@ -41,7 +41,7 @@ namespace Wormhole.DependencyInjection
 
         public PipelineConfigurator<TInput,TOutput> CreatePipeline<TType, TInput, TOutput>(TType name) 
         {
-            var definition = new PipelineDefinition(_registrationActions);
+            var definition = new PipeDefinition(_registrationActions);
 
             _aggregatePipelines.Add(new PipelineKey
                                         {
@@ -68,7 +68,7 @@ namespace Wormhole.DependencyInjection
 
         public PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>() 
         {
-            var definition = new PipelineDefinition(_registrationActions);
+            var definition = new PipeDefinition(_registrationActions);
             var compiler = new PipelineCompiler(definition);
 
             _aggregatePipelines.Add(new PipelineKey

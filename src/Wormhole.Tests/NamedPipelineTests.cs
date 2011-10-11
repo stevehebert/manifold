@@ -1,7 +1,6 @@
 ﻿using System;
 using Autofac;
 using NUnit.Framework;
-using Wormhole.Pipeline;
 
 namespace Wormhole.Tests
 {

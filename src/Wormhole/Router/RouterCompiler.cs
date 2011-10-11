@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
 using Wormhole.Exceptions;
-using Wormhole.PipeAndFilter;
 
 namespace Wormhole.Router
 {
     public class RouterCompiler : IPipeCompiler 
     {
-        private readonly IPipelineDefinition _pipelineDefinition;
+        private readonly IPipeDefinition _pipeDefinition;
 
-        public RouterCompiler(IPipelineDefinition pipelineDefinition)
+        public RouterCompiler(IPipeDefinition pipeDefinition)
         {
-            _pipelineDefinition = pipelineDefinition;
+            _pipeDefinition = pipeDefinition;
         }
 
         public Func<IResolveTypes, object, object> Compile(IEnumerable<IOperation> operations)
@@ -37,10 +36,10 @@ namespace Wormhole.Router
 
         public Func<IResolveTypes, object, object> Compile()
         {
-            if (!_pipelineDefinition.Closed)
+            if (!_pipeDefinition.Closed)
                 throw new MismatchedClosingTypeDeclarationException();
 
-            return Compile(_pipelineDefinition.Operations);
+            return Compile(_pipeDefinition.Operations);
         }
     }
 }

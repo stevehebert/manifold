@@ -8,19 +8,19 @@ namespace Wormhole.PipeAndFilter
 {
     public class PipelineCompiler : IPipeCompiler
     {
-        private readonly IPipelineDefinition _pipelineDefinition;
+        private readonly IPipeDefinition _pipeDefinition;
  
-        public PipelineCompiler(IPipelineDefinition pipelineDefinition)
+        public PipelineCompiler(IPipeDefinition pipeDefinition)
         {
-            _pipelineDefinition = pipelineDefinition;
+            _pipeDefinition = pipeDefinition;
         }
 
         public Func<IResolveTypes, object, object> Compile()
         {
-            if (!_pipelineDefinition.Closed)
+            if (!_pipeDefinition.Closed)
                 throw new MismatchedClosingTypeDeclarationException();
 
-            return Compile(new Queue<IOperation>(_pipelineDefinition.Operations));
+            return Compile(new Queue<IOperation>(_pipeDefinition.Operations));
         }
 
         public Func<IResolveTypes, object, object> Compile(Queue<IOperation> operations)

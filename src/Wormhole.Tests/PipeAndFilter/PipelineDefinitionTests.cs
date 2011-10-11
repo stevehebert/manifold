@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
 using Wormhole.PipeAndFilter;
-using Wormhole.Pipeline;
 
 namespace Wormhole.Tests.PipeAndFilter
 {
@@ -27,7 +27,7 @@ namespace Wormhole.Tests.PipeAndFilter
             var mockRegistrar = new Mock<IRegisterTypes>();
 
             var list = new List<Action<IRegisterTypes>>();
-            var item = new PipelineDefinition(list);
+            var item = new PipeDefinition(list);
 
             // act
             item.AddInjectedOperation<TestClass, int, string>(true);
@@ -49,7 +49,7 @@ namespace Wormhole.Tests.PipeAndFilter
             var mockRegistrar = new Mock<IRegisterTypes>();
 
             var list = new List<Action<IRegisterTypes>>();
-            var item = new PipelineDefinition(list);
+            var item = new PipeDefinition(list);
 
             // act
             item.AddFunctionOperation<int, string>(i => i.ToString(), true);
