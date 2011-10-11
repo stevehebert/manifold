@@ -57,16 +57,9 @@
     <Compile Include="PipeAndFilter\PipelineCompiler.cs" />
     <Compile Include="PipeAndFilter\PipelineConfigurator.cs" />
     <Compile Include="PipeAndFilter\PipelineDefinition.cs" />
-    <Compile Include="Pipeline\Configuration\PipelineAggregator.cs" />
-    <Compile Include="Pipeline\Configuration\PipelineDataResolver.cs" />
-    <Compile Include="Pipeline\IPipelineCreator.cs" />
     <Compile Include="Pipeline\IPipelineTask.cs" />
     <Compile Include="Pipeline\Configuration\DefaultPipeline.cs" />
     <Compile Include="Pipeline\MismatchedClosingTypeDeclarationException.cs" />
-    <Compile Include="Pipeline\Configuration\NamedResolver.cs" />
-    <Compile Include="Pipeline\Configuration\PipelineConfigurator.cs" />
-    <Compile Include="Pipeline\Configuration\PipelineData.cs" />
-    <Compile Include="Pipeline\Configuration\PipelineCompiler.cs" />
     <Compile Include="Pipeline\Configuration\PipelineKey.cs" />
     <Compile Include="Pipeline\PipelineNotLocatedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
