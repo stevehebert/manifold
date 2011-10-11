@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Wormhole.Autofac.Configuration;
+using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
 using Wormhole.PipeAndFilter;
 
@@ -8,18 +9,18 @@ namespace Wormhole.Autofac
 {
     public abstract class PipelineModule : Module
     {
-        private readonly IPipelineCreator _pipelineCreator;
+        private readonly IPipeCreator _pipeCreator;
 
         public PipelineModule() : base ()
         {
-            _pipelineCreator = new PipelineCreator(new PipelineAggregator<AutofacTypeResolver>());
+            _pipeCreator = new PipeCreator(new PipelineAggregator<AutofacTypeResolver>());
         }
 
         /// <summary>
         /// Registers the pipelines.
         /// </summary>
-        /// <param name="pipelineCreator">The pipeline creator.</param>
-        public abstract void RegisterPipelines(IPipelineCreator pipelineCreator);
+        /// <param name="pipeCreator">The pipeline creator.</param>
+        public abstract void RegisterPipelines(IPipeCreator pipeCreator);
         
         /// <summary>
         /// Override to add registrations to the container.
@@ -31,8 +32,8 @@ namespace Wormhole.Autofac
         /// </remarks>
         protected override void Load(ContainerBuilder builder)
         {
-            RegisterPipelines(_pipelineCreator);
-            _pipelineCreator.Compile(new AutofacTypeRegistrar(builder) );
+            RegisterPipelines(_pipeCreator);
+            _pipeCreator.Compile(new AutofacTypeRegistrar(builder) );
         }
     }
 }

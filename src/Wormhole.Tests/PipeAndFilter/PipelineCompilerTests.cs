@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using Wormhole.Configuration;
+using Wormhole.Configuration.Operations;
 using Wormhole.DependencyInjection;
 using Wormhole.PipeAndFilter;
 

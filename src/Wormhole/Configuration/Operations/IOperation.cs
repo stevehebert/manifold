@@ -1,6 +1,7 @@
 ﻿using System;
+using Wormhole.DependencyInjection;
 
-namespace Wormhole.DependencyInjection
+namespace Wormhole.Configuration.Operations
 {
     public interface IOperation
     {

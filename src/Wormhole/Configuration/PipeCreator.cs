@@ -1,20 +1,13 @@
-﻿using Wormhole.DependencyInjection;
+using Wormhole.DependencyInjection;
+using Wormhole.PipeAndFilter;
 
-namespace Wormhole.PipeAndFilter
+namespace Wormhole.Configuration
 {
-    public interface IPipelineCreator
-    {
-        PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>();
-        PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name);
-        void Compile(IRegisterTypes typeRegistrar);
-    }
-
-
-    public class PipelineCreator : IPipelineCreator
+    public class PipeCreator : IPipeCreator
     {
         private readonly IPipelineAggregator _pipelineAggregator;
 
-        public PipelineCreator(IPipelineAggregator pipelineAggregator)
+        public PipeCreator(IPipelineAggregator pipelineAggregator)
         {
             _pipelineAggregator = pipelineAggregator;
         }
@@ -22,10 +15,7 @@ namespace Wormhole.PipeAndFilter
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TInput, TOutput>()
         {
             return _pipelineAggregator.CreatePipeline<TInput, TOutput>();
-
         }
-
-
 
         public PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name)
         {

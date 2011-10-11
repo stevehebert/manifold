@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using Wormhole.Configuration;
+using Wormhole.Configuration.Operations;
 using Wormhole.DependencyInjection;
 using Wormhole.Exceptions;
 using Wormhole.PipeAndFilter;

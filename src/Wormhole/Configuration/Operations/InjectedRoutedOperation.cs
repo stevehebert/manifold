@@ -1,6 +1,7 @@
 ﻿using System;
+using Wormhole.DependencyInjection;
 
-namespace Wormhole.DependencyInjection
+namespace Wormhole.Configuration.Operations
 {
     public class InjectedRoutedOperation<TType, TInput, TOutput> : IRoutedOperation where TType : class, IRoutedPipelineTask<TInput, TOutput>
     {

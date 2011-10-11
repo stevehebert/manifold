@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Wormhole.Configuration;
+using Wormhole.Configuration.Operations;
 using Wormhole.PipeAndFilter;
 using PipelineCompiler = Wormhole.PipeAndFilter.PipelineCompiler;
 
