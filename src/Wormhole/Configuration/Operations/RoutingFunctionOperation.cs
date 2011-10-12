@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wormhole.DependencyInjection;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Configuration.Operations
+namespace Manifold.Configuration.Operations
 {
     public class RoutingFunctionOperation<TInput, TOutput> : IRoutedOperation
     {

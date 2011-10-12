@@ -1,7 +1,7 @@
-﻿using Wormhole.DependencyInjection;
-using Wormhole.PipeAndFilter;
+﻿using Manifold.DependencyInjection;
+using Manifold.PipeAndFilter;
 
-namespace Wormhole.Configuration
+namespace Manifold.Configuration
 {
     public interface IPipeCreator
     {

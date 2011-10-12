@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B012B0C-4671-4273-8F56-F5013B782EC1}</ProjectGuid>
+    <ProjectGuid>{EBD636D0-CCF4-4D67-8EBE-926913A1016A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wormhole.Tests</RootNamespace>
-    <AssemblyName>Wormhole.Tests</AssemblyName>
+    <RootNamespace>Manifold.Autofac</RootNamespace>
+    <AssemblyName>Manifold.Autofac</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,23 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
+    <Reference Include="Autofac, Version=2.4.5.724, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Configuration">
+    <Reference Include="Autofac.Configuration, Version=2.4.5.724, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.mocks">
-      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="pnunit.framework">
-      <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,35 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContinuationTests.cs" />
-    <Compile Include="FunctorExtensionTests.cs" />
-    <Compile Include="PipeAndFilter\PipelineCompilerTests.cs" />
-    <Compile Include="MultipipelineTests.cs" />
-    <Compile Include="MultipleRegisrationTests.cs" />
-    <Compile Include="NamedPipelineTests.cs" />
-    <Compile Include="PipeAndFilter\PipelineDefinitionTests.cs" />
-    <Compile Include="PipelineInjectionTests.cs" />
-    <Compile Include="PipelineTests.cs" />
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Configuration\AutofacTypeRegistrar.cs" />
+    <Compile Include="Configuration\AutofacTypeResolver.cs" />
+    <Compile Include="PipelineModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Router\RouterCompilerTests.cs" />
-    <Compile Include="Router\RouterTests.cs" />
-    <Compile Include="SimplePipelineModule.cs" />
-    <Compile Include="Wormhole\Pipeline\MismatchedClosingTypeDeclarationExceptionTests.cs" />
-    <Compile Include="Wormhole\Pipeline\PipelineNotLocatedExceptionTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wormhole\Wormhole.csproj">
       <Project>{A5A274DE-D652-4B85-8D68-D76A581EB2C7}</Project>
       <Name>Wormhole</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Wormhole.Autofac\Wormhole.Autofac.csproj">
-      <Project>{EBD636D0-CCF4-4D67-8EBE-926913A1016A}</Project>
-      <Name>Wormhole.Autofac</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

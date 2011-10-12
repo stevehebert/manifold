@@ -1,8 +1,8 @@
 ﻿using System;
 using Autofac;
-using Wormhole.DependencyInjection;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Autofac.Configuration
+namespace Manifold.Autofac.Configuration
 {
     public class AutofacTypeResolver : IResolveTypes
     {

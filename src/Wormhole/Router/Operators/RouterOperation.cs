@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wormhole.Configuration;
-using Wormhole.Configuration.Operations;
-using Wormhole.DependencyInjection;
+using Manifold.Configuration;
+using Manifold.Configuration.Operations;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Router.Operators
+namespace Manifold.Router.Operators
 {
     public class RouterOperation : IOperation
     {

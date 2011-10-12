@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 using Autofac;
+using Manifold.Exceptions;
 using NUnit.Framework;
-using Wormhole.Configuration;
-using Wormhole.Exceptions;
 
-namespace Wormhole.Tests
+namespace Manifold.Tests
 {
     [TestFixture]
     public class PipelineInjectionTests

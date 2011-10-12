@@ -1,7 +1,7 @@
 ﻿using System;
-using Wormhole.Configuration;
+using Manifold.Configuration;
 
-namespace Wormhole.Router
+namespace Manifold.Router
 {
     public class RouterConfigurator<TInput, TOutput>
     {

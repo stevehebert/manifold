@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wormhole.DependencyInjection
+namespace Manifold.DependencyInjection
 {
     public interface IRegisterTypes
     {

@@ -1,7 +1,7 @@
-using Wormhole.Configuration;
-using Wormhole.PipeAndFilter;
+using Manifold.Configuration;
+using Manifold.PipeAndFilter;
 
-namespace Wormhole.Router
+namespace Manifold.Router
 {
     public class PipelineRouterConfigurator<TInput, TOutputType, TOutput> : RouterConfigurator<TInput, TOutputType>
     {

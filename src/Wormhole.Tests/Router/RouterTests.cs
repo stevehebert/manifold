@@ -2,7 +2,7 @@
 using Autofac;
 using NUnit.Framework;
 
-namespace Wormhole.Tests.Router
+namespace Manifold.Tests.Router
 {
     [TestFixture]
     public class RouterTests

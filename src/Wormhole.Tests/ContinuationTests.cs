@@ -3,7 +3,7 @@ using System.Linq;
 using Autofac;
 using NUnit.Framework;
 
-namespace Wormhole.Tests
+namespace Manifold.Tests
 {
     [TestFixture]
     public class ContinuationTests

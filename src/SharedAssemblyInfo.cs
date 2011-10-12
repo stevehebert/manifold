@@ -1,9 +1,7 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("FunctionComposition")]
+[assembly: AssemblyCompany("Hebert Software Services")]
+[assembly: AssemblyProduct("Manifold Composition Library")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

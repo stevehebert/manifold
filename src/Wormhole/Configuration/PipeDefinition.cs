@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Wormhole.Configuration.Operations;
-using Wormhole.DependencyInjection;
-using Wormhole.Router;
-using Wormhole.Router.Operators;
+using Manifold.Configuration.Operations;
+using Manifold.DependencyInjection;
+using Manifold.Router.Operators;
 
-namespace Wormhole.Configuration
+namespace Manifold.Configuration
 {
     public interface IPipeDefinition
     {

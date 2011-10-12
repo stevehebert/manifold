@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Manifold.Configuration;
+using Manifold.DependencyInjection;
 using Moq;
 using NUnit.Framework;
-using Wormhole.Configuration;
-using Wormhole.DependencyInjection;
-using Wormhole.PipeAndFilter;
 
-namespace Wormhole.Tests.PipeAndFilter
+namespace Manifold.Tests.PipeAndFilter
 {
     [TestFixture]
     public class PipelineDefinitionTests

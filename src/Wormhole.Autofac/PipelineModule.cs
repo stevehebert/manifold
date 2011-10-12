@@ -1,10 +1,9 @@
 ﻿using Autofac;
-using Wormhole.Autofac.Configuration;
-using Wormhole.Configuration;
-using Wormhole.DependencyInjection;
+using Manifold.Autofac.Configuration;
+using Manifold.Configuration;
+using Manifold.DependencyInjection;
 
-
-namespace Wormhole.Autofac
+namespace Manifold.Autofac
 {
     public abstract class PipelineModule : Module
     {

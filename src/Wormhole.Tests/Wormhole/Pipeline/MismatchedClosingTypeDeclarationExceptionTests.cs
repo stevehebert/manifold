@@ -1,9 +1,8 @@
 ﻿using System;
+using Manifold.Exceptions;
 using NUnit.Framework;
-using Wormhole.Configuration;
-using Wormhole.Exceptions;
 
-namespace Wormhole.Tests.Wormhole.Pipeline
+namespace Manifold.Tests.Wormhole.Pipeline
 {
     [TestFixture]
     public class MismatchedClosingTypeDeclarationExceptionTests

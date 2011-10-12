@@ -1,4 +1,4 @@
-﻿namespace Wormhole
+﻿namespace Manifold
 {
     public interface IPipelineTask<in TInput, out TOutput>
     {

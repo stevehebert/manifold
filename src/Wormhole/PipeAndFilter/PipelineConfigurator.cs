@@ -1,8 +1,8 @@
 using System;
-using Wormhole.Configuration;
-using Wormhole.Router;
+using Manifold.Configuration;
+using Manifold.Router;
 
-namespace Wormhole.PipeAndFilter
+namespace Manifold.PipeAndFilter
 {
     public class PipelineConfigurator<TInput, TOutput>
     {

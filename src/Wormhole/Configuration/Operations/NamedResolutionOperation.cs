@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wormhole.DependencyInjection;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Configuration.Operations
+namespace Manifold.Configuration.Operations
 {
     public class NamedResolutionOperation<TInput, TOutput, TNameType> : IOperation
     {

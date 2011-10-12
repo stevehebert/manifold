@@ -1,7 +1,7 @@
 using System;
-using Wormhole.DependencyInjection;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Configuration.Operations
+namespace Manifold.Configuration.Operations
 {
     public class FunctionOperation<TInput, TOutput> : IOperation
     {

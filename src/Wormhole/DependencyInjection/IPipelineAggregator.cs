@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Wormhole.Configuration;
-using Wormhole.PipeAndFilter;
+using Manifold.Configuration;
+using Manifold.PipeAndFilter;
 
-namespace Wormhole.DependencyInjection
+namespace Manifold.DependencyInjection
 {
     public interface IPipelineAggregator
     {

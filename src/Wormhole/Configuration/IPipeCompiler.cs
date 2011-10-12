@@ -1,7 +1,7 @@
 using System;
-using Wormhole.DependencyInjection;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Configuration
+namespace Manifold.Configuration
 {
     public interface IPipeCompiler
     {

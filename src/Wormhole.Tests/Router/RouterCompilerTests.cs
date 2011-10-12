@@ -1,14 +1,13 @@
 ﻿using System;
+using Manifold.Configuration;
+using Manifold.Configuration.Operations;
+using Manifold.DependencyInjection;
+using Manifold.Exceptions;
+using Manifold.Router;
 using Moq;
 using NUnit.Framework;
-using Wormhole.Configuration;
-using Wormhole.Configuration.Operations;
-using Wormhole.DependencyInjection;
-using Wormhole.Exceptions;
-using Wormhole.PipeAndFilter;
-using Wormhole.Router;
 
-namespace Wormhole.Tests.Router
+namespace Manifold.Tests.Router
 {
     [TestFixture]
     public class RouterCompilerTests

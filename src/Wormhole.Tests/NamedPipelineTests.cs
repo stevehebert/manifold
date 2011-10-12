@@ -1,8 +1,6 @@
-﻿using System;
-using Autofac;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace Wormhole.Tests
+namespace Manifold.Tests
 {
     [TestFixture]
     public class NamedPipelineTests

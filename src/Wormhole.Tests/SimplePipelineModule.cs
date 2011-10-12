@@ -1,9 +1,8 @@
 ﻿using System;
-using Wormhole.Autofac;
-using Wormhole.Configuration;
-using Wormhole.PipeAndFilter;
+using Manifold.Autofac;
+using Manifold.Configuration;
 
-namespace Wormhole.Tests
+namespace Manifold.Tests
 {
     public class SimplePipelineModule : PipelineModule
     {

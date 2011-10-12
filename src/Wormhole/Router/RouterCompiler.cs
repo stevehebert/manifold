@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Wormhole.Configuration;
-using Wormhole.Configuration.Operations;
-using Wormhole.DependencyInjection;
-using Wormhole.Exceptions;
+using Manifold.Configuration;
+using Manifold.Configuration.Operations;
+using Manifold.DependencyInjection;
+using Manifold.Exceptions;
 
-namespace Wormhole.Router
+namespace Manifold.Router
 {
     public class RouterCompiler : IPipeCompiler 
     {

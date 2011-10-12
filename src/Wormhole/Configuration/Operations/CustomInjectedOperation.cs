@@ -1,7 +1,7 @@
 using System;
-using Wormhole.DependencyInjection;
+using Manifold.DependencyInjection;
 
-namespace Wormhole.Configuration.Operations
+namespace Manifold.Configuration.Operations
 {
     /// <summary>
     /// This type allows for the injection of a type that does not follow the standard pattern, but

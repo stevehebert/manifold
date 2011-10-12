@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Wormhole
+namespace Manifold
 {
     public delegate TOutput Pipe<in TInput, out TOutput>(TInput input);
 

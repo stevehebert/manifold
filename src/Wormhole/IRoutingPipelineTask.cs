@@ -1,4 +1,4 @@
-namespace Wormhole
+namespace Manifold
 {
     public interface IRoutingPipelineTask<in TInput, out TOutput> : IPipelineTask<TInput, TOutput>
     {

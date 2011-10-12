@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wormhole.Configuration
+namespace Manifold.Configuration
 {
     public class PipelineKey
     {

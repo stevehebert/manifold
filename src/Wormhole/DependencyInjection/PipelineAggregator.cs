@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wormhole.Configuration;
-using Wormhole.Configuration.Operations;
-using Wormhole.PipeAndFilter;
-using PipelineCompiler = Wormhole.PipeAndFilter.PipelineCompiler;
+using Manifold.Configuration;
+using Manifold.Configuration.Operations;
+using Manifold.PipeAndFilter;
 
-
-namespace Wormhole.DependencyInjection
+namespace Manifold.DependencyInjection
 {
     public class PipelineAggregator<TResolver> : IPipelineAggregator where TResolver : IResolveTypes
     {
