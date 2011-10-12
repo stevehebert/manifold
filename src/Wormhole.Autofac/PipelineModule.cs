@@ -2,7 +2,6 @@
 using Wormhole.Autofac.Configuration;
 using Wormhole.Configuration;
 using Wormhole.DependencyInjection;
-using Wormhole.PipeAndFilter;
 
 
 namespace Wormhole.Autofac
