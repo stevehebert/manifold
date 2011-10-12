@@ -80,11 +80,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wormhole\Manifold.csproj">
+    <ProjectReference Include="..\Manifold\Manifold.csproj">
       <Project>{A5A274DE-D652-4B85-8D68-D76A581EB2C7}</Project>
       <Name>Manifold</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Wormhole.Autofac\Manifold.Autofac.csproj">
+    <ProjectReference Include="..\Manifold.Autofac\Manifold.Autofac.csproj">
       <Project>{EBD636D0-CCF4-4D67-8EBE-926913A1016A}</Project>
       <Name>Manifold.Autofac</Name>
     </ProjectReference>

@@ -58,7 +58,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wormhole\Wormhole.csproj">
+    <ProjectReference Include="..\Manifold\Manifold.csproj">
       <Project>{A5A274DE-D652-4B85-8D68-D76A581EB2C7}</Project>
       <Name>Wormhole</Name>
     </ProjectReference>

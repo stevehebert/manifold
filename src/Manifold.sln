@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold", "Wormhole\Manifold.csproj", "{A5A274DE-D652-4B85-8D68-D76A581EB2C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold", "Manifold\Manifold.csproj", "{A5A274DE-D652-4B85-8D68-D76A581EB2C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold.Tests", "Wormhole.Tests\Manifold.Tests.csproj", "{3B012B0C-4671-4273-8F56-F5013B782EC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold.Tests", "Manifold.Tests\Manifold.Tests.csproj", "{3B012B0C-4671-4273-8F56-F5013B782EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold.Autofac", "Wormhole.Autofac\Manifold.Autofac.csproj", "{EBD636D0-CCF4-4D67-8EBE-926913A1016A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold.Autofac", "Manifold.Autofac\Manifold.Autofac.csproj", "{EBD636D0-CCF4-4D67-8EBE-926913A1016A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{731BACFF-253D-47B3-9B87-83BE008C8FB9}"
 	ProjectSection(SolutionItems) = preProject
