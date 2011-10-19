@@ -35,11 +35,10 @@ namespace Manifold.Tests.Projector
         [Test]
         public void delegate_based_projector()
         {
+            // arrange
             var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
                                                               .Bind(i => new[] {i*2, i*4})
                                                               .Bind(i => new[] {i*3, i*5}));
-
-
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(module);
@@ -47,8 +46,10 @@ namespace Manifold.Tests.Projector
 
             var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
             
+            // act
             var resolvedItems = function(5);
 
+            // assert
             Assert.NotNull(resolvedItems);
             Assert.That(resolvedItems.Count(), Is.EqualTo(4));
 
@@ -61,6 +62,7 @@ namespace Manifold.Tests.Projector
         [Test]
         public void single_injected_projector_composition()
         {
+            // arrange
             var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
                                                               .Bind<Projector>());
 
@@ -70,8 +72,10 @@ namespace Manifold.Tests.Projector
 
             var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
 
+            // act
             var resolvedItems = function(5);
 
+            // assert
             Assert.NotNull(resolvedItems);
             Assert.That(resolvedItems.Count(), Is.EqualTo(2));
 
@@ -82,6 +86,7 @@ namespace Manifold.Tests.Projector
         [Test]
         public void mixed_projector_composition()
         {
+            // arrange
             var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
                                                               .Bind<Projector>()
                                                               .Bind(input => new [] {input*100, input*1000}));
@@ -92,8 +97,10 @@ namespace Manifold.Tests.Projector
 
             var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
 
+            // act
             var resolvedItems = function(5);
 
+            // assert
             Assert.NotNull(resolvedItems);
             Assert.That(resolvedItems.Count(), Is.EqualTo(4));
 
@@ -106,6 +113,7 @@ namespace Manifold.Tests.Projector
         [Test]
         public void validate_short_circuit_capability()
         {
+            // arrange
             var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
                                                               .Bind<SlowProjector>());
 
@@ -117,14 +125,15 @@ namespace Manifold.Tests.Projector
 
             var resolvedItems = function(5);
 
+            // act
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             Assert.IsTrue(resolvedItems.Any());
             stopWatch.Stop();
 
+            // assert
             Assert.That(stopWatch.ElapsedMilliseconds, Is.LessThan(5000));
 
         }
-
     }
 }
