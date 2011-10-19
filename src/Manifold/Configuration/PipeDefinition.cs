@@ -38,6 +38,8 @@ namespace Manifold.Configuration
             _registrationActions.Add(ctx => ctx.RegisterType<TType>());
         }
 
+        
+
         public void AddFunctionOperation<TInput, TOutput>(Func<TInput, TOutput> function, bool closed)
         {
             Closed = closed;

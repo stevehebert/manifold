@@ -67,6 +67,7 @@
     <Compile Include="PipeAndFilter\PipelineDefinitionTests.cs" />
     <Compile Include="PipelineInjectionTests.cs" />
     <Compile Include="PipelineTests.cs" />
+    <Compile Include="Projector\ProjectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Router\RouterCompilerTests.cs" />
     <Compile Include="Router\RouterTests.cs" />

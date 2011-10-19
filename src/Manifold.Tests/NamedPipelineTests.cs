@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using Autofac;
+using Manifold.Exceptions;
+using NUnit.Framework;
 
 namespace Manifold.Tests
 {
@@ -19,9 +22,9 @@ namespace Manifold.Tests
         //                                                      .Bind(p => p.ToString());
 
         //                                                  item.RegisterPipeline<string, double, string>("foo")
-        //                                                      .Bind(p => (p*2).ToString());
+        //                                                      .Bind(p => (p * 2).ToString());
         //                                              });
-              
+
 
         //    var builder = new ContainerBuilder();
         //    builder.RegisterModule(module);

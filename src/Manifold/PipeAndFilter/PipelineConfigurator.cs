@@ -94,7 +94,7 @@ namespace Manifold.PipeAndFilter
 
         public PipelineConfigurator<TOutputType, TOutput> ContinueWith<TOutputType>()
         {
-            _pipeDefinition.AddNamedContinuation<TInput, TOutputType, DefaultPipeline<TInput, TOutput>>(new DefaultPipeline<TInput, TOutput>(), typeof(TOutput) == typeof(TOutputType));
+            _pipeDefinition.AddNamedContinuation<TInput, TOutputType, DefaultPipeline<TInput, TOutputType>>(new DefaultPipeline<TInput, TOutputType>(), typeof(TOutput) == typeof(TOutputType));
             return new PipelineConfigurator<TOutputType, TOutput>(_pipeDefinition);
         }
 

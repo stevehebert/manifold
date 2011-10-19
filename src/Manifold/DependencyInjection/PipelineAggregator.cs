@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Manifold.Configuration;
 using Manifold.Configuration.Operations;
+using Manifold.Configuration.Projector;
 using Manifold.PipeAndFilter;
+using Manifold.Projector;
 
 namespace Manifold.DependencyInjection
 {
@@ -89,6 +91,43 @@ namespace Manifold.DependencyInjection
             return new PipelineConfigurator<TInput, TOutput>(definition);
         }
 
-    }
+        public ProjectorConfigurator<TInput, TOutput> CreateProjector<TInput, TOutput>()
+        {
+            var definition = new ProjectorDefinition<TInput,TOutput>(_registrationActions);
+            var compiler = new ProjectorCompiler<TInput,TOutput>(definition);
 
+            _aggregatePipelines.Add(new PipelineKey
+            {
+                Input = typeof(TInput),
+                Output = typeof(IEnumerable<TOutput>),
+                Named = new DefaultPipeline<TInput, IEnumerable<TOutput>>()
+            }, compiler);
+
+            _registrationActions.Add(a => a.Register<Pipe<TInput, IEnumerable<TOutput>>>(ctx =>
+                                                                                             {
+                                                                                                 var compiledFunction =
+                                                                                                     compiler.Compile();
+
+                                                                                                 return
+                                                                                                     input =>
+                                                                                                         {
+                                                                                                             {
+                                                                                                                 var
+                                                                                                                     output
+                                                                                                                         =
+                                                                                                                         compiledFunction
+                                                                                                                             (ctx,
+                                                                                                                              input);
+
+                                                                                                                 return
+                                                                                                                     (IEnumerable<TOutput>)output;
+                                                                                                             }
+                                                                                                         };
+
+                                                                                             }
+                                              ));
+
+            return new ProjectorConfigurator<TInput, TOutput>(definition);
+        }
+    }
 }

@@ -43,6 +43,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\Projector\IProjectorDefinition.cs" />
+    <Compile Include="Configuration\Projector\Operations\FunctionOperation.cs" />
+    <Compile Include="Configuration\Projector\Operations\InjectedProjectorOperation.cs" />
+    <Compile Include="Configuration\Projector\Operations\IProjectorOperation.cs" />
     <Compile Include="Configuration\Operations\RoutingFunctionOperation.cs" />
     <Compile Include="Configuration\PipeCreator.cs" />
     <Compile Include="Configuration\Operations\CustomInjectedOperation.cs" />
@@ -67,15 +71,15 @@
     <Compile Include="Exceptions\MismatchedClosingTypeDeclarationException.cs" />
     <Compile Include="Configuration\PipelineKey.cs" />
     <Compile Include="Exceptions\PipelineNotLocatedException.cs" />
+    <Compile Include="Projector\ProjectorCompiler.cs" />
+    <Compile Include="Projector\ProjectorConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Router\Operators\RouterOperation.cs" />
     <Compile Include="Router\PipelineRouterConfigurator.cs" />
     <Compile Include="Router\RouterCompiler.cs" />
     <Compile Include="Router\RouterConfigurator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Emitter\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
