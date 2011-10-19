@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Manifold.Configuration;
-using Manifold.Configuration.Operations;
+using Manifold.Configuration.Pipeline;
+using Manifold.Configuration.Pipeline.Operations;
 using Manifold.Configuration.Projector;
 using Manifold.PipeAndFilter;
 using Manifold.Projector;

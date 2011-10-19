@@ -4,7 +4,9 @@ using Manifold.DependencyInjection;
 
 namespace Manifold.Configuration.Projector.Operations
 {
-    public class InjectedProjectorOperation<TType, TInput, TOutput> : IProjectorOperation<TInput, TOutput> where TType : IPipelineTask<TInput, IEnumerable<TOutput>>
+    public class InjectedProjectorOperation<TType, TInput, TOutput> 
+        : IProjectorOperation<TInput, TOutput> 
+          where TType : class, IPipelineTask<TInput, IEnumerable<TOutput>>
     {
         public Func<IResolveTypes, TInput, IEnumerable<TOutput>> GetExecutor()
         {

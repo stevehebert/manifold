@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Manifold.DependencyInjection;
 
-namespace Manifold.Configuration.Operations
+namespace Manifold.Configuration.Pipeline.Operations
 {
     public class NamedResolutionOperation<TInput, TOutput, TNameType> : IOperation
     {

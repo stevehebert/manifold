@@ -1,7 +1,7 @@
 using System;
 using Manifold.DependencyInjection;
 
-namespace Manifold.Configuration.Operations
+namespace Manifold.Configuration.Pipeline.Operations
 {
     /// <summary>
     /// This type allows for the injection of a type that does not follow the standard pattern, but

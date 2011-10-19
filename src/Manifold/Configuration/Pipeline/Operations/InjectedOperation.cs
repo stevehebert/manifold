@@ -1,7 +1,7 @@
 ﻿using System;
 using Manifold.DependencyInjection;
 
-namespace Manifold.Configuration.Operations
+namespace Manifold.Configuration.Pipeline.Operations
 {
     public class InjectedOperation<TType, TInput, TOutput> : IOperation where TType : IPipelineTask<TInput, TOutput>
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Manifold.Configuration.Operations;
+using Manifold.Configuration.Pipeline.Operations;
 using Manifold.DependencyInjection;
 using Manifold.Router.Operators;
 
-namespace Manifold.Configuration
+namespace Manifold.Configuration.Pipeline
 {
     public interface IPipeDefinition
     {
