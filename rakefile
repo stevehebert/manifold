@@ -9,7 +9,7 @@ revision_number = ENV['revision']
 revision_number = 0 if revision_number.nil?
 revision_number = Integer(revision_number)
 
-full_version = "0.6.0.#{revision_number} "
+full_version = "0.8.4.#{revision_number} "
 
 puts "Creating build #{full_version}."
 
@@ -79,5 +79,6 @@ end
 
 task :nuget => [:deploy] do
   puts "pushing to nuget"
+  full_version.strip!
   sh "tools/nuget/nuget.exe push build/stage/Manifold.autofac.#{full_version}.nupkg"
 end

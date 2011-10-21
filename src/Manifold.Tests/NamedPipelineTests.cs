@@ -31,8 +31,8 @@ namespace Manifold.Tests
 
         //    var ctx = builder.Build();
 
-        //    var value2 = ctx.Resolve<Functor<int, string>>()(10);
-        //    var value3 = ctx.Resolve<Functor<string, int, string>>()("foo", 10);
+        //    var value2 = ctx.Resolve<Pipe<int, string>>()(10);
+        //    var value3 = ctx.Resolve<Pipe<string, int, string>>()("foo", 10);
 
         //    Assert.That(value2, Is.EqualTo("10"));
         //    Assert.That(value3, Is.EqualTo("20"));
@@ -58,8 +58,8 @@ namespace Manifold.Tests
 
         //    var ctx = builder.Build();
 
-        //    Assert.Throws<PipelineNotLocatedException>(() => ctx.Resolve<Functor<int, string>>()(10));
-        //    var value3 = ctx.Resolve<Functor<string, int, string>>()("foo", 10);
+        //    Assert.Throws<PipelineNotLocatedException>(() => ctx.Resolve<Pipe<int, string>>()(10));
+        //    var value3 = ctx.Resolve<Pipe<string, int, string>>()("foo", 10);
 
         //    Assert.That(value3, Is.EqualTo("20"));
         //}
