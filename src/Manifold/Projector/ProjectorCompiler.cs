@@ -15,7 +15,7 @@ namespace Manifold.Projector
             _projectorDefinition = projectorDefinition;
         }
 
-        public Func<IResolveTypes, object, object> Compile()
+        public Func<IPipelineContext, object, object> Compile()
         {
             return (injector, input) => from p in _projectorDefinition.Operations
                                         from q in p.GetExecutor()(injector, (TInput) input)

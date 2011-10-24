@@ -15,21 +15,21 @@ namespace Manifold.Configuration.Pipeline.Operations
         }
 
 
-        public Func<IResolveTypes, object, object> GetExecutor()
+        public Func<IPipelineContext, object, object> GetExecutor()
         {
             return GetNamedClosure(_name);
         }
 
-        public Func<IResolveTypes, object, object> GetNamedClosure(object name)
+        public Func<IPipelineContext, object, object> GetNamedClosure(object name)
         {
             return (resolver, o) =>
                        {
-                           var key = new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = name};
+                           var key = new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = _name};
 
                            var pipeData =
-                               resolver.Resolve(
-                                   typeof (IEnumerable<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>))
-                               as IEnumerable<IDictionary<PipelineKey, Func<IResolveTypes, object, object>>>;
+                               resolver.TypeResolver.Resolve(
+                                   typeof (IEnumerable<IDictionary<PipelineKey, Func<IPipelineContext, object, object>>>))
+                               as IEnumerable<IDictionary<PipelineKey, Func<IPipelineContext, object, object>>>;
 
                            var targetSet = (from p in pipeData
                                             where p.ContainsKey(key)

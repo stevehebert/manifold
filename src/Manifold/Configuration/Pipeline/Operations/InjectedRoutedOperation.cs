@@ -5,11 +5,11 @@ namespace Manifold.Configuration.Pipeline.Operations
 {
     public class InjectedRoutedOperation<TType, TInput, TOutput> : IRoutedOperation where TType : class, IRoutingPipelineTask<TInput, TOutput>
     {
-        public Func<IResolveTypes, object, object> GetExecutor()
+        public Func<IPipelineContext, object, object> GetExecutor()
         {
             return (injector, o) =>
                        {
-                           var item = (TType) injector.Resolve(typeof (TType));
+                           var item = (TType) injector.TypeResolver.Resolve(typeof (TType));
 
                            if (item == null) throw new InvalidOperationException();
 
@@ -19,11 +19,11 @@ namespace Manifold.Configuration.Pipeline.Operations
                        };
         }
 
-        public Func<IResolveTypes, object, bool> GetDecider()
+        public Func<IPipelineContext, object, bool> GetDecider()
         {
             return (injector, o) =>
                        {
-                           var item = (TType) injector.Resolve(typeof (TType));
+                           var item = (TType) injector.TypeResolver.Resolve(typeof (TType));
 
                            if (item == null) throw new InvalidOperationException();
 

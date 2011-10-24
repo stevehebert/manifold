@@ -14,12 +14,12 @@ namespace Manifold.Configuration.Pipeline.Operations
             _processFunction = processFunction;
 
         }
-        public Func<IResolveTypes, object, object> GetExecutor()
+        public Func<IPipelineContext, object, object> GetExecutor()
         {
             return (injector, o) => _processFunction((TInput) o);
         }
 
-        public Func<IResolveTypes, object, bool> GetDecider()
+        public Func<IPipelineContext, object, bool> GetDecider()
         {
             return (injector, o) => _canProcessFunction((TInput) o);
         }

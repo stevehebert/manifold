@@ -5,6 +5,6 @@ namespace Manifold.Configuration
 {
     public interface IPipeCompiler
     {
-        Func<IResolveTypes, object, object> Compile();
+        Func<IPipelineContext, object, object> Compile();
     }
 }

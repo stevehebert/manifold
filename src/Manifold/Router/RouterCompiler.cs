@@ -17,7 +17,7 @@ namespace Manifold.Router
             _pipeDefinition = pipeDefinition;
         }
 
-        public Func<IResolveTypes, object, object> Compile(IEnumerable<IOperation> operations)
+        public Func<IPipelineContext, object, object> Compile(IEnumerable<IOperation> operations)
         {
             return (injector, input) =>
             {
@@ -36,7 +36,7 @@ namespace Manifold.Router
         }
 
 
-        public Func<IResolveTypes, object, object> Compile()
+        public Func<IPipelineContext, object, object> Compile()
         {
             if (!_pipeDefinition.Closed)
                 throw new MismatchedClosingTypeDeclarationException();

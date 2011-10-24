@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace Manifold.DependencyInjection
 {
-    public interface IResolveTypes
+    public interface ITypeResolver
     {
         object Resolve(Type type);
     }

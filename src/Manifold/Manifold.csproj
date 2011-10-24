@@ -57,9 +57,11 @@
     <Compile Include="Configuration\Projector\ProjectorDefinition.cs" />
     <Compile Include="DependencyInjection\IPipelineAggregator.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
-    <Compile Include="DependencyInjection\IResolveTypes.cs" />
+    <Compile Include="DependencyInjection\IPipelineContext.cs" />
     <Compile Include="Configuration\Pipeline\Operations\NamedResolutionOperation.cs" />
+    <Compile Include="DependencyInjection\ITypeResolver.cs" />
     <Compile Include="DependencyInjection\PipelineAggregator.cs" />
+    <Compile Include="DependencyInjection\PipelineContext.cs" />
     <Compile Include="IRoutingPipelineTask.cs" />
     <Compile Include="Pipe.cs" />
     <Compile Include="Configuration\IPipeCompiler.cs" />

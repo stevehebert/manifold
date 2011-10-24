@@ -4,7 +4,7 @@ using Manifold.DependencyInjection;
 
 namespace Manifold.Autofac.Configuration
 {
-    public class AutofacTypeResolver : IResolveTypes
+    public class AutofacTypeResolver : ITypeResolver
     {
         private readonly IComponentContext _componentContext;
 

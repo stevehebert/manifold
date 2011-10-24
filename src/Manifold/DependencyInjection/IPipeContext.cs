@@ -35,6 +35,6 @@ namespace Manifold.DependencyInjection
         /// </summary>
         /// <typeparam name="TType">The type of the instance.</typeparam>
         /// <param name="function">The resolution function.</param>
-        void Register<TType>(Func<IPipelineContext, TType> function);
+        void Register<TType>(Func<IResolveTypes, TType> function);
     }
 }

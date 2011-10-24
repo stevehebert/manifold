@@ -27,11 +27,11 @@ namespace Manifold.Configuration.Pipeline.Operations
         /// Gets the execution closure to be built into the pipeline.
         /// </summary>
         /// <returns>a closure to be used in the execution sequence</returns>
-        public Func<IResolveTypes, object, object> GetExecutor()
+        public Func<IPipelineContext, object, object> GetExecutor()
         {
             return (injector, o) =>
                        {
-                           var instance = injector.Resolve(typeof (TType)) as TType;
+                           var instance = injector.TypeResolver.Resolve(typeof (TType)) as TType;
                            return _function(instance, (TInput) o);
                        };
         }

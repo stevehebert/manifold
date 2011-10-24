@@ -5,11 +5,11 @@ namespace Manifold.Configuration.Pipeline.Operations
 {
     public interface IOperation
     {
-        Func<IResolveTypes, object, object> GetExecutor();
+        Func<IPipelineContext, object, object> GetExecutor();
     }
 
     public interface IRoutedOperation : IOperation
     {
-        Func<IResolveTypes, object, bool> GetDecider();
+        Func<IPipelineContext, object, bool> GetDecider();
     }
 }

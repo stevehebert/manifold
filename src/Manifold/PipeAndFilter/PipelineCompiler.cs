@@ -17,7 +17,7 @@ namespace Manifold.PipeAndFilter
             _pipeDefinition = pipeDefinition;
         }
 
-        public Func<IResolveTypes, object, object> Compile()
+        public Func<IPipelineContext, object, object> Compile()
         {
             if (!_pipeDefinition.Closed)
                 throw new MismatchedClosingTypeDeclarationException();
@@ -25,7 +25,7 @@ namespace Manifold.PipeAndFilter
             return Compile(new Queue<IOperation>(_pipeDefinition.Operations));
         }
 
-        public Func<IResolveTypes, object, object> Compile(Queue<IOperation> operations)
+        public Func<IPipelineContext, object, object> Compile(Queue<IOperation> operations)
         {
             var functionDefinition = operations.Dequeue().GetExecutor();
             while (operations.Count > 0)

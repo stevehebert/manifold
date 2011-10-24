@@ -15,7 +15,7 @@ namespace Manifold.Router.Operators
             _pipeDefinition = pipeDefinition;
 
         }
-        public Func<IResolveTypes, object, object> GetExecutor()
+        public Func<IPipelineContext, object, object> GetExecutor()
         {
             var compiler = new RouterCompiler(_pipeDefinition);
 

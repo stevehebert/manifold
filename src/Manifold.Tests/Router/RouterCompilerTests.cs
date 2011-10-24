@@ -15,13 +15,13 @@ namespace Manifold.Tests.Router
     {
         private class Oper : IOperation
         {
-            private readonly Func<IResolveTypes, object, object> _func;
+            private readonly Func<IPipelineContext, object, object> _func;
 
-            public Oper(Func<IResolveTypes, object, object> func)
+            public Oper(Func<IPipelineContext, object, object> func)
             {
                 _func = func;
             }
-            public Func<IResolveTypes, object, object> GetExecutor()
+            public Func<IPipelineContext, object, object> GetExecutor()
             {
                 return _func;
             }
@@ -29,21 +29,21 @@ namespace Manifold.Tests.Router
 
         private class RoutedOper : Oper, IRoutedOperation
         {
-            private readonly Func<IResolveTypes, object, bool> _decider;
-            public RoutedOper(Func<IResolveTypes, object, object> closure, Func<IResolveTypes, object, bool> decider)
+            private readonly Func<IPipelineContext, object, bool> _decider;
+            public RoutedOper(Func<IPipelineContext, object, object> closure, Func<IPipelineContext, object, bool> decider)
                 : base(closure)
             {
                 _decider = decider;
             }
 
 
-            public Func<IResolveTypes, object, bool> GetDecider()
+            public Func<IPipelineContext, object, bool> GetDecider()
             {
                 return _decider;
             }
         }
 
-        private int GetRoutedValue(Func<IResolveTypes, object, object> operation, int value)
+        private int GetRoutedValue(Func<IPipelineContext, object, object> operation, int value)
         {
             return (int)operation(null, value);
         }

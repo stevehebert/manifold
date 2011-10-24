@@ -63,7 +63,6 @@
     <Compile Include="PipeAndFilter\PipelineCompilerTests.cs" />
     <Compile Include="MultipipelineTests.cs" />
     <Compile Include="MultipleRegisrationTests.cs" />
-    <Compile Include="NamedPipelineTests.cs" />
     <Compile Include="PipeAndFilter\PipelineDefinitionTests.cs" />
     <Compile Include="PipelineInjectionTests.cs" />
     <Compile Include="PipelineTests.cs" />

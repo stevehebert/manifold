@@ -12,7 +12,7 @@ namespace Manifold.Configuration.Projector.Operations
         {
             _functionOperation = functionOperation;
         }
-        public Func<IResolveTypes, TInput, IEnumerable<TOutput>> GetExecutor()
+        public Func<IPipelineContext, TInput, IEnumerable<TOutput>> GetExecutor()
         {
             return (injector, o) => _functionOperation(o);
         }

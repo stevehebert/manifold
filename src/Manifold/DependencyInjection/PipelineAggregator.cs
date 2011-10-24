@@ -10,17 +10,18 @@ using Manifold.Projector;
 
 namespace Manifold.DependencyInjection
 {
-    public class PipelineAggregator<TResolver> : IPipelineAggregator where TResolver : IResolveTypes
+    public class PipelineAggregator<TResolver> : IPipelineAggregator where TResolver : ITypeResolver
     {
         public PipelineAggregator()
         {
-            _registrationActions.Add(a => a.RegisterType<TResolver, IResolveTypes>());
+            _registrationActions.Add(a => a.RegisterType<TResolver, ITypeResolver>());
         }
-        public IDictionary<PipelineKey, Func<IResolveTypes, object, object>> Compile(IRegisterTypes typeRegistrar)
+        public IDictionary<PipelineKey, Func<IPipelineContext, object, object>> Compile(IRegisterTypes typeRegistrar)
         {
-            var dictionary = _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile()) as IDictionary<PipelineKey, Func<IResolveTypes, object, object>>;
+            var dictionary = _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile()) as IDictionary<PipelineKey, Func<IPipelineContext, object, object>>;
             typeRegistrar.RegisterInstance(dictionary);
 
+            typeRegistrar.RegisterType<PipelineContext, IPipelineContext>();
             foreach (var item in _registrationActions)
                 item(typeRegistrar);
 
@@ -46,7 +47,7 @@ namespace Manifold.DependencyInjection
                                         }, new PipelineCompiler(definition));
 
             _registrationActions.Add(a => a.Register<Pipe<TType, TInput, TOutput>>(ctx =>
-                                                                                        {
+                                                                                       {
                                                                                             var op =
                                                                                                 new NamedResolutionOperation
                                                                                                     <TInput,

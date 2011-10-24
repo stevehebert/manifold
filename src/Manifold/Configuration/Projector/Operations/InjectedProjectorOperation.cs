@@ -8,11 +8,11 @@ namespace Manifold.Configuration.Projector.Operations
         : IProjectorOperation<TInput, TOutput> 
           where TType : class, IPipelineTask<TInput, IEnumerable<TOutput>>
     {
-        public Func<IResolveTypes, TInput, IEnumerable<TOutput>> GetExecutor()
+        public Func<IPipelineContext, TInput, IEnumerable<TOutput>> GetExecutor()
         {
             return (injector, o) =>
             {
-                var item = (TType)injector.Resolve(typeof(TType));
+                var item = (TType)injector.TypeResolver.Resolve(typeof(TType));
 
                 if (item == null) throw new InvalidOperationException();
 

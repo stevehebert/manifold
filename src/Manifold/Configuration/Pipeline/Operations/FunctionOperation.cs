@@ -11,7 +11,7 @@ namespace Manifold.Configuration.Pipeline.Operations
         {
             _function = function;
         }
-        public Func<IResolveTypes, object, object> GetExecutor()
+        public Func<IPipelineContext, object, object> GetExecutor()
         {
             return (injector, o) => _function( (TInput) o);
         }

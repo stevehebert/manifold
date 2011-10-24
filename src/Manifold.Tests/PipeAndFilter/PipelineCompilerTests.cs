@@ -15,12 +15,12 @@ namespace Manifold.Tests.PipeAndFilter
     {
         private class Oper : IOperation
         {
-            private readonly Func<IResolveTypes, object, object> _func;
-            public Oper(Func<IResolveTypes, object, object> func)
+            private readonly Func<IPipelineContext, object, object> _func;
+            public Oper(Func<IPipelineContext, object, object> func)
             {
                 _func = func;
             }
-            public Func<IResolveTypes, object, object> GetExecutor()
+            public Func<IPipelineContext, object, object> GetExecutor()
             {
                 return _func;
             }

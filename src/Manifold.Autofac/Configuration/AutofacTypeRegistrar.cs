@@ -63,9 +63,9 @@ namespace Manifold.Autofac.Configuration
         /// </summary>
         /// <typeparam name="TType">The type of the type.</typeparam>
         /// <param name="function">The function.</param>
-        public void Register<TType>(Func<IResolveTypes, TType> function)
+        public void Register<TType>(Func<IPipelineContext, TType> function)
         {
-            _containerBuilder.Register(ctx => function(ctx.Resolve<IResolveTypes>()));
+            _containerBuilder.Register(ctx => function(ctx.Resolve<IPipelineContext>()));
         }
     }
 }
