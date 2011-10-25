@@ -6,6 +6,12 @@ namespace Manifold.Tests.SupportedContainers
 {
     public class CommonModuleProvider
     {
+        /// <summary>
+        /// This retrieves the container associated with the provider type
+        /// </summary>
+        /// <param name="supportedProviderType">provider type</param>
+        /// <param name="pipeCreator">pipe configuration</param>
+        /// <returns>commond module</returns>
         public static ICommonModule Create(SupportedProviderType supportedProviderType, Action<IPipeCreator> pipeCreator)
         {
             switch(supportedProviderType)
