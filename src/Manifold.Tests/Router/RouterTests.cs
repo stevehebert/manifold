@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Autofac;
 using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
@@ -13,7 +12,7 @@ namespace Manifold.Tests.Router
         public void simple_single_route_test_behavior(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, 
+            var module = CommonModuleProvider.Create(supportedProviderType, 
                     e =>
                     e.RegisterPipeline<int, int>()
                         .CreateRouter()
@@ -34,7 +33,7 @@ namespace Manifold.Tests.Router
         public void multi_path_single_route_test_behavior(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, 
+            var module = CommonModuleProvider.Create(supportedProviderType, 
                     e =>
                     e.RegisterPipeline<int, int>()
                         .CreateRouter()
@@ -56,7 +55,7 @@ namespace Manifold.Tests.Router
         public void test_multi_path_single_route_projection_mapping(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, 
+            var module = CommonModuleProvider.Create(supportedProviderType, 
                     e =>
                     e.RegisterPipeline<int, int>()
                         .CreateRouter()

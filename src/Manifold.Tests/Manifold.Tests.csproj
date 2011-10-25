@@ -76,7 +76,7 @@
     <Compile Include="SimplePipelineModule.cs" />
     <Compile Include="SupportedContainers\AutofacModule.cs" />
     <Compile Include="SupportedContainers\ICommonModule.cs" />
-    <Compile Include="SupportedContainers\ModuleProvider.cs" />
+    <Compile Include="SupportedContainers\CommonModuleProvider.cs" />
     <Compile Include="SupportedContainers\NinjectModule.cs" />
     <Compile Include="SupportedProviderType.cs" />
     <Compile Include="Wormhole\Pipeline\MismatchedClosingTypeDeclarationExceptionTests.cs" />

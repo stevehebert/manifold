@@ -13,7 +13,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_ordered(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                                                            .Bind<Adder>()
                                                            .Bind<Divider>()
@@ -35,7 +35,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_inline_type_conversion(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
                                                            .Bind<Adder, IEnumerable<int>>()
                                                            .Bind<Divider, IEnumerable<int>>()
@@ -59,7 +59,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_explicit_pipeline_resolution(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
                                                            .Bind<Adder, IEnumerable<int>>()
                                                            .Bind<Divider, IEnumerable<int>>()
@@ -81,7 +81,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_malformed_type_conversion(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
                                                            .Bind<Adder, IEnumerable<int>>()
                                                            .Bind<Divider, IEnumerable<int>>());

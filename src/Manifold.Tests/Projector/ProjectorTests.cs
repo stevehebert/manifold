@@ -37,7 +37,7 @@ namespace Manifold.Tests.Projector
         public void delegate_based_projector(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                               .Bind(i => new[] {i*2, i*4})
                                                               .Bind(i => new[] {i*3, i*5}));
 
@@ -61,7 +61,7 @@ namespace Manifold.Tests.Projector
         public void single_injected_projector_composition(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                               .Bind<Projector>());
 
             var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
@@ -82,7 +82,7 @@ namespace Manifold.Tests.Projector
         public void mixed_projector_composition(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                                                   .Bind<Projector>()
                                                                                   .Bind(
                                                                                       input =>
@@ -108,7 +108,7 @@ namespace Manifold.Tests.Projector
         public void validate_short_circuit_capability(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                                                   .Bind<SlowProjector>());
 
             var function = module.Resolve<Pipe<int, IEnumerable<int>>>();

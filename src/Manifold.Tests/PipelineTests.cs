@@ -13,7 +13,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_simplest_construction(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                                                            .Bind(a => from p in a select p/2));
 
@@ -35,7 +35,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_ordered_construction(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                                                               .Bind(a => from p in a select p / 2)
                                                               .Bind(a => from p in a select p + 2));
 
@@ -55,7 +55,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_alternate_ordered_construction(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                                                               .Bind(a => from p in a select p + 2)
                                                               .Bind(a => from p in a select p / 2));
             
@@ -75,7 +75,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_type_conversion(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
                                                            .Bind(a => from p in a select p + 2)
                                                            .Bind(a => from p in a select p/2)
@@ -100,7 +100,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_incomplete_registration_error(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType,
+            var module = CommonModuleProvider.Create(supportedProviderType,
                                                item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
                                                            .Bind(a => from p in a select p + 2)
                                                            .Bind(a => from p in a select p/2));

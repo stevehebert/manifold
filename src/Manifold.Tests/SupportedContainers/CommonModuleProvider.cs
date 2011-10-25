@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Manifold.Configuration;
 
 namespace Manifold.Tests.SupportedContainers
 {
-    public class ModuleProvider
+    public class CommonModuleProvider
     {
         public static ICommonModule Create(SupportedProviderType supportedProviderType, Action<IPipeCreator> pipeCreator)
         {

@@ -10,7 +10,7 @@ namespace Manifold.Tests
         [TestCase(SupportedProviderType.Ninject)]
         public void verify_multipipelines(SupportedProviderType supportedProviderType)
         {
-            var module = ModuleProvider.Create(supportedProviderType, item =>
+            var module = CommonModuleProvider.Create(supportedProviderType, item =>
                                                       {
                                                           item.RegisterPipeline<In, Out>()
                                                               .Bind<InOutTranslator>();
