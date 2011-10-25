@@ -24,7 +24,7 @@ namespace Manifold.Configuration.Pipeline.Operations
         {
             return (resolver, o) =>
                        {
-                           var key = new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = _name};
+                           var key = new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = name};
 
                            var pipeData =
                                resolver.TypeResolver.Resolve(
