@@ -40,6 +40,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -71,6 +74,11 @@
     <Compile Include="Router\RouterCompilerTests.cs" />
     <Compile Include="Router\RouterTests.cs" />
     <Compile Include="SimplePipelineModule.cs" />
+    <Compile Include="SupportedContainers\AutofacModule.cs" />
+    <Compile Include="SupportedContainers\ICommonModule.cs" />
+    <Compile Include="SupportedContainers\ModuleProvider.cs" />
+    <Compile Include="SupportedContainers\NinjectModule.cs" />
+    <Compile Include="SupportedProviderType.cs" />
     <Compile Include="Wormhole\Pipeline\MismatchedClosingTypeDeclarationExceptionTests.cs" />
     <Compile Include="Wormhole\Pipeline\PipelineNotLocatedExceptionTests.cs" />
   </ItemGroup>
@@ -80,6 +88,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Manifold.Ninject\Manifold.Ninject.csproj">
+      <Project>{D1EB250D-89AA-4FDA-B821-F88328D8514A}</Project>
+      <Name>Manifold.Ninject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Manifold\Manifold.csproj">
       <Project>{A5A274DE-D652-4B85-8D68-D76A581EB2C7}</Project>
       <Name>Manifold</Name>

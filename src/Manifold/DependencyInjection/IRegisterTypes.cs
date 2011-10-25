@@ -28,7 +28,7 @@ namespace Manifold.DependencyInjection
         /// </summary>
         /// <typeparam name="TType">The type of the type.</typeparam>
         /// <typeparam name="TAs">The type of as.</typeparam>
-        void RegisterType<TType, TAs>();
+        void RegisterType<TType, TAs>() where TType : TAs;
 
         /// <summary>
         /// Registers the specified function.
@@ -36,5 +36,7 @@ namespace Manifold.DependencyInjection
         /// <typeparam name="TType">The type of the instance.</typeparam>
         /// <param name="function">The resolution function.</param>
         void Register<TType>(Func<IPipelineContext, TType> function);
+
+        void RegisterResolver<TType>() where TType : ITypeResolver;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Autofac;
 using Manifold.Exceptions;
+using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
 namespace Manifold.Tests
@@ -9,21 +9,17 @@ namespace Manifold.Tests
     [TestFixture]
     public class PipelineInjectionTests
     {
-        [Test]
-        public void verify_ordered()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_ordered(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                                                              .Bind<Adder>()
-                                                              .Bind<Divider>()
-                                                              .Bind<NonConformingType>((a, input) => a.Run(input)));
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                           .Bind<Adder>()
+                                                           .Bind<Divider>()
+                                                           .Bind<NonConformingType>((a, input) => a.Run(input)));
 
-            
-
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
 
             var items = new[] { 10, 20, 30 };
 
@@ -35,19 +31,18 @@ namespace Manifold.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(32));
         }
 
-        [Test]
-        public void verify_inline_type_conversion()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_inline_type_conversion(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                                                              .Bind<Adder, IEnumerable<int>>()
-                                                              .Bind<Divider, IEnumerable<int>>()
-                                                              .Bind<Stringifier>());
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                           .Bind<Adder, IEnumerable<int>>()
+                                                           .Bind<Divider, IEnumerable<int>>()
+                                                           .Bind<Stringifier>());
             
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
+ 
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
 
             var items = new[] { 10, 20, 30 };
 
@@ -60,19 +55,17 @@ namespace Manifold.Tests
         }
 
 
-        [Test]
-        public void verify_explicit_pipeline_resolution()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_explicit_pipeline_resolution(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                                                              .Bind<Adder, IEnumerable<int>>()
-                                                              .Bind<Divider, IEnumerable<int>>()
-                                                              .Bind<Stringifier>());
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                           .Bind<Adder, IEnumerable<int>>()
+                                                           .Bind<Divider, IEnumerable<int>>()
+                                                           .Bind<Stringifier>());
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var pipeline = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
+            var pipeline = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
 
             var items = new[] { 10, 20, 30 };
 
@@ -84,16 +77,16 @@ namespace Manifold.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo("16"));
         }
 
-        [Test]
-        public void verify_malformed_type_conversion()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_malformed_type_conversion(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                                                              .Bind<Adder, IEnumerable<int>>()
-                                                              .Bind<Divider, IEnumerable<int>>());
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                           .Bind<Adder, IEnumerable<int>>()
+                                                           .Bind<Divider, IEnumerable<int>>());
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            Assert.Throws<MismatchedClosingTypeDeclarationException>(() => builder.Build());
+            Assert.Throws<MismatchedClosingTypeDeclarationException>(() => module.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>());
         }
 
         #region supporting injected classes

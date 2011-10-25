@@ -14,7 +14,7 @@ namespace Manifold.DependencyInjection
     {
         public PipelineAggregator()
         {
-            _registrationActions.Add(a => a.RegisterType<TResolver, ITypeResolver>());
+            _registrationActions.Add(a => a.RegisterResolver<TResolver>());
         }
         public IDictionary<PipelineKey, Func<IPipelineContext, object, object>> Compile(IRegisterTypes typeRegistrar)
         {

@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
 namespace Manifold.Tests
@@ -6,10 +6,11 @@ namespace Manifold.Tests
     [TestFixture]
     public class MultipipelineTests
     {
-        [Test]
-        public void verify_multipipelines()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_multipipelines(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item =>
+            var module = ModuleProvider.Create(supportedProviderType, item =>
                                                       {
                                                           item.RegisterPipeline<In, Out>()
                                                               .Bind<InOutTranslator>();
@@ -22,15 +23,10 @@ namespace Manifold.Tests
 
                                                       });
 
-
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-
-            var ctx = builder.Build();
-
-            var value1 = ctx.Resolve<Pipe<In, Out>>()(new In()).NewValue;
-            var value2 = ctx.Resolve<Pipe<int, string>>()(10);
-            var value3 = ctx.Resolve<Pipe<string, int, string>>()("foo", 10);
+           
+            var value1 = module.Resolve<Pipe<In, Out>>()(new In()).NewValue;
+            var value2 = module.Resolve<Pipe<int, string>>()(10);
+            var value3 = module.Resolve<Pipe<string, int, string>>()("foo", 10);
 
             Assert.That(value1, Is.EqualTo(20));
             Assert.That(value2, Is.EqualTo("20"));
