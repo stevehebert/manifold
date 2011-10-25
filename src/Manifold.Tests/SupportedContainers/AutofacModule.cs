@@ -34,5 +34,10 @@ namespace Manifold.Tests.SupportedContainers
         {
             return _container.Value.Resolve<TType>();
         }
+
+        public void Build()
+        {
+            if(_container.Value == null) throw new InvalidOperationException();
+        }
     }
 }

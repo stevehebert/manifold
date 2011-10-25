@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Autofac;
 using Manifold.Exceptions;
+using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
 namespace Manifold.Tests
@@ -9,19 +9,16 @@ namespace Manifold.Tests
     [TestFixture]
     public class PipelineTests
     {
-        [Test]
-        public void verify_simplest_construction()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_simplest_construction(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
-                                                              .Bind(a => from p in a select p / 2));
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                           .Bind(a => from p in a select p/2));
 
-            
-
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
+           
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
 
             var items = new[] {10, 20, 30};
 
@@ -34,20 +31,16 @@ namespace Manifold.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(15));
         }
 
-        [Test]
-        public void verify_ordered_construction()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_ordered_construction(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                                                               .Bind(a => from p in a select p / 2)
                                                               .Bind(a => from p in a select p + 2));
 
             
-
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
             var items = new[] { 10, 20, 30 };
 
             var resolvedItems = function(items);
@@ -58,20 +51,15 @@ namespace Manifold.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(17));
         }
 
-        [Test]
-        public void verify_alternate_ordered_construction()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_alternate_ordered_construction(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
                                                               .Bind(a => from p in a select p + 2)
                                                               .Bind(a => from p in a select p / 2));
-
-                
-                
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
+            
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<int>>>();
 
             var items = new[] { 10, 20, 30 };
 
@@ -83,19 +71,18 @@ namespace Manifold.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(16));
         }
 
-        [Test]
-        public void verify_type_conversion()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_type_conversion(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                                                              .Bind(a => from p in a select p + 2)
-                                                              .Bind(a => from p in a select p / 2)
-                                                              .Bind(a => from p in a select p.ToString()));
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                           .Bind(a => from p in a select p + 2)
+                                                           .Bind(a => from p in a select p/2)
+                                                           .Bind(a => from p in a select p.ToString()));
                 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
 
-            var function = container.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
 
             var items = new[] { 10, 20, 30 };
 
@@ -107,17 +94,18 @@ namespace Manifold.Tests
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo("16"));
             
         }
-        [Test]
-        public void verify_incomplete_registration_error()
+
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void verify_incomplete_registration_error(SupportedProviderType supportedProviderType)
         {
-            var module = new SimplePipelineModule(item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
-                                                              .Bind(a => from p in a select p + 2)
-                                                              .Bind(a => from p in a select p / 2));
+            var module = ModuleProvider.Create(supportedProviderType,
+                                               item => item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                           .Bind(a => from p in a select p + 2)
+                                                           .Bind(a => from p in a select p/2));
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-
-            Assert.Throws<MismatchedClosingTypeDeclarationException>(() => builder.Build());
+            Assert.Throws<MismatchedClosingTypeDeclarationException>(module.Build);
         }
 
     }

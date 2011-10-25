@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Autofac;
+using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
 namespace Manifold.Tests.Projector
@@ -31,19 +32,16 @@ namespace Manifold.Tests.Projector
 
 
 
-        [Test]
-        public void delegate_based_projector()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void delegate_based_projector(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
+            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                               .Bind(i => new[] {i*2, i*4})
                                                               .Bind(i => new[] {i*3, i*5}));
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
+            var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
             
             // act
             var resolvedItems = function(5);
@@ -58,18 +56,15 @@ namespace Manifold.Tests.Projector
             Assert.That(resolvedItems.ToArray()[3], Is.EqualTo(25));
         }
 
-        [Test]
-        public void single_injected_projector_composition()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void single_injected_projector_composition(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
+            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                               .Bind<Projector>());
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
+            var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
 
             // act
             var resolvedItems = function(5);
@@ -82,19 +77,18 @@ namespace Manifold.Tests.Projector
             Assert.That(resolvedItems.ToArray()[1], Is.EqualTo(25));
         }
 
-        [Test]
-        public void mixed_projector_composition()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void mixed_projector_composition(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
-                                                              .Bind<Projector>()
-                                                              .Bind(input => new [] {input*100, input*1000}));
+            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+                                                                                  .Bind<Projector>()
+                                                                                  .Bind(
+                                                                                      input =>
+                                                                                      new[] {input*100, input*1000}));
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
+            var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
 
             // act
             var resolvedItems = function(5);
@@ -109,18 +103,15 @@ namespace Manifold.Tests.Projector
             Assert.That(resolvedItems.ToArray()[3], Is.EqualTo(5000));
         }
 
-        [Test]
-        public void validate_short_circuit_capability()
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void validate_short_circuit_capability(SupportedProviderType supportedProviderType)
         {
             // arrange
-            var module = new SimplePipelineModule(item => item.RegisterProjector<int, int>()
-                                                              .Bind<SlowProjector>());
+            var module = ModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+                                                                                  .Bind<SlowProjector>());
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(module);
-            var container = builder.Build();
-
-            var function = container.Resolve<Pipe<int, IEnumerable<int>>>();
+            var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
 
             var resolvedItems = function(5);
 
