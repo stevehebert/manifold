@@ -11,7 +11,7 @@ namespace Manifold.Tests.Projector
     [TestFixture]
     public class ProjectorTests
     {
-        public class Projector : IPipelineTask<int, IEnumerable<int>>
+        public class Projector : IProjectorTask<int, int>
         {
             public IEnumerable<int> Execute(int input)
             {
@@ -20,7 +20,7 @@ namespace Manifold.Tests.Projector
             }
         }
 
-        public class SlowProjector : IPipelineTask<int, IEnumerable<int>>
+        public class SlowProjector : IProjectorTask<int, int>
         {
             public IEnumerable<int> Execute(int input)
             {

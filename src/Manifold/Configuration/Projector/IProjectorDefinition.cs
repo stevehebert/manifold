@@ -8,7 +8,7 @@ namespace Manifold.Configuration.Projector
     {
         IEnumerable<IProjectorOperation<TInput, TOutput>> Operations { get; }
 
-        void AddInjectedOperation<TType>() where TType : class, IPipelineTask<TInput, IEnumerable<TOutput>>;
+        void AddInjectedOperation<TType>() where TType : class, IProjectorTask<TInput, TOutput>;
         void AddFunctionOperation(Func<TInput, IEnumerable<TOutput>> function);
     }
 }

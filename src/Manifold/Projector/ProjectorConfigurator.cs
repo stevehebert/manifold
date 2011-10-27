@@ -14,13 +14,11 @@ namespace Manifold.Projector
             _projectorDefinition = projectorDefiniton;
         }
 
-        public ProjectorConfigurator<TInput, TOutput>  Bind<TType>() where TType :class, IPipelineTask<TInput,IEnumerable<TOutput>>
+        public ProjectorConfigurator<TInput, TOutput> Bind<TType>() where TType : class, IProjectorTask<TInput,TOutput>
         {
             _projectorDefinition.AddInjectedOperation<TType>();
-
             return this;
         }
-
         public ProjectorConfigurator<TInput, TOutput> Bind(Func<TInput, IEnumerable<TOutput>> function )
         {
             _projectorDefinition.AddFunctionOperation(function);

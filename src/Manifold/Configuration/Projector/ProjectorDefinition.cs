@@ -25,7 +25,7 @@ namespace Manifold.Configuration.Projector
             _operations.Add(new FunctionOperation<TInput, TOutput>(function));
         }
 
-        public void AddInjectedOperation<TType>() where TType : class, IPipelineTask<TInput, IEnumerable<TOutput>>
+        public void AddInjectedOperation<TType>() where TType : class, IProjectorTask<TInput, TOutput>
         {
             _operations.Add(new InjectedProjectorOperation<TType, TInput, TOutput>());
             _registrationActions.Add(ctx => ctx.RegisterType<TType>());

@@ -35,7 +35,7 @@ namespace Manifold.Configuration.Pipeline.Operations
                                             where p.ContainsKey(key)
                                             select p).FirstOrDefault();
 
-                           return targetSet[key](resolver, o);
+                           return targetSet[key](resolver, (TInput)o);
                        };
         }
     }
