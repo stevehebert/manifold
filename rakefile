@@ -61,7 +61,7 @@ nuspec2 :autofacnuspec do |nuspec|
    nuspec.language = "en-US"
    nuspec.licenseUrl = "http://lambdalifted.codeplex.com/license"
    nuspec.projectUrl = "http://lambdalifted.codeplex.com"
-   nuspec.dependency "Autofac", "2.4.5.724"
+   nuspec.dependency "Autofac", "2.5.2.830"
    nuspec.working_directory = "Build/stage"
    nuspec.command = "../../tools/nuget/nuget.exe"
    nuspec.file "Manifold.autofac.dll", "lib"
