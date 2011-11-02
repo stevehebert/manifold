@@ -55,6 +55,7 @@
     <Compile Include="Configuration\Pipeline\Operations\InjectedRoutedOperation.cs" />
     <Compile Include="Configuration\Pipeline\Operations\IOperation.cs" />
     <Compile Include="Configuration\Projector\ProjectorDefinition.cs" />
+    <Compile Include="DependencyInjection\AnonymousPipe.cs" />
     <Compile Include="DependencyInjection\IPipelineAggregator.cs" />
     <Compile Include="DependencyInjection\IRegisterTypes.cs" />
     <Compile Include="DependencyInjection\IPipelineContext.cs" />

@@ -107,26 +107,26 @@ namespace Manifold.DependencyInjection
 
             _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TName, TInput, IEnumerable<TOutput>>(name, compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TName, TInput, IEnumerable<TOutput>>>( ctx =>
-                                                                                        {
-                                                                                            var pipeThings =
-                                                                                                ctx.TypeResolver.Resolve
-                                                                                                    (typeof (
+                                        {
+                                            var pipeThings =
+                                                ctx.TypeResolver.Resolve
+                                                    (typeof (
 
-                                                                                                         IEnumerable<NamedPipe
-                                                                                                         <TName,
-                                                                                                         TInput,
-                                                                                                         IEnumerable<TOutput>>>)) as IEnumerable<NamedPipe<TName,TInput,IEnumerable<TOutput>>>;
+                                                            IEnumerable<NamedPipe
+                                                            <TName,
+                                                            TInput,
+                                                            IEnumerable<TOutput>>>)) as IEnumerable<NamedPipe<TName,TInput,IEnumerable<TOutput>>>;
 
-                                                                                            return (myname, input) =>
-                                                                                                {
-                                                                                                    var pipeThing = (from p in pipeThings where p.Name.Equals(myname) select p).First();
-                                                                                                    return
-                                                                                                        pipeThing.Pipe(
-                                                                                                            ctx, input);
+                                            return (myname, input) =>
+                                                {
+                                                    var pipeThing = (from p in pipeThings where p.Name.Equals(myname) select p).First();
+                                                    return
+                                                        pipeThing.Pipe(
+                                                            ctx, input);
 
 
 
-                                                                                                };}));
+                                                };}));
             return new ProjectorConfigurator<TInput, TOutput>(definition);
         }
 
@@ -142,29 +142,13 @@ namespace Manifold.DependencyInjection
                 Named = new DefaultPipeline<TInput, IEnumerable<TOutput>>()
             }, compiler);
 
+            _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, IEnumerable<TOutput>>(compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TInput, IEnumerable<TOutput>>>(ctx =>
-                                                                                             {
-                                                                                                 var compiledFunction =
-                                                                                                     compiler.Compile();
+                                        {
+                                            var pipe = ctx.TypeResolver.Resolve(typeof(AnonymousPipe<TInput, IEnumerable<TOutput>>)) as AnonymousPipe<TInput, IEnumerable<TOutput>>;
 
-                                                                                                 return
-                                                                                                     input =>
-                                                                                                         {
-                                                                                                             {
-                                                                                                                 var
-                                                                                                                     output
-                                                                                                                         =
-                                                                                                                         compiledFunction
-                                                                                                                             (ctx,
-                                                                                                                              input);
-
-                                                                                                                 return
-                                                                                                                     (IEnumerable<TOutput>)output;
-                                                                                                             }
-                                                                                                         };
-
-                                                                                             }
-                                              ));
+                                            return input => pipe.Pipe(ctx, input);
+                                        }));
 
             return new ProjectorConfigurator<TInput, TOutput>(definition);
         }
