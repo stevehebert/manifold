@@ -10,6 +10,7 @@ namespace Manifold.Configuration
         PipelineConfigurator<TInput, TOutput> RegisterPipeline<TNameType, TInput, TOutput>(TNameType name);
 
         ProjectorConfigurator<TInput, TOutput> RegisterProjector<TInput, TOutput>();
+        ProjectorConfigurator<TInput, TOutput> RegisterProjector<TNameType, TInput, TOutput>(TNameType name);
 
         void Compile(IRegisterTypes typeRegistrar);
     }

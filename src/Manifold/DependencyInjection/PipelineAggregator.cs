@@ -93,6 +93,43 @@ namespace Manifold.DependencyInjection
             return new PipelineConfigurator<TInput, TOutput>(definition);
         }
 
+        public ProjectorConfigurator<TInput,TOutput> CreateProjector<TName, TInput, TOutput>(TName name)
+        {
+            var definition = new ProjectorDefinition<TInput, TOutput>(_registrationActions);
+            var compiler = new ProjectorCompiler<TInput, TOutput>(definition);
+
+            _aggregatePipelines.Add(new PipelineKey
+            {
+                Input = typeof(TInput),
+                Output = typeof(IEnumerable<TOutput>),
+                Named = name
+            }, compiler);
+
+            _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TName, TInput, IEnumerable<TOutput>>(name, compiler.TypedCompile())));
+            _registrationActions.Add(a => a.Register<Pipe<TName, TInput, IEnumerable<TOutput>>>( ctx =>
+                                                                                        {
+                                                                                            var pipeThings =
+                                                                                                ctx.TypeResolver.Resolve
+                                                                                                    (typeof (
+
+                                                                                                         IEnumerable<NamedPipe
+                                                                                                         <TName,
+                                                                                                         TInput,
+                                                                                                         IEnumerable<TOutput>>>)) as IEnumerable<NamedPipe<TName,TInput,IEnumerable<TOutput>>>;
+
+                                                                                            return (myname, input) =>
+                                                                                                {
+                                                                                                    var pipeThing = (from p in pipeThings where p.Name.Equals(myname) select p).First();
+                                                                                                    return
+                                                                                                        pipeThing.Pipe(
+                                                                                                            ctx, input);
+
+
+
+                                                                                                };}));
+            return new ProjectorConfigurator<TInput, TOutput>(definition);
+        }
+
         public ProjectorConfigurator<TInput, TOutput> CreateProjector<TInput, TOutput>()
         {
             var definition = new ProjectorDefinition<TInput,TOutput>(_registrationActions);

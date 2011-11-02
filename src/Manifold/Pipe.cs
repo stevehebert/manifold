@@ -7,7 +7,7 @@ namespace Manifold
     public delegate TOutput Pipe<in TInput, out TOutput>(TInput input);
 
     public delegate TOutput Pipe<in TNameType, in TInput, out TOutput>(TNameType name, TInput input);
-
+    
     public static class FunctorExtensions
     {
         /// <summary>
@@ -49,8 +49,6 @@ namespace Manifold
         /// <param name="name">The name.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        /// 
-        /// Pipe<string, Functor<int, model>>
         public static IEnumerable<TOutput> fmap<TNameType, TInput, TOutput>(this Pipe<TNameType, TInput, TOutput> function, TNameType name,
                                                                  IEnumerable<TInput> values)
         {

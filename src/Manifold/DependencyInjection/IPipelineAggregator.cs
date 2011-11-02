@@ -13,5 +13,6 @@ namespace Manifold.DependencyInjection
         PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>();
 
         ProjectorConfigurator<TInput, TOutput> CreateProjector<TInput, TOutput>();
+        ProjectorConfigurator<TInput, TOutput> CreateProjector<TNameType, TInput, TOutput>(TNameType name);
     }
 }

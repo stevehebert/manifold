@@ -60,6 +60,7 @@
     <Compile Include="DependencyInjection\IPipelineContext.cs" />
     <Compile Include="Configuration\Pipeline\Operations\NamedResolutionOperation.cs" />
     <Compile Include="DependencyInjection\ITypeResolver.cs" />
+    <Compile Include="DependencyInjection\NamedPipe.cs" />
     <Compile Include="DependencyInjection\PipelineAggregator.cs" />
     <Compile Include="DependencyInjection\PipelineContext.cs" />
     <Compile Include="IRoutingPipelineTask.cs" />

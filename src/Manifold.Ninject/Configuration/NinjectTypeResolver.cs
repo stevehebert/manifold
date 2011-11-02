@@ -15,6 +15,8 @@ namespace Manifold.Ninject.Configuration
 
         public object Resolve(Type type)
         {
+            //_kernel.Bind(typeof(Pipe<,>))
+                //.ToMethod(x => x.)
             return _kernel.Get(type);
         }
     }

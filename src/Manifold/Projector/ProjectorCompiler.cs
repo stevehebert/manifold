@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Manifold.Configuration;
 using Manifold.Configuration.Projector;
@@ -19,6 +20,13 @@ namespace Manifold.Projector
         {
             return (injector, input) => from p in _projectorDefinition.Operations
                                         from q in p.GetExecutor()(injector, (TInput) input)
+                                        select q;
+        }
+
+        public Func<IPipelineContext, TInput, IEnumerable<TOutput>> TypedCompile()
+        {
+            return (injector, input) => from p in _projectorDefinition.Operations
+                                        from q in p.GetExecutor()(injector, input)
                                         select q;
         }
     }

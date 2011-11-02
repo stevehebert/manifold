@@ -28,6 +28,11 @@ namespace Manifold.Configuration
             return _pipelineAggregator.CreateProjector<TInput, TOutput>();
         }
 
+        public ProjectorConfigurator<TInput, TOutput> RegisterProjector<TNameType, TInput, TOutput>(TNameType name)
+        {
+            return _pipelineAggregator.CreateProjector<TNameType, TInput, TOutput>(name);
+        }
+
         public void Compile(IRegisterTypes typeRegistrar)
         {
             _pipelineAggregator.Compile(typeRegistrar);
