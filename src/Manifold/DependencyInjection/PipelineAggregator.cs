@@ -44,7 +44,7 @@ namespace Manifold.DependencyInjection
                                             Input = typeof (TInput),
                                             Output = typeof (TOutput),
                                             Named = name
-                                        }, new PipelineCompiler(definition));
+                                        }, new PipelineCompiler<TInput,TOutput>(definition));
 
             _registrationActions.Add(a => a.Register<Pipe<TType, TInput, TOutput>>(ctx =>
                                                                                        {
@@ -65,7 +65,7 @@ namespace Manifold.DependencyInjection
         public PipelineConfigurator<TInput, TOutput> CreatePipeline<TInput, TOutput>() 
         {
             var definition = new PipeDefinition(_registrationActions);
-            var compiler = new PipelineCompiler(definition);
+            var compiler = new PipelineCompiler<TInput, TOutput>(definition);
 
             _aggregatePipelines.Add(new PipelineKey
             {
@@ -74,23 +74,38 @@ namespace Manifold.DependencyInjection
                 Named = new DefaultPipeline<TInput, TOutput>()
             }, compiler);
 
+            _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, TOutput>(compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TInput, TOutput>>(ctx =>
                                                                                 {
-                                                                                    var compiledFunction =
-                                                                                        compiler.Compile();
+                                                                                    var pipe = ctx.TypeResolver.Resolve(typeof(AnonymousPipe<TInput, TOutput>)) as AnonymousPipe<TInput, TOutput>;
 
-                                                                                    return
-                                                                                        input =>
-                                                                                            {
-                                                                                                var output =
-                                                                                                    compiledFunction(
-                                                                                                        ctx, input);
-                                                                                                return (TOutput) output;
-                                                                                            };
-                                                                                }
-                                              ));
+                                                                                    return input => pipe.Pipe(ctx, input);
+                                                                                }));
 
             return new PipelineConfigurator<TInput, TOutput>(definition);
+        }
+
+        public ProjectorConfigurator<TInput, TOutput> CreateProjector<TInput, TOutput>()
+        {
+            var definition = new ProjectorDefinition<TInput, TOutput>(_registrationActions);
+            var compiler = new ProjectorCompiler<TInput, TOutput>(definition);
+
+            _aggregatePipelines.Add(new PipelineKey
+            {
+                Input = typeof(TInput),
+                Output = typeof(IEnumerable<TOutput>),
+                Named = new DefaultPipeline<TInput, IEnumerable<TOutput>>()
+            }, compiler);
+
+            _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, IEnumerable<TOutput>>(compiler.TypedCompile())));
+            _registrationActions.Add(a => a.Register<Pipe<TInput, IEnumerable<TOutput>>>(ctx =>
+            {
+                var pipe = ctx.TypeResolver.Resolve(typeof(AnonymousPipe<TInput, IEnumerable<TOutput>>)) as AnonymousPipe<TInput, IEnumerable<TOutput>>;
+
+                return input => pipe.Pipe(ctx, input);
+            }));
+
+            return new ProjectorConfigurator<TInput, TOutput>(definition);
         }
 
         public ProjectorConfigurator<TInput,TOutput> CreateProjector<TName, TInput, TOutput>(TName name)
@@ -130,27 +145,6 @@ namespace Manifold.DependencyInjection
             return new ProjectorConfigurator<TInput, TOutput>(definition);
         }
 
-        public ProjectorConfigurator<TInput, TOutput> CreateProjector<TInput, TOutput>()
-        {
-            var definition = new ProjectorDefinition<TInput,TOutput>(_registrationActions);
-            var compiler = new ProjectorCompiler<TInput,TOutput>(definition);
-
-            _aggregatePipelines.Add(new PipelineKey
-            {
-                Input = typeof(TInput),
-                Output = typeof(IEnumerable<TOutput>),
-                Named = new DefaultPipeline<TInput, IEnumerable<TOutput>>()
-            }, compiler);
-
-            _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, IEnumerable<TOutput>>(compiler.TypedCompile())));
-            _registrationActions.Add(a => a.Register<Pipe<TInput, IEnumerable<TOutput>>>(ctx =>
-                                        {
-                                            var pipe = ctx.TypeResolver.Resolve(typeof(AnonymousPipe<TInput, IEnumerable<TOutput>>)) as AnonymousPipe<TInput, IEnumerable<TOutput>>;
-
-                                            return input => pipe.Pipe(ctx, input);
-                                        }));
-
-            return new ProjectorConfigurator<TInput, TOutput>(definition);
-        }
+        
     }
 }
