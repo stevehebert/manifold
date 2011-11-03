@@ -16,20 +16,13 @@ namespace Manifold.DependencyInjection
         {
             _registrationActions.Add(a => a.RegisterResolver<TResolver>());
         }
-        public IDictionary<PipelineKey, Func<IPipelineContext, object, object>> Compile(IRegisterTypes typeRegistrar)
+        public void Compile(IRegisterTypes typeRegistrar)
         {
-            var dictionary = _aggregatePipelines.ToDictionary(value => value.Key, value => value.Value.Compile()) as IDictionary<PipelineKey, Func<IPipelineContext, object, object>>;
-            typeRegistrar.RegisterInstance(dictionary);
-
             typeRegistrar.RegisterType<PipelineContext, IPipelineContext>();
             foreach (var item in _registrationActions)
                 item(typeRegistrar);
 
-            return dictionary;
         }
-
-        private readonly IDictionary<PipelineKey, IPipeCompiler> _aggregatePipelines =
-            new Dictionary<PipelineKey, IPipeCompiler>();
 
         private readonly IList<Action<IRegisterTypes>> _registrationActions = new List<Action<IRegisterTypes>>();
 
@@ -39,13 +32,6 @@ namespace Manifold.DependencyInjection
         {
             var definition = new PipeDefinition(_registrationActions);
             var compiler = new PipelineCompiler<TInput, TOutput>(definition);
-
-            _aggregatePipelines.Add(new PipelineKey
-                                        {
-                                            Input = typeof (TInput),
-                                            Output = typeof (TOutput),
-                                            Named = name
-                                        }, compiler);
 
             _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TType, TInput, TOutput>(name, compiler.TypedCompile())));
             
@@ -71,13 +57,6 @@ namespace Manifold.DependencyInjection
             var definition = new PipeDefinition(_registrationActions);
             var compiler = new PipelineCompiler<TInput, TOutput>(definition);
 
-            _aggregatePipelines.Add(new PipelineKey
-            {
-                Input = typeof(TInput),
-                Output = typeof(TOutput),
-                Named = new DefaultPipeline<TInput, TOutput>()
-            }, compiler);
-
             _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, TOutput>(compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TInput, TOutput>>(ctx =>
                                                                                 {
@@ -94,13 +73,6 @@ namespace Manifold.DependencyInjection
             var definition = new ProjectorDefinition<TInput, TOutput>(_registrationActions);
             var compiler = new ProjectorCompiler<TInput, TOutput>(definition);
 
-            _aggregatePipelines.Add(new PipelineKey
-            {
-                Input = typeof(TInput),
-                Output = typeof(IEnumerable<TOutput>),
-                Named = new DefaultPipeline<TInput, IEnumerable<TOutput>>()
-            }, compiler);
-
             _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, IEnumerable<TOutput>>(compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TInput, IEnumerable<TOutput>>>(ctx =>
             {
@@ -116,13 +88,6 @@ namespace Manifold.DependencyInjection
         {
             var definition = new ProjectorDefinition<TInput, TOutput>(_registrationActions);
             var compiler = new ProjectorCompiler<TInput, TOutput>(definition);
-
-            _aggregatePipelines.Add(new PipelineKey
-            {
-                Input = typeof(TInput),
-                Output = typeof(IEnumerable<TOutput>),
-                Named = name
-            }, compiler);
 
             _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TName, TInput, IEnumerable<TOutput>>(name, compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TName, TInput, IEnumerable<TOutput>>>( ctx =>
