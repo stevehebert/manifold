@@ -71,6 +71,7 @@ namespace Manifold.Configuration.Pipeline
         {
             Closed = false;
             _operations.Add(new InjectedRoutedOperation<TType, TInput, TOutput>());
+            _registrationActions.Add(ctx => ctx.RegisterType<TType>());
         }
 
         public void AddRouteFunctionOperation<TInput, TOutput>(Func<TInput, bool> canProcessFunction,

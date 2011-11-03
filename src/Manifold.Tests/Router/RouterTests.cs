@@ -7,6 +7,40 @@ namespace Manifold.Tests.Router
     [TestFixture]
     public class RouterTests
     {
+        public class ConditionalRoute : IRoutingPipelineTask<int, int>
+        {
+            public int Execute(int input)
+            {
+                return input*10;
+            }
+
+            public bool CanExecute(int input)
+            {
+                return input > 0;
+            }
+        }
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void injected_route_test(SupportedProviderType supportedProviderType)
+        {
+            // arrange
+            var module = CommonModuleProvider.Create(supportedProviderType,
+                    e =>
+                    e.RegisterPipeline<int, int>()
+                        .CreateRouter()
+                            .BindConditional<ConditionalRoute>()
+                            .Default(x => x * 100));
+
+
+            // act
+            var function = module.Resolve<Pipe<int, int>>();
+
+            // assert
+            Assert.That(function(10), Is.EqualTo(100));
+            Assert.That(function(-10), Is.EqualTo(-1000));
+        }
+
         [TestCase(SupportedProviderType.Autofac)]
         [TestCase(SupportedProviderType.Ninject)]
         public void simple_single_route_test_behavior(SupportedProviderType supportedProviderType)
