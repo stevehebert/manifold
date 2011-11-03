@@ -8,6 +8,7 @@ namespace Manifold.Configuration.Pipeline.Operations
     public class NamedResolutionOperation<TInput, TOutput, TNameType> : IOperation
     {
         private readonly TNameType _name;
+        private IEnumerable<NamedPipe<TNameType, TInput, TOutput>> _namedPipes; 
 
         public NamedResolutionOperation(TNameType name)
         {
@@ -24,18 +25,15 @@ namespace Manifold.Configuration.Pipeline.Operations
         {
             return (resolver, o) =>
                        {
-                           var key = new PipelineKey {Input = typeof (TInput), Output = typeof (TOutput), Named = name};
+                           if (_namedPipes == null)
+                               _namedPipes =
+                                   resolver.TypeResolver.Resolve(
+                                       typeof (IEnumerable<NamedPipe<TNameType, TInput, TOutput>>)) as
+                                   IEnumerable<NamedPipe<TNameType, TInput, TOutput>>;
 
-                           var pipeData =
-                               resolver.TypeResolver.Resolve(
-                                   typeof (IEnumerable<IDictionary<PipelineKey, Func<IPipelineContext, object, object>>>))
-                               as IEnumerable<IDictionary<PipelineKey, Func<IPipelineContext, object, object>>>;
+                           var pipe = (from p in _namedPipes where name.Equals(p.Name) select p).First();
 
-                           var targetSet = (from p in pipeData
-                                            where p.ContainsKey(key)
-                                            select p).FirstOrDefault();
-
-                           return targetSet[key](resolver, (TInput)o);
+                           return pipe.Pipe(resolver, (TInput)o);
                        };
         }
     }

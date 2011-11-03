@@ -44,7 +44,7 @@ namespace Manifold.PipeAndFilter
                 functionDefinition = (a, b) => fn(a, localFn(a, b));
             }
 
-            return null;
+            return (ctx, input) => (TOutput) functionDefinition(ctx, input);
         }
 
         public Func<IPipelineContext, object, object> Compile(Queue<IOperation> operations)

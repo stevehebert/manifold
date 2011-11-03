@@ -38,27 +38,31 @@ namespace Manifold.DependencyInjection
         public PipelineConfigurator<TInput,TOutput> CreatePipeline<TType, TInput, TOutput>(TType name) 
         {
             var definition = new PipeDefinition(_registrationActions);
+            var compiler = new PipelineCompiler<TInput, TOutput>(definition);
 
             _aggregatePipelines.Add(new PipelineKey
                                         {
                                             Input = typeof (TInput),
                                             Output = typeof (TOutput),
                                             Named = name
-                                        }, new PipelineCompiler<TInput,TOutput>(definition));
+                                        }, compiler);
 
+            _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TType, TInput, TOutput>(name, compiler.TypedCompile())));
+            
             _registrationActions.Add(a => a.Register<Pipe<TType, TInput, TOutput>>(ctx =>
                                                                                        {
-                                                                                            var op =
-                                                                                                new NamedResolutionOperation
-                                                                                                    <TInput,
-                                                                                                        TOutput, TType>(name);
-                                                                                            return
-                                                                                                (type, input) =>
-                                                                                                (TOutput)
-                                                                                                op.GetNamedClosure(type)(ctx,
-                                                                                                                input);
+                                                                                           var pipeThings = ctx.TypeResolver.Resolve(typeof(IEnumerable<NamedPipe<TType, TInput,TOutput>>)) as IEnumerable<NamedPipe<TType,TInput,TOutput>>; 
 
-                                                                                        }));
+                                                                                            return (myname, input) =>
+                                                                                            {
+                                                                                                var pipeThing = (from p in pipeThings where p.Name.Equals(myname) select p).First();
+                                                                                                return
+                                                                                                    pipeThing.Pipe(
+                                                                                                        ctx, input);
+
+
+                                                                                            };
+                                                                                       }));
             return new PipelineConfigurator<TInput, TOutput>(definition);
         }
 
