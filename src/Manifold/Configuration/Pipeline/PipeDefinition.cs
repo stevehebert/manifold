@@ -60,6 +60,12 @@ namespace Manifold.Configuration.Pipeline
             _operations.Add(new NamedResolutionOperation<TInput, TOutput, TNameType>(name));
         }
 
+        public void AddAnonymousContinuation<TInput, TOutput>(bool closed)
+        {
+            Closed = closed;
+            _operations.Add(new AnonymousResolutionOperation<TInput, TOutput>());
+        }
+
         public void AddInjectedRouteOperation<TType, TInput, TOutput>()
             where TType : class, IRoutingPipelineTask<TInput, TOutput>
         {

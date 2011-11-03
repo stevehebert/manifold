@@ -43,6 +43,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\Pipeline\Operations\AnonymousResolutionOperation.cs" />
     <Compile Include="Configuration\Projector\IProjectorDefinition.cs" />
     <Compile Include="Configuration\Projector\Operations\FunctionOperation.cs" />
     <Compile Include="Configuration\Projector\Operations\InjectedProjectorOperation.cs" />

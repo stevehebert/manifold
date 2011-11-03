@@ -89,13 +89,14 @@ namespace Manifold.PipeAndFilter
 
         public PipelineConfigurator<TOutput, TOutput> ContinueWith()
         {
-            _pipeDefinition.AddNamedContinuation<TInput, TOutput, DefaultPipeline<TInput, TOutput>>(new DefaultPipeline<TInput,TOutput>(), true);
+            _pipeDefinition.AddAnonymousContinuation<TInput, TOutput>(true);
             return new PipelineConfigurator<TOutput, TOutput>(_pipeDefinition);
         }
 
         public PipelineConfigurator<TOutputType, TOutput> ContinueWith<TOutputType>()
         {
-            _pipeDefinition.AddNamedContinuation<TInput, TOutputType, DefaultPipeline<TInput, TOutputType>>(new DefaultPipeline<TInput, TOutputType>(), typeof(TOutput) == typeof(TOutputType));
+
+            _pipeDefinition.AddAnonymousContinuation<TInput, TOutputType>(typeof(TOutput) == typeof(TOutputType));
             return new PipelineConfigurator<TOutputType, TOutput>(_pipeDefinition);
         }
 

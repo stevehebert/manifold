@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Manifold.Configuration;
 using Manifold.Configuration.Pipeline;
-using Manifold.Configuration.Pipeline.Operations;
 using Manifold.Configuration.Projector;
 using Manifold.PipeAndFilter;
 using Manifold.Projector;
@@ -12,12 +11,17 @@ namespace Manifold.DependencyInjection
 {
     public class PipelineAggregator<TResolver> : IPipelineAggregator where TResolver : ITypeResolver
     {
+        public IList<IPipeCompiler> Compilers { get; private set; }
         public PipelineAggregator()
         {
+            Compilers = new List<IPipeCompiler>();
             _registrationActions.Add(a => a.RegisterResolver<TResolver>());
         }
         public void Compile(IRegisterTypes typeRegistrar)
         {
+            foreach (var item in Compilers)
+                item.Compile();
+
             typeRegistrar.RegisterType<PipelineContext, IPipelineContext>();
             foreach (var item in _registrationActions)
                 item(typeRegistrar);
@@ -32,7 +36,7 @@ namespace Manifold.DependencyInjection
         {
             var definition = new PipeDefinition(_registrationActions);
             var compiler = new PipelineCompiler<TInput, TOutput>(definition);
-
+            Compilers.Add(compiler);
             _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TType, TInput, TOutput>(name, compiler.TypedCompile())));
             
             _registrationActions.Add(a => a.Register<Pipe<TType, TInput, TOutput>>(ctx =>
@@ -56,6 +60,7 @@ namespace Manifold.DependencyInjection
         {
             var definition = new PipeDefinition(_registrationActions);
             var compiler = new PipelineCompiler<TInput, TOutput>(definition);
+            Compilers.Add(compiler);
 
             _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, TOutput>(compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TInput, TOutput>>(ctx =>
@@ -72,6 +77,7 @@ namespace Manifold.DependencyInjection
         {
             var definition = new ProjectorDefinition<TInput, TOutput>(_registrationActions);
             var compiler = new ProjectorCompiler<TInput, TOutput>(definition);
+            Compilers.Add(compiler);
 
             _registrationActions.Add(a => a.Register(ctx => new AnonymousPipe<TInput, IEnumerable<TOutput>>(compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TInput, IEnumerable<TOutput>>>(ctx =>
@@ -88,6 +94,7 @@ namespace Manifold.DependencyInjection
         {
             var definition = new ProjectorDefinition<TInput, TOutput>(_registrationActions);
             var compiler = new ProjectorCompiler<TInput, TOutput>(definition);
+            Compilers.Add(compiler);
 
             _registrationActions.Add(a => a.Register(ctx => new NamedPipe<TName, TInput, IEnumerable<TOutput>>(name, compiler.TypedCompile())));
             _registrationActions.Add(a => a.Register<Pipe<TName, TInput, IEnumerable<TOutput>>>( ctx =>
