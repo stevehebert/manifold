@@ -28,6 +28,11 @@ namespace Manifold.Router
             PipeDefinition.AddNamedContinuation<TInput, TOutput, TNameType>(name, true);
         }
 
+        public void DefaultContinue<TNameType, TAlternateInput>(TNameType name, Func<TInput, TAlternateInput> function )
+        {
+            PipeDefinition.AddCoercedContinuation<TNameType, TInput, TAlternateInput, TOutput>(name, function, true);
+        }
+
         public RouterConfigurator<TInput, TOutput> BindConditional(Func<TInput, bool> canProcessFunction, Func<TInput,TOutput> processFunction   )
         {
             PipeDefinition.AddRouteFunctionOperation(canProcessFunction, processFunction, true);

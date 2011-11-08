@@ -38,9 +38,16 @@ namespace Manifold.Configuration.Pipeline
             _registrationActions.Add(ctx => ctx.RegisterType<TType>());
         }
 
-        
+        public void AddCoercedContinuation<TNameType, TInput, TAlternateInput, TOutput> (TNameType name,
+                                                                                        Func<TInput, TAlternateInput>
+                                                                                            function, bool closed)
+        {
+            Closed = closed;
+            _operations.Add(new FunctionalNamedResolutionOperation<TInput, TOutput, TAlternateInput, TNameType>(name, function));
+        }
+    
 
-        public void AddFunctionOperation<TInput, TOutput>(Func<TInput, TOutput> function, bool closed)
+    public void AddFunctionOperation<TInput, TOutput>(Func<TInput, TOutput> function, bool closed)
         {
             Closed = closed;
             _operations.Add(new FunctionOperation<TInput, TOutput>(function));

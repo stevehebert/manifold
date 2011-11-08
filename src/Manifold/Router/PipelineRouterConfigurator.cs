@@ -1,4 +1,3 @@
-using Manifold.Configuration;
 using Manifold.Configuration.Pipeline;
 using Manifold.PipeAndFilter;
 

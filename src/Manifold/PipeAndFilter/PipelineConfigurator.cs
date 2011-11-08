@@ -111,21 +111,6 @@ namespace Manifold.PipeAndFilter
             return new PipelineConfigurator<TOutput, TOutput>(_pipeDefinition);
         }
 
-        //public PipelineConfigurator<TOutput, TOutput> ContextualContinuation<TType>()
-        //{
-        //    _builder.Add(a => a.Register<Functor<TType, TInput, TOutput>>(c =>
-        //    {
-        //        var item =
-        //            c.Resolve(typeof(NamedResolver<TInput, TOutput>)) as
-        //            NamedResolver<TInput, TOutput>;
-
-        //        return
-        //            (clarifier, input) => item.Execute(clarifier, input);
-        //    }));
-
-        //    return this;
-        //}
-
         public PipelineRouterConfigurator<TInput, TOutput, TOutput> CreateRouter()
         {
             return new PipelineRouterConfigurator<TInput, TOutput, TOutput>(_pipeDefinition);
