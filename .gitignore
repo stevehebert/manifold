@@ -4,6 +4,8 @@
 syntax: glob
 
 # Ignore Visual Studio 2008 files
+src/packages
+src/Manifold.1.1.dotCover
 *.obj
 *.exe
 *.pdb
