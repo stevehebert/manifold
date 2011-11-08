@@ -1,5 +1,4 @@
 ﻿using System;
-using Manifold.Configuration;
 using Manifold.Configuration.Pipeline;
 
 namespace Manifold.Router
@@ -24,9 +23,14 @@ namespace Manifold.Router
             PipeDefinition.AddInjectedOperation<TType, TInput, TOutput>(true);
         }
 
+        public void DefaultContinue<TNameType>(TNameType name)
+        {
+            PipeDefinition.AddNamedContinuation<TInput, TOutput, TNameType>(name, true);
+        }
+
         public RouterConfigurator<TInput, TOutput> BindConditional(Func<TInput, bool> canProcessFunction, Func<TInput,TOutput> processFunction   )
         {
-            PipeDefinition.AddRouteFunctionOperation<TInput, TOutput>(canProcessFunction, processFunction, true);
+            PipeDefinition.AddRouteFunctionOperation(canProcessFunction, processFunction, true);
             return this;
         } 
         

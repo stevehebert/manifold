@@ -108,5 +108,75 @@ namespace Manifold.Tests.Router
             Assert.That(output[1], Is.EqualTo(1100));
             Assert.That(output[2], Is.EqualTo(9000));
         }
+
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject, Ignored = true)]
+        public void test_named_default_route_action(SupportedProviderType supportedProviderType)
+        {
+            // arrange
+            var module = CommonModuleProvider.Create(supportedProviderType,
+                                                     e =>
+                                                         {
+                                                             e.RegisterPipeline<int, int>()
+                                                                 .CreateRouter()
+                                                                 .BindConditional(i => i > 20, x => x*10)
+                                                                 .BindConditional(i => i > 10, x => x*100)
+                                                                 .DefaultContinue(0);
+
+                                                             e.RegisterPipeline<int, int, int>(0)
+                                                                 .Bind(x => x*1000);
+
+                                                             e.RegisterPipeline<int, int, int>(1)
+                                                                 .Bind(x => x*100);
+
+                                                         });
+
+            // act
+            var function = module.Resolve<Pipe<int, int>>();
+
+            // assert
+            var output = function.fmap(new[] { 21, 11, 9 }).ToList();
+
+            Assert.That(output.Count(), Is.EqualTo(3));
+            Assert.That(output[0], Is.EqualTo(210));
+            Assert.That(output[1], Is.EqualTo(1100));
+            Assert.That(output[2], Is.EqualTo(9000));
+        }
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject, Ignored=true)]
+        public void test_named_alternate_route_action(SupportedProviderType supportedProviderType)
+        {
+            // arrange
+            var module = CommonModuleProvider.Create(supportedProviderType,
+                                                     e =>
+                                                     {
+                                                         e.RegisterPipeline<int, int>()
+                                                             .CreateRouter()
+                                                             .BindConditional(i => i > 20, x => x * 10)
+                                                             .BindConditional(i => i > 10, x => x * 100)
+                                                             .DefaultContinue(1);
+
+                                                         e.RegisterPipeline<int, int, int>(0)
+                                                             .Bind(x => x * 1000);
+
+                                                         e.RegisterPipeline<int, int, int>(1)
+                                                             .Bind(x => x * 100);
+                                                     });
+
+            // act
+            var function = module.Resolve<Pipe<int, int>>();
+
+            // assert
+            var output = function.fmap(new[] { 21, 11, 9 }).ToList();
+
+            Assert.That(output.Count(), Is.EqualTo(3));
+            Assert.That(output[0], Is.EqualTo(210));
+            Assert.That(output[1], Is.EqualTo(1100));
+            Assert.That(output[2], Is.EqualTo(900));
+        }
+
+
     }
 }
