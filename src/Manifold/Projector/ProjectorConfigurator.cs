@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Manifold.Configuration;
 using Manifold.Configuration.Projector;
 
 namespace Manifold.Projector
@@ -25,6 +24,14 @@ namespace Manifold.Projector
 
             return this;
         }
+
+        public ProjectorConfigurator<TInput, TOutput> Bind<TType>(Func<TType, TInput, IEnumerable<TOutput>> function ) where TType : class
+        {
+            _projectorDefinition.AddCustomInjectedOperation(function);
+
+            return this;
+        }
+        
     }
 
 }

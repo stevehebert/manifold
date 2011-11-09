@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Autofac;
 using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
@@ -17,6 +16,15 @@ namespace Manifold.Tests.Projector
             {
                 yield return input*3;
                 yield return input*5;
+            }
+        }
+
+        public class NonConformingProjector
+        {
+            public IEnumerable<int> Run(int input)
+            {
+                yield return input*30;
+                yield return input*50;
             }
         }
 
@@ -99,6 +107,32 @@ namespace Manifold.Tests.Projector
 
             Assert.That(resolvedItems.ToArray()[0], Is.EqualTo(15));
             Assert.That(resolvedItems.ToArray()[1], Is.EqualTo(25));
+            Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(500));
+            Assert.That(resolvedItems.ToArray()[3], Is.EqualTo(5000));
+        }
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void non_conforming_injection_composition(SupportedProviderType supportedProviderType)
+        {
+            // arrange
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+                                                                                  .Bind<NonConformingProjector>((p,input) => p.Run(input) )
+                                                                                  .Bind(
+                                                                                      input =>
+                                                                                      new[] { input * 100, input * 1000 }));
+
+            var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
+
+            // act
+            var resolvedItems = function(5);
+
+            // assert
+            Assert.NotNull(resolvedItems);
+            Assert.That(resolvedItems.Count(), Is.EqualTo(4));
+
+            Assert.That(resolvedItems.ToArray()[0], Is.EqualTo(150));
+            Assert.That(resolvedItems.ToArray()[1], Is.EqualTo(250));
             Assert.That(resolvedItems.ToArray()[2], Is.EqualTo(500));
             Assert.That(resolvedItems.ToArray()[3], Is.EqualTo(5000));
         }
