@@ -58,6 +58,12 @@ namespace Manifold.Configuration.Pipeline
         {
             Closed = closed;
             _operations.Add(new CustomInjectedOperation<TType, TInput, TOutput>(function));
+            var targetType = typeof (TType);
+
+            if (targetType.IsGenericType)
+                if (typeof(TType).GetGenericTypeDefinition() != typeof(Pipe<,>) || typeof(TType).GetGenericTypeDefinition() != typeof(Pipe<,,>))
+                    return;
+
             _registrationActions.Add(ctx => ctx.RegisterType<TType>());
         }
 

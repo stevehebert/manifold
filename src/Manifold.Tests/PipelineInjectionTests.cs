@@ -33,6 +33,35 @@ namespace Manifold.Tests
 
         [TestCase(SupportedProviderType.Autofac)]
         [TestCase(SupportedProviderType.Ninject)]
+        public void verify_pipe_injection(SupportedProviderType supportedProviderType)
+        {
+            var module = CommonModuleProvider.Create(supportedProviderType,
+                                               item =>
+                                                   {
+                                                       item.RegisterPipeline<IEnumerable<int>, IEnumerable<string>>()
+                                                           .Bind<Pipe<IEnumerable<int>, IEnumerable<int>>, IEnumerable<int>>((p, input) => p(input))
+                                                           .Bind(p => from i in p select i.ToString());
+
+                                                       item.RegisterPipeline<IEnumerable<int>, IEnumerable<int>>()
+                                                           .Bind<Adder>()
+                                                           .Bind<Divider>();
+                                                   });
+
+
+            var function = module.Resolve<Pipe<IEnumerable<int>, IEnumerable<string>>>();
+
+            var items = new[] { 10, 20, 30 };
+
+            var resolvedItems = function(items);
+
+            Assert.That(resolvedItems.Count(), Is.EqualTo(3));
+            Assert.That(resolvedItems.ToArray()[0], Is.EqualTo("6"));
+            Assert.That(resolvedItems.ToArray()[1], Is.EqualTo("11"));
+            Assert.That(resolvedItems.ToArray()[2], Is.EqualTo("16"));
+        }
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
         public void verify_inline_type_conversion(SupportedProviderType supportedProviderType)
         {
             var module = CommonModuleProvider.Create(supportedProviderType,

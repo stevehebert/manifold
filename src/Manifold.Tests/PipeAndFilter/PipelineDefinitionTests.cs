@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Manifold.Configuration;
 using Manifold.Configuration.Pipeline;
 using Manifold.DependencyInjection;
 using Moq;
