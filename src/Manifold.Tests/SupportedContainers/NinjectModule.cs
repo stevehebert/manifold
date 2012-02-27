@@ -32,6 +32,11 @@ namespace Manifold.Tests.SupportedContainers
             return _kernel.Value.Get<TType>();
         }
 
+        public void Register<TType,TInterface>() where TType:TInterface
+        {
+             _kernel.Value.Bind<TInterface>().To<TType>();
+        }
+
         public void Build()
         {
             if (_kernel.Value == null) throw new InvalidOperationException();

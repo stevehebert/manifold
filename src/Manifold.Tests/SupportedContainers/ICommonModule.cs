@@ -4,5 +4,6 @@ namespace Manifold.Tests.SupportedContainers
     {
         TType Resolve<TType>();
         void Build();
+        void Register<TType, TInterface>() where TType : TInterface;
     }
 }

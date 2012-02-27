@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Autofac;
 using Manifold.Tests.SupportedContainers;
 using NUnit.Framework;
 
@@ -27,6 +27,26 @@ namespace Manifold.Tests.Projector
                 yield return input * 3;
                 Thread.Sleep(10000);
                 yield return input * 5;
+            }
+        }
+
+
+        
+        public class InjectedProjector
+        {
+            private readonly IProjectorTask<int, int> _dependency;
+
+            public InjectedProjector(IProjectorTask<int, int> dependency )
+            {
+                _dependency = dependency;
+            }
+
+            public IEnumerable<int> Do(int b)
+            {
+                if(_dependency == null)
+                    throw new NullReferenceException();
+
+                return new []{b};
             }
         }
 
@@ -111,6 +131,30 @@ namespace Manifold.Tests.Projector
             var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
                                                                                   .Bind<SlowProjector>());
 
+            var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
+
+            var resolvedItems = function(5);
+
+            // act
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            Assert.IsTrue(resolvedItems.Any());
+            stopWatch.Stop();
+
+            // assert
+            Assert.That(stopWatch.ElapsedMilliseconds, Is.LessThan(5000));
+
+        }
+
+        [TestCase(SupportedProviderType.Autofac)]
+        [TestCase(SupportedProviderType.Ninject)]
+        public void bind_should_resolve_and_call_funcs(SupportedProviderType supportedProviderType)
+        {
+            // arrange
+            var module = CommonModuleProvider.Create(supportedProviderType, item => item.RegisterProjector<int, int>()
+                                                                                  .Bind<InjectedProjector>((a,b) => a.Do(b)));
+            
+            module.Register<Projector, IProjectorTask<int, int>>();
             var function = module.Resolve<Pipe<int, IEnumerable<int>>>();
 
             var resolvedItems = function(5);
