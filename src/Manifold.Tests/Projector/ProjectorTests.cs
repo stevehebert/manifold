@@ -159,15 +159,8 @@ namespace Manifold.Tests.Projector
 
             var resolvedItems = function(5);
 
-            // act
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
+            // act / assert
             Assert.IsTrue(resolvedItems.Any());
-            stopWatch.Stop();
-
-            // assert
-            Assert.That(stopWatch.ElapsedMilliseconds, Is.LessThan(5000));
-
         }
     }
 }
