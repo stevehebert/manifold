@@ -9,23 +9,19 @@ namespace Manifold.Tests.SupportedContainers
     public class AutofacModule : PipelineModule, ICommonModule
     {
         private readonly Action<IPipeCreator> _pipelineCreator;
-
+        private readonly ContainerBuilder _containerBuilder;
         private readonly Lazy<IContainer> _container;
         private readonly IList<AutofacModule> _autofacModules = new List<AutofacModule>(); 
 
         public AutofacModule(Action<IPipeCreator> pipelineCreator)
         {
-            _container = new Lazy<IContainer>(() =>
-                                                  {
-                                                      var containerBuilder =
-                                                          new ContainerBuilder();
-                                                      containerBuilder.RegisterModule(this);
+            _containerBuilder = new ContainerBuilder();
+            _containerBuilder.RegisterModule(this);
 
-                                                      foreach (var item in _autofacModules)
-                                                          containerBuilder.RegisterModule(item);
+            foreach (var item in _autofacModules)
+                _containerBuilder.RegisterModule(item);
 
-                                                      return containerBuilder.Build();
-                                                  });
+            _container = new Lazy<IContainer>(() => _containerBuilder.Build());
             _pipelineCreator = pipelineCreator;
         }
 
@@ -37,6 +33,10 @@ namespace Manifold.Tests.SupportedContainers
         public override void RegisterPipelines(IPipeCreator pipeCreator)
         {
             _pipelineCreator(pipeCreator);
+        }
+        public void Register<TType, TInterface>() where TType : TInterface
+        {
+            _containerBuilder.RegisterType<TType>().As<TInterface>();
         }
 
         
