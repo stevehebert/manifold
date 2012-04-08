@@ -1,6 +1,7 @@
 using Manifold.DependencyInjection;
 using Manifold.PipeAndFilter;
 using Manifold.Projector;
+using Manifold.Workflow;
 
 namespace Manifold.Configuration
 {
@@ -31,6 +32,11 @@ namespace Manifold.Configuration
         public ProjectorConfigurator<TInput, TOutput> RegisterProjector<TNameType, TInput, TOutput>(TNameType name)
         {
             return _pipelineAggregator.CreateProjector<TNameType, TInput, TOutput>(name);
+        }
+
+        public WorkflowConfigurator<TWorkflow, TState, TTrigger, TTriggerContext> RegisterWorkflow<TWorkflow, TState, TTrigger, TTriggerContext>()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Compile(IRegisterTypes typeRegistrar)

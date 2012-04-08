@@ -84,6 +84,7 @@
     <Compile Include="SupportedContainers\CommonModuleProvider.cs" />
     <Compile Include="SupportedContainers\NinjectModule.cs" />
     <Compile Include="SupportedProviderType.cs" />
+    <Compile Include="Workflow\Compiler\Configuration\WorkflowEntryConfiguratorTests.cs" />
     <Compile Include="Wormhole\Pipeline\MismatchedClosingTypeDeclarationExceptionTests.cs" />
     <Compile Include="Wormhole\Pipeline\PipelineNotLocatedExceptionTests.cs" />
   </ItemGroup>

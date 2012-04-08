@@ -84,6 +84,14 @@
     <Compile Include="Router\PipelineRouterConfigurator.cs" />
     <Compile Include="Router\RouterCompiler.cs" />
     <Compile Include="Router\RouterConfigurator.cs" />
+    <Compile Include="Workflow\Compiler\IConfigurationAction.cs" />
+    <Compile Include="Workflow\Compiler\Configuration\WorkflowEntryConfigurator.cs" />
+    <Compile Include="Workflow\Compiler\Configuration\WorkflowExitConfigurator.cs" />
+    <Compile Include="Workflow\Compiler\Configuration\WorkflowStateConfigurator.cs" />
+    <Compile Include="Workflow\Compiler\Configuration\WorkflowTypeConfigurator.cs" />
+    <Compile Include="Workflow\Compiler\Configuration\WorkflowTypeConfigurator2.cs" />
+    <Compile Include="Workflow\WorkflowConfigurator.cs" />
+    <Compile Include="Workflow\WorkflowTypeConfigurator.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
