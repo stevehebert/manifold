@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold", "Manifold\Manifold.csproj", "{A5A274DE-D652-4B85-8D68-D76A581EB2C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold.Tests", "Manifold.Tests\Manifold.Tests.csproj", "{3B012B0C-4671-4273-8F56-F5013B782EC1}"
@@ -13,12 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manifold.Ninject", "Manifold.Ninject\Manifold.Ninject.csproj", "{D1EB250D-89AA-4FDA-B821-F88328D8514A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{0E819785-0041-452A-BA1A-412EDA872D07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcStore", "..\samples\MvcStore\MvcStore.csproj", "{DD015ED2-97C8-44E8-ABEB-F2F54A936F25}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcStore.Tests", "..\samples\MvcStore.Tests\MvcStore.Tests.csproj", "{8EE95AA1-10AF-487B-B55A-CFB4D767A550}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,20 +38,8 @@ Global
 		{D1EB250D-89AA-4FDA-B821-F88328D8514A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1EB250D-89AA-4FDA-B821-F88328D8514A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1EB250D-89AA-4FDA-B821-F88328D8514A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD015ED2-97C8-44E8-ABEB-F2F54A936F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD015ED2-97C8-44E8-ABEB-F2F54A936F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD015ED2-97C8-44E8-ABEB-F2F54A936F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD015ED2-97C8-44E8-ABEB-F2F54A936F25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EE95AA1-10AF-487B-B55A-CFB4D767A550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EE95AA1-10AF-487B-B55A-CFB4D767A550}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EE95AA1-10AF-487B-B55A-CFB4D767A550}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EE95AA1-10AF-487B-B55A-CFB4D767A550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{DD015ED2-97C8-44E8-ABEB-F2F54A936F25} = {0E819785-0041-452A-BA1A-412EDA872D07}
-		{8EE95AA1-10AF-487B-B55A-CFB4D767A550} = {0E819785-0041-452A-BA1A-412EDA872D07}
 	EndGlobalSection
 EndGlobal

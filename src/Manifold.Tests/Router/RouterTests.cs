@@ -112,7 +112,7 @@ namespace Manifold.Tests.Router
 
 
         [TestCase(SupportedProviderType.Autofac)]
-        [TestCase(SupportedProviderType.Ninject, Ignored = true)]
+        [TestCase(SupportedProviderType.Ninject, Ignore = "true")]
         public void test_named_default_route_action(SupportedProviderType supportedProviderType)
         {
             // arrange
@@ -146,7 +146,7 @@ namespace Manifold.Tests.Router
         }
 
         [TestCase(SupportedProviderType.Autofac)]
-        [TestCase(SupportedProviderType.Ninject, Ignored=true)]
+        [TestCase(SupportedProviderType.Ninject, Ignore="true")]
         public void test_named_alternate_route_action(SupportedProviderType supportedProviderType)
         {
             // arrange
@@ -180,7 +180,7 @@ namespace Manifold.Tests.Router
 
 
         [TestCase(SupportedProviderType.Autofac)]
-        [TestCase(SupportedProviderType.Ninject, Ignored = true)]
+        [TestCase(SupportedProviderType.Ninject, Ignore = "true")]
         public void test_coerced_continuation_route_action(SupportedProviderType supportedProviderType)
         {
             // arrange

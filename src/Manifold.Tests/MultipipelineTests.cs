@@ -7,7 +7,7 @@ namespace Manifold.Tests
     public class MultipipelineTests
     {
         [TestCase(SupportedProviderType.Autofac)]
-        [TestCase(SupportedProviderType.Ninject, Ignore=true)]
+        [TestCase(SupportedProviderType.Ninject, Ignore="true")]
         public void verify_multipipelines(SupportedProviderType supportedProviderType)
         {
             var module = CommonModuleProvider.Create(supportedProviderType, item =>
